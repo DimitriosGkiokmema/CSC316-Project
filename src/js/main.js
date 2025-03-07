@@ -8,6 +8,8 @@ let baseMap,
 	dailyReports;
 let data;
 
+loadData();
+
 // Dataset column titles:
 // Date,Time,Duration,City,State,Country,Lat,Lon,TotalObservers,Summary,NumShips,Shape,NUFORC_Note,Explanation,Certainty
 function loadData() {
@@ -45,7 +47,8 @@ function getDuration(time) {
 }
 
 function initVars(data) {
-	baseMap = new ReportMapVis("baseMap", data);
+	console.log(data);
+	baseMap = new BaseMapVis("baseMap", data);
 	cultureChart = new PopularCultureVis("cultureChart", data);
 	proportionalPieChart = new ProportionalPieVis("proportionalPieChart", data);
 	reportsOverTimeChart = new ReportsLineChartVis("reportsOverTimeChart", data);

@@ -12,7 +12,7 @@ Questions:
     entire map instead? 
 */
 
-class ReportMapVis {
+class BaseMapVis {
 
     constructor(parentElement, data) {
         this.parentElement = parentElement;

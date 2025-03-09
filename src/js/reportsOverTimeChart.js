@@ -25,14 +25,15 @@ class ReportsLineChartVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
+        vis.margin = {top: 20, right: 20, bottom: 30, left: 55};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width)
-            .attr("height", vis.height)
+            .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+            .append("g")
             .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
 
         // add title
@@ -41,13 +42,18 @@ class ReportsLineChartVis {
             .attr('id', 'map-title')
             .append('text')
             .attr('transform', `translate(${vis.width / 2}, 20)`)
-            .attr('text-anchor', 'middle');
+            .attr('text-anchor', 'middle')
+            .text("Reports Over Time");
 
         // Scales & Axis
+        // I had to subtract some values form the ranges, otherwise
+        // parts of the graphs were getting cut off. I don't know why
+        // this is happening, but by subtracting these values the graph
+        // seems to work.
         vis.xScale = d3.scaleTime()
-            .range([0, vis.width]);
+            .range([0, vis.width - 60]);
         vis.yScale = d3.scaleLinear()
-            .range([vis.height, 0]);
+            .range([vis.height - 25, 0]);
         
         // append tooltip
         vis.tooltip = d3.select("body").append('div')
@@ -61,39 +67,25 @@ class ReportsLineChartVis {
     wrangleData() {
         let vis = this;
 
-        // Find max num of reports in a year for y scale
         // Count the occurrences of each year
-        const yearCounts = vis.data.map(function(row) {
-            return row.Date.getFullYear();
-        });
+        const yearCounts = vis.data.reduce((acc, curr) => {
+            const year = curr.Date.getFullYear();
+            acc[year] = (acc[year] || 0) + 1;
+            return acc;
+        }, {});
 
-        // Create an empty object to store the counts
-        vis.counts = {};
+        // Prepare data for line chart
+        vis.lineData = Object.entries(yearCounts).map(([year, count]) => ({
+            year: year,
+            count: count
+        }));
+        console.log(vis.lineData)
 
-        // Loop through the array and count the occurrences of each number
-        yearCounts.forEach((year) => {
-            vis.counts[year] = (vis.counts[year] || 0) + 1;
-        });
+        // Set domain for scales
+        vis.xScale.domain([d3.min(vis.lineData, d => d.year), d3.max(vis.lineData, d => d.year)]);
+        vis.yScale.domain([0, d3.max(vis.lineData, d => d.count)]);
 
-        // Find the number with the highest count
-        let maxCount = 0;
-        let mostFrequentNumber;
-
-        for (let num in vis.counts) {
-            if (vis.counts[num] > maxCount) {
-            maxCount = vis.counts[num];
-            mostFrequentNumber = num;
-            }
-        }
-
-        // Years from 1930 to 2025
-        vis.xScale.domain([d3.min(yearCounts), d3.max(yearCounts)]);
-
-        // Should be 2003 - I checked with Tableau
-        // console.log(mostFrequentNumber);
-        vis.yScale.domain([0, mostFrequentNumber]);
-
-        vis.updateVis()
+        vis.updateVis();
     }
 
     updateVis() {
@@ -105,78 +97,83 @@ class ReportsLineChartVis {
     createLine() {
         let vis = this;
 
-        const path = vis.svg.selectAll(".line")
-		    .data([vis.data]);
-
         const line = d3.line()
-		    .x(d => vis.xScale(d.Date.getFullYear()))
-		    .y(d => vis.yScale(vis.counts[d.Date.getFullYear()]));
+		    .x(d => vis.xScale(d.year))
+		    .y(d => vis.yScale(d.count));
 
-        path.enter()
-    		.append("path")
+        vis.svg.selectAll(".line")
+            .data([vis.lineData])
+    		.join("path")
             .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "green")
+            .attr("stroke", "black")
             .attr("stroke-width", 1)
-            .merge(path)
-            .transition().duration(800)
             .attr("d", line);
-
-        path.exit().remove();
     }
 
     createAxis() {
         let vis = this;
         var xAxis = d3.axisBottom(vis.xScale);
-        //     .tickValues([new Date(1930, 0, 1), new Date(1975, 0, 1), new Date(2014, 0, 1)]);
         var yAxis = d3.axisLeft(vis.yScale);
 
-        // Select or create the x-axis
-        let xAxisGroup = vis.svg.select(".x-axis");
-        if (xAxisGroup.empty()) {
-            xAxisGroup = vis.svg.append("g")
-                .attr("class", "x-axis")
-                .attr("transform", `translate(0,${vis.height})`);
-        }
-        xAxisGroup.transition().duration(1000)
+        // Create or update x-axis
+        vis.svg.selectAll(".x-axis")
+            .data([null])
+            .join("g")
+            .attr("class", "x-axis")
+            .attr("transform", `translate(0,${vis.height - vis.margin.bottom + 5})`)
             .call(xAxis);
 
-        // Select or create the y-axis
-        let yAxisGroup = vis.svg.select(".y-axis");
-        if (yAxisGroup.empty()) {
-            yAxisGroup = vis.svg.append("g")
-                .attr("class", "y-axis")
-                .attr("transform", `translate(0,0)`);
-        }
-        yAxisGroup.transition().duration(1000)
+        // Create or update y-axis
+        vis.svg.selectAll(".y-axis")
+            .data([null])
+            .join("g")
+            .attr("class", "y-axis")
             .call(yAxis);
+        
+        // X-axis label
+        vis.svg.selectAll(".x-axis-label")
+            .data([null])
+            .join("text")
+            .attr("class", "x-axis-label")
+            .attr("text-anchor", "middle")
+            .attr("x", vis.width / 2)
+            .attr("y", vis.height + 5)
+            .text("Year");
+
+        // Y-axis label
+        vis.svg.selectAll(".y-axis-label")
+            .data([null])
+            .join("text")
+            .attr("class", "y-axis-label")
+            .attr("text-anchor", "middle")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -vis.height / 2)
+            .attr("y", -vis.margin.left + 15)
+            .text("Number of Reports");
+
+        vis.svg.selectAll(".x-axis path")
+            .style("stroke", "black")  // Ensure the axis line is visible
+            .style("stroke-width", "1px")
+            .style("shape-rendering", "crispEdges");  // Prevent blurriness
     }
 
     // Append an SVG circle on each x/y intersection 
     updateEmphasize() {
         let vis = this;
 
-        const circles = vis.svg.selectAll("circle")
-            .data(vis.data);
-
-        // Enter: Create new circles
-        circles.enter()
-            .append("circle")
-            .attr("cx", d => vis.xScale(d.Date.getFullYear()))
-            .attr("cy", d => vis.yScale(vis.counts[d.Date.getFullYear()]))
-            .attr("r", 4)
+        // Append circles at data points
+        vis.svg.selectAll("circle")
+            .data(vis.lineData)
+            .join("circle")
+            .attr("cx", d => vis.xScale(d.year))
+            .attr("cy", d => vis.yScale(d.count))
+            .attr("r", 2)
             .attr("fill", "green")
-            .merge(circles)
-            .on("click", (event, d) => showEdition(d))
-            .transition().duration(800)
-            .attr("cx", d => vis.xScale(d.Date.getFullYear()))
-            .attr("cy", d => vis.yScale(vis.counts[d.Date.getFullYear()]));
-
-        // Exit: Remove any circles that no longer have corresponding data
-        circles.exit().remove();
+            .on("mouseover", (event, d) => console.log(d.year));
     }
 
-        // Show details for a specific FIFA World Cup
+    // Show details for a specific FIFA World Cup
     showEdition(d) {
         d3.select("#edition").text(d.EDITION);
         d3.select("#title").text("Year: " + formatDate(d.YEAR));

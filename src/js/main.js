@@ -54,7 +54,6 @@ function getDuration(time) {
 }
 
 function initVars(data) {
-	console.log(data);
 	baseMap = new BaseMapVis("baseMap", data);
 	cultureChart = new PopularCultureVis("cultureChart", data);
 	proportionalPieChart = new ProportionalPieVis("proportionalPieChart", data);

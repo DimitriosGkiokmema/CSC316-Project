@@ -41,7 +41,7 @@ class ReportsLineChartVis {
             .attr('class', 'title')
             .attr('id', 'map-title')
             .append('text')
-            .attr('transform', `translate(${vis.width / 2}, 20)`)
+            .attr('transform', `translate(${vis.width / 2 - 20}, 0)`)
             .attr('text-anchor', 'middle')
             .text("Reports Over Time");
 
@@ -50,7 +50,7 @@ class ReportsLineChartVis {
         // parts of the graphs were getting cut off. I don't know why
         // this is happening, but by subtracting these values the graph
         // seems to work.
-        vis.xScale = d3.scaleTime()
+        vis.xScale = d3.scaleLinear()
             .range([0, vis.width - 60]);
         vis.yScale = d3.scaleLinear()
             .range([vis.height - 25, 0]);
@@ -58,8 +58,7 @@ class ReportsLineChartVis {
         // append tooltip
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
-            .attr('id', 'reportsOverTimeChartTooltip')
-            .style('opacity', 0);
+            .style('opacity', 0)
         
         vis.wrangleData()
     }
@@ -79,7 +78,6 @@ class ReportsLineChartVis {
             year: year,
             count: count
         }));
-        console.log(vis.lineData)
 
         // Set domain for scales
         vis.xScale.domain([d3.min(vis.lineData, d => d.year), d3.max(vis.lineData, d => d.year)]);
@@ -113,7 +111,8 @@ class ReportsLineChartVis {
 
     createAxis() {
         let vis = this;
-        var xAxis = d3.axisBottom(vis.xScale);
+        var xAxis = d3.axisBottom(vis.xScale)
+            .tickFormat(d3.format("d"));
         var yAxis = d3.axisLeft(vis.yScale);
 
         // Create or update x-axis
@@ -168,20 +167,47 @@ class ReportsLineChartVis {
             .join("circle")
             .attr("cx", d => vis.xScale(d.year))
             .attr("cy", d => vis.yScale(d.count))
-            .attr("r", 2)
+            .attr("r", 3)
             .attr("fill", "green")
-            .on("mouseover", (event, d) => console.log(d.year));
+            .on("mouseover", (event, d) => {
+                vis.tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                vis.tooltip.html(d.year)
+                    .style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", (event, d) => {
+                vis.tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            })
+            .on("click", (event, d) => vis.showSidebar(d))
     }
 
-    // Show details for a specific FIFA World Cup
-    showEdition(d) {
-        d3.select("#edition").text(d.EDITION);
-        d3.select("#title").text("Year: " + formatDate(d.YEAR));
-        d3.select("#winner").text("Winner: " + d.WINNER);
-        d3.select("#goals").text("Goals: " + d.GOALS);
-        d3.select("#average-goals").text("Average Goals: " + d.AVERAGE_GOALS);
-        d3.select("#matches").text("Matches: " + d.MATCHES);
-        d3.select("#teams").text("Teams: " + d.TEAMS);
-        d3.select("#average-attendance").text("Average Attendance: " + d.AVERAGE_ATTENDANCE);
+    // Show details for a specific year in our datasets
+    showSidebar(d) {
+        let vis = this;
+        let str = `<h3>${d.year}</h3> 
+        <span style="display: block;"># Reports: ${d.count}</span>
+        <span style="display: block;">% Increase from previous year: ${vis.getAverageReports(d.year)}</span>
+        <span style="display: block; height: 100%; width: 100%;" id="reportsOverTimePieGraph"><span>`;
+
+        d3.select("#reportsOverTimeTooltip").html(str);
+
+        new ProportionalPieVis("reportsOverTimePieGraph", vis.data);
+    }
+
+    getAverageReports(year) {
+        let vis = this;
+        let lastYear = d3.min(vis.lineData, d => d.year);
+
+        vis.lineData.forEach((entry) => {
+            if (lastYear < entry.year && entry.year < year) {
+                lastYear = entry.year;
+            }
+        });        
+
+        return lastYear;
     }
 }

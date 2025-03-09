@@ -16,16 +16,20 @@ function loadData() {
 	// Load CSV file
 	d3.csv("data/NUFORCData.csv", row => {
 		// load date
-		let parseDate = d3.timeParse("%m%d%Y");
-		row.Date = parseDate(row.Date);
+		row.Date = new Date(row.Date + " " + row.Time);
 
-		// load time
-		let timeParts = row.Time.split(':');
-		row.Date = new Date();
-		row.Date.setHours(timeParts[0], timeParts[1], timeParts[2]);
-
-		// load duration
+		/* ------    load duration     ---------
+		The difficulty is that people gave MANY different formats,
+		so it is hard to change them all to one uniform format
 		row.Duration = getDuration(row.Duration);
+		Ex: second, seconds, sec, secs, s, Second, etc.
+
+		I created a getDuration function below that is supposed
+		to interpret the duration entered by the user, but
+		it is not implemented yet (since its hard). Until then,
+		just use the string of the duration as is
+		*/
+		// row.Duration = getDuration(row.Duration);
 
 		// load lat and lon
 		row.Lat = parseFloat(row.Lat);
@@ -34,11 +38,14 @@ function loadData() {
 		row.TotalObservers = +row.TotalObservers;
 		row.NumShips = +row.NumShips;
 
+		// Delete unnecessary columns
+        delete row.Time;
+
 		return row;
 	}).then( data => {
 		initVars(data);
 		displayVis();
-});
+	});
 }
 
 function getDuration(time) {

@@ -26,7 +26,7 @@ class ProportionalPieVis {
         vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
-        vis.radius = vis.width / 4;
+        vis.radius = vis.width / 8;
 
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -40,7 +40,7 @@ class ProportionalPieVis {
             .attr('class', 'title')
             .attr('id', 'map-title')
             .append('text')
-            .attr('transform', `translate(0, ${vis.width/3 - 10})`)
+            .attr('transform', `translate(${3 * vis.radius}, ${vis.radius/2 - 10})`)
             .attr('text-anchor', 'middle')
             .text("Reported Shapes");
         

@@ -17,6 +17,7 @@ class ProportionalPieVis {
         this.data = data;
 
         this.initVis()
+        // this.runExample();
     }
 
     initVis() {
@@ -25,26 +26,36 @@ class ProportionalPieVis {
         vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        vis.radius = vis.width / 8;
 
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width)
             .attr("height", vis.height)
-            .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
+            .append("g")
+            .attr('transform', `translate (${vis.width / 4 + vis.margin.left}, ${vis.height / 4 + vis.margin.top})`);
 
         // add title
         vis.svg.append('g')
             .attr('class', 'title')
             .attr('id', 'map-title')
             .append('text')
-            .attr('transform', `translate(${vis.width / 2}, 20)`)
-            .attr('text-anchor', 'middle');
+            .attr('transform', `translate(${3 * vis.radius}, ${vis.radius/2 - 10})`)
+            .attr('text-anchor', 'middle')
+            .text("Reported Shapes");
         
-        // append tooltip
-        vis.tooltip = d3.select("body").append('div')
-            .attr('class', "tooltip")
-            .attr('id', 'pieTooltip')
-            .style('opacity', 0);
+        vis.color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        vis.pie = d3.pie()
+            .value(d => d.value);
+
+        vis.arc = d3.arc()
+            .outerRadius(vis.radius)
+            .innerRadius(0);
+
+        vis.labelArc = d3.arc()
+            .outerRadius(vis.radius - 40)
+            .innerRadius(vis.radius - 40);
         
         vis.wrangleData()
     }
@@ -59,7 +70,68 @@ class ProportionalPieVis {
     
     updateVis() {
         let vis = this;
+        vis.shapes = [
+            { label: "A", value: 30 },
+            { label: "B", value: 20 },
+            { label: "C", value: 50 }
+        ];
 
-        // TODO
+        vis.g = vis.svg.selectAll(".arc")
+            .data(vis.pie(vis.shapes))
+            .enter().append("g")
+            .attr("class", "arc");
+
+        vis.g.append("path")
+            .attr("d", vis.arc)
+            .style("fill", d => vis.color(d.data.label));
+
+        vis.g.append("text")
+            .attr("transform", d => `translate(${vis.labelArc.centroid(d)})`)
+            .attr("dy", ".35em")
+            .text(d => d.data.label);
+    }
+
+    // Creates dummy pie graph for testing
+    runExample() {
+        const data = [
+            { label: "A", value: 30 },
+            { label: "B", value: 20 },
+            { label: "C", value: 50 }
+        ];
+
+        const width = 80, height = 80, radius = Math.min(width, height) / 2;
+
+        const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        const pie = d3.pie()
+            .value(d => d.value);
+
+        const arc = d3.arc()
+            .outerRadius(radius - 10)
+            .innerRadius(0);
+
+        const labelArc = d3.arc()
+            .outerRadius(radius - 40)
+            .innerRadius(10);
+
+        const svg = d3.select("#" + this.parentElement).append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+        const g = svg.selectAll(".arc")
+            .data(pie(data))
+            .enter().append("g")
+            .attr("class", "arc");
+
+        g.append("path")
+            .attr("d", arc)
+            .style("fill", d => color(d.data.label));
+
+        g.append("text")
+            .attr("transform", d => `translate(${labelArc.centroid(d)})`)
+            .attr("dy", ".35em")
+            .text(d => d.data.label);
     }
 }

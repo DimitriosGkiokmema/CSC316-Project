@@ -31,11 +31,13 @@ class DailyReportsClockVis {
         vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        vis.radius = vis.height / 2;
 
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width)
             .attr("height", vis.height)
+            .append("g")
             .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
 
         // add title
@@ -52,11 +54,21 @@ class DailyReportsClockVis {
             .attr('id', 'pieTooltip')
             .style('opacity', 0);
         
+        vis.arc = d3.arc()
+            .outerRadius(vis.radius)
+            .innerRadius(vis.radius - 30);
+
+        vis.labelArc = d3.arc()
+            .outerRadius(vis.radius - 40)
+            .innerRadius(vis.radius - 40);
+        
         vis.wrangleData()
     }
 
     wrangleData() {
         let vis = this;
+
+        
 
         // TODO
 
@@ -66,6 +78,24 @@ class DailyReportsClockVis {
     updateVis() {
         let vis = this;
 
-        // TODO
+        vis.shapes = [
+            { label: "A", value: 30 },
+            { label: "B", value: 20 },
+            { label: "C", value: 50 }
+        ];
+
+        vis.g = vis.svg.selectAll(".arc")
+            .data(vis.pie(vis.shapes))
+            .enter().append("g")
+            .attr("class", "arc");
+
+        vis.g.append("path")
+            .attr("d", vis.arc)
+            .style("fill", d => vis.color(d.data.label));
+
+        vis.g.append("text")
+            .attr("transform", d => `translate(${vis.labelArc.centroid(d)})`)
+            .attr("dy", ".35em")
+            .text(d => d.data.label);
     }
 }

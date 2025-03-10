@@ -1,7 +1,6 @@
 // Creating vis and data variables
 let baseMap,
 	cultureChart,
-	proportionalPieChart,
 	reportsOverTimeChart,
 	witnessesChart,
 	reportMap,
@@ -56,7 +55,6 @@ function getDuration(time) {
 function initVars(data) {
 	baseMap = new BaseMapVis("baseMap", data);
 	cultureChart = new PopularCultureVis("cultureChart", data);
-	proportionalPieChart = new ProportionalPieVis("proportionalPieChart", data);
 	reportsOverTimeChart = new ReportsLineChartVis("reportsOverTimeChart", data);
 	witnessesChart = new WitnessesBarChartVis("witnessesChart", data);
 	reportMap = new ReportMapVis("reportMap", data);

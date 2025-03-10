@@ -20,16 +20,16 @@
 	<body>
 		<div class="container-fluid" style="padding-top: 1vh">
 			<div class="row">
-				<div class="col" style="border: thin solid grey; border-radius: 5px;">
+				<div class="col" style="min-height: 100vh; border: thin solid grey; border-radius: 5px;">
 					<!-- HEADING -->
-					<div class="row d-flex align-items-center" id="pageTitle" style="height: 35vh; padding: 0; background: #bcd4e6; border-bottom: thin solid grey">
+					<div class="row d-flex align-items-center" id="pageTitle" style="min-height: 35vh; padding: 0; background: #bcd4e6; border-bottom: thin solid grey">
 						<h1>Aliens Among us</h1>
 						<h2>Canadian Alien Encounters</h2>
 						<h2>1930 - 2025</h2>
 					</div>
 
 					<!-- INTRO -->
-					<div class="row" style="height: 20vh; background: #ffffff; padding: 1vh">
+					<div class="row" style="min-height: 20vh; background: #ffffff; padding: 1vh">
 						<div class="col" style="height: 100%; border: thin solid lightgrey; border-radius: 5px; background: #d6e2e9">
 							<p>Intro: TODO</p>
 							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laboriosam, earum amet, ipsum distinctio facere officiis numquam voluptatem labore, dolore animi? Id nam sed voluptates aliquam facilis asperiores, non porro.</p>
@@ -37,11 +37,11 @@
 					</div>
 
 					<!-- VISUALIZATIONS -->
-					<div class="row" style="height: 200vh; padding-top: 0; padding-left: 1vh; padding-right: 1vh; padding-bottom: 1vh">
-						<div class="col" style="border: thin solid rgba(211,211,211,0.73); border-radius: 5px; background: rgba(214,226,233,0.42)">
+					<div class="row" style="min-height: 200vh;">
+						<div class="col" style="border: thin solid rgba(211,211,211,0.73); padding: 1vh; border-radius: 5px; background: rgba(214,226,233,0.42)">
 							<div class="row">
 								<div class="col">
-									<div id="reportMap" style="height: 100vh; width: 100%; background-color: red;">
+									<div id="reportMap" style="min-height: 100vh; width: 100%; background-color: red;">
 										reportMap
 									</div>
 								</div>
@@ -49,22 +49,22 @@
 							<div class="row">
 								<!-- MY VIS -->
 								<div class="col-7">
-									<div id="reportsOverTimeChart" style="height: 40vh; width: 100%; background-color: orange;"></div>
+									<div id="reportsOverTimeChart" style="min-height: 40vh; width: 100%; background-color: orange;"></div>
 								</div>
 								<div class="col-5">
-									<div id="reportsOverTimeTooltip" style="height: 40vh; width: 100%; background-color: rgb(235, 196, 122);"></div>
+									<div id="reportsOverTimeTooltip" style="min-height: 40vh; width: 100%; background-color: rgb(235, 196, 122);"></div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col">
-									<div id="witnessesChart" style="height: 100vh; width: 100%; background-color: yellow;">
+									<div id="witnessesChart" style="min-height: 100vh; width: 100%; background-color: yellow;">
 										witnessesChart
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col">
-									<div id="dailyReports" style="height: 100vh; width: 100%; background-color: green;">
+									<div id="dailyReports" style="min-height: 100vh; width: 100%; background-color: green;">
 										dailyReports
 										<!-- <img src="Images/clockSketch.png"> -->
 									</div>
@@ -72,22 +72,15 @@
 							</div>
 							<div class="row">
 								<div class="col">
-									<div id="cultureChart" style="height: 100vh; width: 100%; background-color: blue;">
+									<div id="cultureChart" style="min-height: 100vh; width: 100%; background-color: blue;">
 										cultureChart
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col">
-									<div id="baseMap" style="height: 100vh; width: 100%; background-color: indigo;">
+									<div id="baseMap" style="min-height: 100vh; width: 100%; background-color: indigo;">
 										baseMap
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div id="proportionalPieChart" style="height: 100vh; width: 100%; background-color: violet;">
-										proportionalPieChart
 									</div>
 								</div>
 							</div>
@@ -95,8 +88,8 @@
 					</div>
 
 					<!-- CONCLUSION -->
-					<div class="row" style="height: 20vh; background: #ffffff; padding: 1vh">
-						<div class="col" style="height: 100%; border: thin solid lightgrey; border-radius: 5px; background: #d6e2e9">
+					<div class="row" style="min-height: 20vh; background: #ffffff; padding: 1vh">
+						<div class="col" style="border: thin solid lightgrey; border-radius: 5px; background: #d6e2e9">
 							<p>Conclusion: TODO</p>
 							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laboriosam, earum amet, ipsum distinctio facere officiis numquam voluptatem labore, dolore animi? Id nam sed voluptates aliquam facilis asperiores, non porro.</p>
 						</div>

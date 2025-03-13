@@ -1,0 +1,57 @@
+
+.page-container {
+    scroll-snap-type: y mandatory;
+    overflow-y: auto; /* Allows scrolling */
+    height: 100vh;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+.page-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Chrome & Safari */
+}
+
+.page-section {
+    scroll-snap-align: start;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background-color: white;
+}
+
+
+/* Navigation Dots */
+.nav-dots {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: gray;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background-color: white;
+    transform: scale(1.3);
+}
+
+#mapSection {
+    display: block !important;
+}
+#shapeSection {
+    display: block !important;
+}
+

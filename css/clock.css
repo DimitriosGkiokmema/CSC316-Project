@@ -1,0 +1,122 @@
+/* Center Everything */
+.clock-container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Title Styling */
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Season Button Styling */
+.season-buttons {
+    margin-bottom: 20px;
+}
+
+.season-btn {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.season-btn:hover {
+    background-color: #666;
+}
+
+.season-btn.selected {
+    background-color: #FFD700;
+    color: black;
+}
+
+.clock-layout {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centers everything */
+    gap: 80px; /* Adjust spacing */
+    width: 90%;
+    max-width: 1100px; /* Adjust width slightly */
+    margin: auto; /* Fully centers it */
+}
+
+
+.clock-wrapper {
+    text-align: center;
+    margin-left: 0; /* Fully centers it */
+}
+
+
+/* Time Display - Centered Above Clock */
+#time-display {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Buttons - Centered Below Clock */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Sightings Panel (Right Side) */
+.sightings-panel {
+    text-align: center;
+    width: 200px;
+    margin-right: 100px;
+}
+
+/* UFO Space */
+#ufo-space {
+    width: 200px;
+    height: 100px;
+    position: relative;
+}
+
+.ufo {
+    width: 50px;
+    position: absolute;
+    animation: hover 2s infinite ease-in-out;
+}
+
+@keyframes hover {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Bar Chart - Directly Below Clock */
+.bar-chart-container {
+    width: 100%;
+    max-width: 400px;
+    max-height: 200px;
+    margin: 30px auto 0; /* Adjust space under clock */
+    display: flex;
+    justify-content: center; /* Align with clock */
+}
+
+
+
+
+/* Play and Reset Buttons */
+#play, #reset {
+    padding: 10px 15px;
+    border: none;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+#play:hover, #reset:hover {
+    background-color: #555;
+}
+
+

@@ -14,6 +14,7 @@
 
 		<!-- own CSS -->
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/witness.css">
 
 		<!-- Repo Link
 		https://github.com/DimitriosGkiokmema/CSC316-Project
@@ -68,9 +69,40 @@
 							</div>
 							<div class="row">
 								<div class="col">
-									<div id="witnessesChart" style="min-height: 100vh; width: 100%; background-color: yellow;">
-										witnessesChart
-									</div>
+									<div class="container">
+									        
+									        <div class="left-panel">
+									            <div class="ufo-space" id="ufo-space"></div> <!-- Space for UFOs -->
+									            <div class="landing-pad" id="landing-pad"></div> <!-- Oval Platform for Stickmen -->
+									        </div>
+								
+									        <div class="right-panel">
+									            <h2>Witness & Ship Sightings Visualization</h2>
+									
+									            <div class="selection-container">
+									                <h3>Select Number of Witnesses (Optional):</h3>
+									                <div class="button-group">
+									                    <button class="witness-btn" data-value="solo">Solo</button>
+									                    <button class="witness-btn" data-value="smallGroup">Small Group</button>
+									                    <button class="witness-btn" data-value="crowd">Crowd</button>
+									                    <button class="witness-btn" data-value="none">No Selection</button>
+									                </div>
+									            </div>
+									
+									            <div class="selection-container">
+									                <h3>Select Number of UFOs (Optional):</h3>
+									                <div class="button-group">
+									                    <button class="ship-btn" data-value="single">Single</button>
+									                    <button class="ship-btn" data-value="smallGroup">Small Group</button>
+									                    <button class="ship-btn" data-value="fleet">Fleet</button>
+									                    <button class="ship-btn" data-value="none">No Selection</button>
+									                </div>
+									            </div>
+									
+									            <h3 id="percentage-output">Select witnesses and/or ships to see data.</h3>
+									        </div>
+									    </div>
+
 								</div>
 							</div>
 							<div class="row">
@@ -125,7 +157,7 @@
 		<script src="js/proportionalPieChart.js"></script>
 		<script src="js/maps.js"></script>
 		<script src="js/reportsOverTimeChart.js"></script>
-		<script src="js/witnessesBarChart.js"></script>
+		<script src="js/witness.js"></script>
 		<script src="js/main.js"></script>
 	</body>
 </html>

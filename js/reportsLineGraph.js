@@ -23,6 +23,7 @@ class ReportsLineChartVis {
     }
 
     initVis() {
+        console.log("line created")
         let vis = this;
 
         vis.margin = {top: 20, right: 20, bottom: 30, left: 55};

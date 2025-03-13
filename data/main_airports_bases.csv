@@ -1,0 +1,38 @@
+Base ID,Name,City,State,Lat,Lon,Type,Date
+ 1,Erik Nielsen Whitehorse International Airport (YXY),Whitehorse,YT,60.71425,-135.07614,Airport,
+ 2,Yellowknife Airport (YZF),Yellowknife,NT,62.46622,-114.43932,Airport,
+ 3,Iqaluit International Airport (YFB),Iqaluit,NV,63.75713,-68.54492,Airport,
+ 4,Prince George Airport (YXS),Prince George,BC,53.88414,-122.67427,Airport,
+ 5,Vancouver International Airport (YVR),Vancouver,BC,49.19452,-123.17467,Airport,
+ 6,Kelowna International Airport (YLW),Kelowna,BC,49.95701,-119.37865,Airport,
+ 7,Victoria International Airport (YYJ),Victoria,BC,48.64908,-123.42891,Airport,
+ 8,Edmonton International Airport (YEG),Edmonton,AB,53.30298,-113.57685,Airport,
+ 9,Calgary International Airport (YYC),Calgary,AB,51.12298,-114.0083,Airport,
+ 10,Saskatoon International Airport (YXE),Saskatoon,SK,52.17171,-106.70049,Airport,
+ 11,Regina International Airport (YQR),Regina,SK,50.43396,-104.65601,Airport,
+ 12,Winnipeg Richardson International Airport (YWG),Winnipeg,MB,49.90994,-97.23635,Airport,
+ 13,Thunder Bay International Airport (YQT),Thunder Bay,ON,48.37209,-89.31213,Airport,
+ 14,Toronto Pearson International Airport (YYZ),Toronto,ON,43.68099,-79.62808,Airport,
+ 15,London International Airport (YXU),London,ON,43.02881,-81.14927,Airport,
+ 16,Ottawa International Airport (YOW),Ottawa,QC,45.31805,-75.66592,Airport,
+ 17,Montréal-Pierre Elliott Trudeau International Airport (YUL),Montreal,QC,45.46635,-73.74551,Airport,
+ 18,Québec City Jean Lesage International Airport (YQB),Quebec City,QC,46.79104,-71.38854,Airport,
+ 19,Montréal-Mirabel International Airport (YMX),Montreal-Mirabel,QC,45.67023,-74.0324,Airport,
+ 20,Fredericton International Airport (YFC),Fredericton,NB,45.87288,-66.52968,Airport,
+ 21,Saint John Airport (YSJ),Saint John,NB,45.32945,-65.89063,Airport,
+ 22,Greater Moncton Roméo LeBlanc International Airport (YQM),Moncton,NB,46.11458,-64.67283,Airport,
+ 23,Charlottetown Airport (YYG),Charlottetown,PE,46.28735,-63.13159,Airport,
+ 24,Halifax Stanfield International Airport (YHZ),Halifax,NS,44.88773,-63.50754,Airport,
+ 25,Gander International Airport (YQX),Gander,NL,48.9467,-54.57569,Airport,
+ 26,St. John's International Airport (YYT),St. John's,NL,47.62019,-52.74951,Airport,
+ 27,3 Wing Bagotville,Sanguenay,QC,48.33837,-70.98623,Air force base,1942
+ 28,4 Wing Cold Lake,Cold Lake,AB,54.49739,-110.28169,Air force base,1954
+ 29,19 Wing Comox,Lazo,BC,49.71336,-124.90577,Air force base,1942
+ 30,9 Wing Gander,Gander,NL,48.94455,-54.58148,Air force base,1935
+ 31,5 Wing Goose Bay,Happy Valley-Goose Bay,NL,53.30733,-60.40776,Air force base,1941
+ 32,14 Wing Greenwood,Greenwood,NS,44.5904,-64.5501,Air force base,1942
+ 33,15 Wing Moose Jaw,Moose Jaw,SK,50.33755,-105.55598,Air force base,1952
+ 34,22 Wing North Bay,Hornell Heights,ON,46.35948,-79.41375,Air force base,1951
+ 35,8 Wing Trenton,Trenton,ON,44.11642,-77.52966,Air force base,1931
+ 36,17 Wing Winnipeg,Winnipeg,MB,49.89402,-97.2527,Air force base,1925
+ 37,Canadian Forces Station Alert,Alert,NU,82.49886,-62.34611,Air force base,2009

@@ -36,11 +36,11 @@ Papa.parse('data/NUFORCdata.csv', {
     dynamicTyping: true,  // Automatically typecast values (e.g., numbers)
     complete: function(results) {
         // Log the headers to verify column names
-        console.log(results.meta.fields);  
+        // console.log(results.meta.fields);  
 
         // Process the CSV rows
         results.data.forEach(function(row) {
-            console.log(row.EventDate);  // Log the EventDate to see its value
+            // console.log(row.EventDate);  // Log the EventDate to see its value
 
             if (row.Lat && row.Lon) {  // Ensure Lat and Lon are available
                 // Parse EventDate to Date object
@@ -240,8 +240,3 @@ function addSightingsToMap(sightingsData2, viewType) {
 document.addEventListener("DOMContentLoaded", function() {
     addSightingsToMap(sightingsData2, "all");  // Ensure "all" loads fully visible
 });
-
-
-
-
-

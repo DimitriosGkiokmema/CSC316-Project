@@ -1,4 +1,10 @@
- 
+/***********/
+/*  Header */
+/***********/
+.header {
+  font-;
+}
+
 /***********/
 /*   MAP   */
 /***********/
@@ -101,7 +107,7 @@
 }
 
 .dot.active {
-    background-color: white;
+    background-color: rgb(61, 59, 59);
     transform: scale(1.3);
 }
 

@@ -20,238 +20,246 @@
 	</head>
 	<body>
 		<div class="page-container">
-		<!-- Map Visualization Section (from map.html) -->
-		<section id="mapSection" class="page-section">
-			<header>
-			<h1>Aliens Among us</h1>
-			<h1>Canadian Alien Encounters: Tracking UFO Sightings</h1>
-			<h1>1930 - 2025</h1>
-			<br>
-			<h3>Dive into historical trends and witness details in Canada’s mysterious encounters</h3>
-			</header>
-			<div class="row" style="border: thin solid lightgrey; border-radius: 5px; background: #d6e2e9">
-				<p>Intro: TODO</p>
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laboriosam, earum amet, ipsum distinctio facere officiis numquam voluptatem labore, dolore animi? Id nam sed voluptates aliquam facilis asperiores, non porro.</p>
-			</div>
-			<div id="top-controls">
-				<div id="view-controls">
-					<button id="all-reports-btn" class="view-btn" onclick="changeView('all')">All Reports</button>
-					<button id="observers-btn" class="view-btn" onclick="changeView('observers')">View by Observers</button>
-					<button id="ships-btn" class="view-btn" onclick="changeView('ships')">View by Ships</button>
-				</div>
-				<div id="decade-controls-map">
-					<label for="decade-dropdown-map">Select Decade:</label>
-					<select id="decade-dropdown-map" onchange="filterSightings()">
-						<option value="all">All Reports</option>
-						<option value="1960">1960s and prior</option>
-						<option value="1970">1970s</option>
-						<option value="1980">1980s</option>
-						<option value="1990">1990s</option>
-						<option value="2000">2000s</option>
-						<option value="2010">2010s</option>
-						<option value="2020">2020s</option>
-					</select>
-					<span id="decade-label-map" style="display: none;">1960s and prior</span>
-				</div>
-			</div>
-			<div id="main-content-map">
-				<div id="map-container">
-					<div id="2d-map" style="width: 600px; height: 500px;"></div>
-				</div>
-				<div id="filter-container">
-					<div id="witnesses-filter">
-						<label for="witnesses-dropdown">Filter by Number of Observers:</label>
-						<select id="witnesses-dropdown" onchange="filterSightings()">
-							<option value="all">All</option>
-							<option value="solo">Solo</option>
-							<option value="small-group">Small Group (2-5)</option>
-							<option value="crowd">Crowd (6+)</option>
-						</select>
-					</div>
-					<div id="ships-filter">
-						<label for="ships-dropdown">Filter by Number of Ships:</label>
-						<select id="ships-dropdown" onchange="filterSightings()">
-							<option value="all">All</option>
-							<option value="solo">Solo (1 ship)</option>
-							<option value="small-group">Small Group (2-5 ships)</option>
-							<option value="crowd">Crowd (6+ ships)</option>
-						</select>
-					</div>
-				</div>
-			</div>
-		</section>
+			<!-- Header & Intro Section -->
+			<section class="page-section" style="display: block;">
+				<header class="header">
+					<h1>Aliens Among us</h1>
+					<h1>Canadian Alien Encounters: Tracking UFO Sightings</h1>
+					<h1>1930 - 2025</h1>
+					<br>
+					<!-- <h3>Dive into historical trends and witness details in Canada’s mysterious encounters</h3> -->
+				</header>
 
-		<!-- Zoomed map Section-->
-		<section class="page-section">
-			<div id="container" style="height: 100%; width: 100%;">
-				<div id="zoom-map-container">
-					<div id="menu">
-						<button onclick="showSightingsMap()">Key Sightings</button>
-						<button onclick="showAirportsMap()">Sightings vs. Canadian Airports and Airbases</button>
-					</div>
-					<div id="map"></div>
+				<div class="row" style="border: thin solid lightgrey; border-radius: 5px; background: #d6e2e9">
+					<p>Intro: TODO</p>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laboriosam, earum amet, ipsum distinctio facere officiis numquam voluptatem labore, dolore animi? Id nam sed voluptates aliquam facilis asperiores, non porro.</p>
 				</div>
-				<div id="info-panel">
-					<h2>Key Sightings</h2>
-					<p>Click on a UFO to see report details.</p>
-				</div>
-			</div>
-		</section>
+			</section>
 
-		<!-- Shape Visualization Section (from shape.html) -->
-		<section id="shapeSection" class="page-section">
-			<div id="page-title">
-				<h2>A Decade-by-Decade Analysis of Encounters and Cultural Impact</h2>
-			</div>
-			<div id="main-content-shape">
-				<div id="line-chart-container">
-					<canvas id="line-chart"></canvas>
+			<!-- Map Visualization Section (from map.html) -->
+			<section id="mapSection" class="page-section">
+				<div id="top-controls">
+					<div id="view-controls">
+						<button id="all-reports-btn" class="view-btn" onclick="changeView('all')">All Reports</button>
+						<button id="observers-btn" class="view-btn" onclick="changeView('observers')">View by Observers</button>
+						<button id="ships-btn" class="view-btn" onclick="changeView('ships')">View by Ships</button>
+					</div>
+					<div id="decade-controls-map">
+						<label for="decade-dropdown-map">Select Decade:</label>
+						<select id="decade-dropdown-map" onchange="filterSightings()">
+							<option value="all">All Reports</option>
+							<option value="1960">1960s and prior</option>
+							<option value="1970">1970s</option>
+							<option value="1980">1980s</option>
+							<option value="1990">1990s</option>
+							<option value="2000">2000s</option>
+							<option value="2010">2010s</option>
+							<option value="2020">2020s</option>
+						</select>
+						<span id="decade-label-map" style="display: none;">1960s and prior</span>
+					</div>
 				</div>
-				<div id="decade-controls-shape">
-					<label for="decade-dropdown-shape">Select Decade:</label>
-					<select id="decade-dropdown-shape">
-						<option value="All">All Reports</option>
-						<option value="1960">1960s and prior</option>
-						<option value="1970">1970s</option>
-						<option value="1980">1980s</option>
-						<option value="1990">1990s</option>
-						<option value="2000">2000s</option>
-						<option value="2010">2010s</option>
-						<option value="2020">2020s</option>
-					</select>
-					<span id="decade-label-shape" style="display: none;">1960s and prior</span>
+				<div id="main-content-map">
+					<div id="map-container">
+						<div id="2d-map" style="width: 600px; height: 500px;"></div>
+					</div>
+					<div id="filter-container">
+						<div id="witnesses-filter">
+							<label for="witnesses-dropdown">Filter by Number of Observers:</label>
+							<select id="witnesses-dropdown" onchange="filterSightings()">
+								<option value="all">All</option>
+								<option value="solo">Solo</option>
+								<option value="small-group">Small Group (2-5)</option>
+								<option value="crowd">Crowd (6+)</option>
+							</select>
+						</div>
+						<div id="ships-filter">
+							<label for="ships-dropdown">Filter by Number of Ships:</label>
+							<select id="ships-dropdown" onchange="filterSightings()">
+								<option value="all">All</option>
+								<option value="solo">Solo (1 ship)</option>
+								<option value="small-group">Small Group (2-5 ships)</option>
+								<option value="crowd">Crowd (6+ ships)</option>
+							</select>
+						</div>
+					</div>
 				</div>
-			</div>
+			</section>
+
+			<!-- Zoomed map Section-->
+			<section class="page-section">
+				<div id="container" style="height: 100%; width: 100%;">
+					<div id="zoom-map-container">
+						<div id="menu">
+							<button onclick="showSightingsMap()">Key Sightings</button>
+							<button onclick="showAirportsMap()">Sightings vs. Canadian Airports and Airbases</button>
+						</div>
+						<div id="map"></div>
+					</div>
+					<div id="info-panel">
+						<h2>Key Sightings</h2>
+						<p>Click on a UFO to see report details.</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- Shape Visualization Section (from shape.html) -->
+			<section id="shapeSection" class="page-section">
+				<div id="page-title">
+					<h2>A Decade-by-Decade Analysis of Encounters and Cultural Impact</h2>
+				</div>
+				<div id="main-content-shape">
+					<div id="line-chart-container">
+						<canvas id="line-chart"></canvas>
+					</div>
+					<div id="decade-controls-shape">
+						<label for="decade-dropdown-shape">Select Decade:</label>
+						<select id="decade-dropdown-shape">
+							<option value="All">All Reports</option>
+							<option value="1960">1960s and prior</option>
+							<option value="1970">1970s</option>
+							<option value="1980">1980s</option>
+							<option value="1990">1990s</option>
+							<option value="2000">2000s</option>
+							<option value="2010">2010s</option>
+							<option value="2020">2020s</option>
+						</select>
+						<span id="decade-label-shape" style="display: none;">1960s and prior</span>
+					</div>
+				</div>
+				
+				<div id="content-container">
+					<div id="left-section">
+						<div id="popularity-section">
+							<div id="buttons-column">
+								<button id="most-popular" class="popularity-button">Most Popular</button>
+								<button id="least-popular" class="popularity-button">Least Popular</button>
+							</div>
+							<div id="hovercrafts-column">
+								<div id="shape-1" class="hovercraft-wrapper">
+									<div class="hovercraft">
+										<div class="tooltip"></div>
+									</div>
+								</div>
+								<div id="shape-2" class="hovercraft-wrapper">
+									<div class="hovercraft">
+										<div class="tooltip"></div>
+									</div>
+								</div>
+								<div id="shape-3" class="hovercraft-wrapper">
+									<div class="hovercraft">
+										<div class="tooltip"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="pie-chart-container">
+							<svg id="pie-chart" width="300" height="300"></svg>
+						</div>
+					</div>
+					<div id="pop-culture-text">
+						<h3>Pop Culture References</h3>
+						<p>Insert your pop culture commentary or text here...</p>
+					</div>
+				</div>
+			</section>
 			
-			<div id="content-container">
-				<div id="left-section">
-					<div id="popularity-section">
-						<div id="buttons-column">
-							<button id="most-popular" class="popularity-button">Most Popular</button>
-							<button id="least-popular" class="popularity-button">Least Popular</button>
-						</div>
-						<div id="hovercrafts-column">
-							<div id="shape-1" class="hovercraft-wrapper">
-								<div class="hovercraft">
-									<div class="tooltip"></div>
-								</div>
-							</div>
-							<div id="shape-2" class="hovercraft-wrapper">
-								<div class="hovercraft">
-									<div class="tooltip"></div>
-								</div>
-							</div>
-							<div id="shape-3" class="hovercraft-wrapper">
-								<div class="hovercraft">
-									<div class="tooltip"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div id="pie-chart-container">
-						<svg id="pie-chart" width="300" height="300"></svg>
-					</div>
+			<!-- Line chart not displaying: fix later -->
+			<section id="lineChart" class="page-section">
+				<div class="col-7">
+					<div id="reportsOverTimeChart" style="min-height: 40vh; width: 100%"></div>
 				</div>
-				<div id="pop-culture-text">
-					<h3>Pop Culture References</h3>
-					<p>Insert your pop culture commentary or text here...</p>
+				<div class="col-5">
+					<div id="reportsOverTimeTooltip" style="min-height: 40vh; width: 100%;"></div>
 				</div>
-			</div>
-		</section>
+			</section>
+
+			<section id="clockSection" class="page-section">
+			<div class="clock-container">
+				<h1>UFO Sightings by Time of Day</h1>
 		
-		<!-- Dimitrios's line chart: fix later -->
-		<!-- <section id="lineChart" class="page-section">
-			<div class="col-7">
-				<div id="reportsOverTimeChart" style="min-height: 40vh; width: 100%"></div>
+				<!-- Season Toggle Buttons -->
+				<div class="season-buttons">
+					<button class="season-btn selected" data-season="all">All Seasons</button>
+					<button class="season-btn" data-season="winter">Winter</button>
+					<button class="season-btn" data-season="spring">Spring</button>
+					<button class="season-btn" data-season="summer">Summer</button>
+					<button class="season-btn" data-season="autumn">Autumn</button>
+				</div>
+		
+				<div class="clock-layout">
+					<!-- Left: Clock & Time Above -->
+					<div class="clock-wrapper">
+						<h2 id="time-display">12 AM</h2> <!-- Time is now above the clock -->
+						<svg id="clock" width="200" height="200"></svg>
+						<div class="button-container">
+							<button id="play">Play</button>
+							<button id="reset">Reset</button>
+						</div>
+					</div>
+		
+					<!-- Sightings Panel (Right Side) -->
+					<div class="sightings-panel">
+						<h3>Sightings for this Hour:</h3>
+						<p id="sightings-count">Sightings: 0 (Low)</p>
+						<div id="ufo-space"></div>
+					</div>
+		
+				</div>
+		
+				<!-- Bar Chart Below -->
+				<div class="bar-chart-container">
+					<canvas id="barChart" width="300" height="200"></canvas>
+				</div>
 			</div>
-			<div class="col-5">
-				<div id="reportsOverTimeTooltip" style="min-height: 40vh; width: 100%;"></div>
-			</div>
-		</section> -->
+			</section>
 
-		<section id="clockSection" class="page-section">
-		<div class="clock-container">
-			<h1>UFO Sightings by Time of Day</h1>
-	
-			<!-- Season Toggle Buttons -->
-			<div class="season-buttons">
-				<button class="season-btn selected" data-season="all">All Seasons</button>
-				<button class="season-btn" data-season="winter">Winter</button>
-				<button class="season-btn" data-season="spring">Spring</button>
-				<button class="season-btn" data-season="summer">Summer</button>
-				<button class="season-btn" data-season="autumn">Autumn</button>
-			</div>
-	
-			<div class="clock-layout">
-				<!-- Left: Clock & Time Above -->
-				<div class="clock-wrapper">
-					<h2 id="time-display">12 AM</h2> <!-- Time is now above the clock -->
-					<svg id="clock" width="200" height="200"></svg>
-					<div class="button-container">
-						<button id="play">Play</button>
-						<button id="reset">Reset</button>
+			<section id="witnessSection" class="page-section">
+				<div class="container">
+					<!-- Left Side: UFO & Witness Area -->
+					<div class="left-panel">
+						<div class="ufo-space2" id="ufo-space2"></div> <!-- Space for UFOs -->
+						<div class="landing-pad" id="landing-pad"></div> <!-- Oval Platform for Stickmen -->
+					</div>
+			
+					<!-- Right Side: Selection Buttons -->
+					<div class="right-panel">
+						<h2>Witness & Ship Sightings Visualization</h2>
+			
+						<div class="selection-container">
+							<h3>Select Number of Witnesses (Optional):</h3>
+							<div class="button-group">
+								<button class="witness-btn" data-value="solo">Solo</button>
+								<button class="witness-btn" data-value="smallGroup">Small Group</button>
+								<button class="witness-btn" data-value="crowd">Crowd</button>
+								<button class="witness-btn" data-value="none">No Selection</button>
+							</div>
+						</div>
+			
+						<div class="selection-container">
+							<h3>Select Number of UFOs (Optional):</h3>
+							<div class="button-group">
+								<button class="ship-btn" data-value="single">Single</button>
+								<button class="ship-btn" data-value="smallGroup">Small Group</button>
+								<button class="ship-btn" data-value="fleet">Fleet</button>
+								<button class="ship-btn" data-value="none">No Selection</button>
+							</div>
+						</div>
+			
+						<h3 id="percentage-output">Select witnesses and/or ships to see data.</h3>
+						<div class="percentage-container">
+							<div class="percentage-bar" id="percentage-bar"></div>
+						</div>
 					</div>
 				</div>
-	
-				<!-- Sightings Panel (Right Side) -->
-				<div class="sightings-panel">
-					<h3>Sightings for this Hour:</h3>
-					<p id="sightings-count">Sightings: 0 (Low)</p>
-					<div id="ufo-space"></div>
-				</div>
-	
-			</div>
-	
-			<!-- Bar Chart Below -->
-			<div class="bar-chart-container">
-				<canvas id="barChart" width="300" height="200"></canvas>
-			</div>
-		</div>
-		</section>
+			</section>
 
-		<section id="witnessSection" class="page-section">
-		<div class="container">
-			<!-- Left Side: UFO & Witness Area -->
-			<div class="left-panel">
-				<div class="ufo-space2" id="ufo-space2"></div> <!-- Space for UFOs -->
-				<div class="landing-pad" id="landing-pad"></div> <!-- Oval Platform for Stickmen -->
-			</div>
-	
-			<!-- Right Side: Selection Buttons -->
-			<div class="right-panel">
-				<h2>Witness & Ship Sightings Visualization</h2>
-	
-				<div class="selection-container">
-					<h3>Select Number of Witnesses (Optional):</h3>
-					<div class="button-group">
-						<button class="witness-btn" data-value="solo">Solo</button>
-						<button class="witness-btn" data-value="smallGroup">Small Group</button>
-						<button class="witness-btn" data-value="crowd">Crowd</button>
-						<button class="witness-btn" data-value="none">No Selection</button>
-					</div>
+			<section class="page-section">
+				<div class="row" style="border: thin solid lightgrey; height: 100%; border-radius: 5px; background: #d6e2e9">
+					<p>Conclusion: TODO</p>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laboriosam, earum amet, ipsum distinctio facere officiis numquam voluptatem labore, dolore animi? Id nam sed voluptates aliquam facilis asperiores, non porro.</p>
 				</div>
-	
-				<div class="selection-container">
-					<h3>Select Number of UFOs (Optional):</h3>
-					<div class="button-group">
-						<button class="ship-btn" data-value="single">Single</button>
-						<button class="ship-btn" data-value="smallGroup">Small Group</button>
-						<button class="ship-btn" data-value="fleet">Fleet</button>
-						<button class="ship-btn" data-value="none">No Selection</button>
-					</div>
-				</div>
-	
-				<h3 id="percentage-output">Select witnesses and/or ships to see data.</h3>
-				<div class="percentage-container">
-					<div class="percentage-bar" id="percentage-bar"></div>
-				</div>
-			</div>
-		</div>
-		</section>
-		<div class="row" style="border: thin solid lightgrey; border-radius: 5px; background: #d6e2e9">
-			<p>Conclusion: TODO</p>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laboriosam, earum amet, ipsum distinctio facere officiis numquam voluptatem labore, dolore animi? Id nam sed voluptates aliquam facilis asperiores, non porro.</p>
-		</div>
+			</section>
 		</div>
 
 		<!-- Navigation Dots -->
@@ -261,7 +269,9 @@
 			<span class="dot" onclick="scrollToSection(2)"></span>
 			<span class="dot" onclick="scrollToSection(3)"></span>
 			<span class="dot" onclick="scrollToSection(4)"></span>
-			<!-- <span class="dot" onclick="scrollToSection(5)"></span> -->
+			<span class="dot" onclick="scrollToSection(5)"></span>
+			<span class="dot" onclick="scrollToSection(6)"></span>
+			<span class="dot" onclick="scrollToSection(7)"></span>
 		</div>
 	
 		<script src="js/scroll.js"></script>
@@ -282,7 +292,7 @@
 		<script src="js/zoomMap.js"></script>
 		<script src="js/map.js"></script>
 		<script src="js/shape.js"></script>
-		<!-- <script src="js/reportsLineGraph.js"></script> -->
+		<script src="js/reportsLineGraph.js"></script>
 		<script src="js/main.js"></script>
 	</body>
 </html>

@@ -6,7 +6,6 @@
   src: url('/fonts/AliensAndCows.ttf') format('truetype');
 }
 
-
 /***********/
 /*  Header */
 /***********/
@@ -19,7 +18,7 @@
 
 .headerContainer h1 {
   font-family: 'aliens', serif;
-  font-size: 30px;
+  font-size: 15vh;
   /* background-color: red; */
 }
 
@@ -145,3 +144,9 @@
     display: block !important;
 }
 
+/******************/
+/*    Line Chart  */
+/******************/
+#reportsOverTimeChart {
+  margin: auto;
+}

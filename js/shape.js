@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 shapeFrequencies[sighting.shape] = (shapeFrequencies[sighting.shape] || 0) + 1;
             });
         
-            createLineChart();
+            // Not needed as we switched to Dimitrios's chart
+            // createLineChart();
             createPieChart();
             updatePieChart(sightingsData);
             updateHovercrafts(currentPopularity);

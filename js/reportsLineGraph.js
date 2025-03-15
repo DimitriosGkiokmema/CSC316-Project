@@ -18,7 +18,6 @@ class ReportsLineChartVis {
     constructor(parentElement, data) {
         this.parentElement = parentElement;
         this.data = data;
-        console.log("line chart composing");
 
         this.initVis()
     }
@@ -65,46 +64,41 @@ class ReportsLineChartVis {
     wrangleData() {
         let vis = this;
 
-        let minYear = d3.min(vis.data, d => d.Date.getFullYear());
-        let maxYear = d3.max(vis.data, d => d.Date.getFullYear());
-
-        // Empty map of year: count
-        vis.yearCounts = d3.range(minYear, maxYear + 1).reduce((acc, year) => {
-            acc[year] = 0;
-            return acc;
-        }, {});
-
         // Count occurrences of each year
+        let rawData = {}; 
+
         vis.data.forEach(d => {
             const year = +d.Date.getFullYear(); // Convert to number
-            dataObj[year] = (dataObj[year] || 0) + 1;
+            rawData[year] = (rawData[year] || 0) + 1;
         });
 
         // Convert to an array of { year, value } objects
-        const data = Object.entries(dataObj).map(([year, value]) => ({
+        vis.lineData = Object.entries(rawData).map(([year, value]) => ({
             year: +year,
             value: value
         }));
 
-        // Filled map of year: count
-        vis.data.forEach(function(d) {
-            vis.yearCounts[d.Date.getFullYear()]++;
-        });
+        let edges = {minYear: vis.lineData[0].year, maxYear: 0, minCount: 0, maxCount: 0};
 
-        minYear = Math.min(...Object.keys(vis.yearCounts).map(Number));
-        maxYear = Math.max(...Object.keys(vis.yearCounts).map(Number));
+        vis.lineData.forEach(d => {
+            // Finds min/max year
+            if (d.year > edges.maxYear) {
+                edges.maxYear = d.year;
+            } else if (d.year < edges.minYear) {
+                edges.minYear = d.year;
+            }
+
+            // Finds min/max count
+            if (d.value > edges.maxCount) {
+                edges.maxCount = d.value;
+            } else if (d.value < edges.minCount) {
+                edges.minCount = d.value;
+            }
+        })
 
         // Set domain for scales
-        vis.xScale.domain([minYear, maxYear]);
-        vis.yScale.domain([vis.yearCounts[minYear], vis.yearCounts[maxYear]]);
-
-        // Create array of counts to plot later
-        vis.lineData = Object.entries(vis.data).map(([year, value]) => ({
-            year: +year,
-            value: value
-        }));
-
-        console.log(vis.lineData)
+        vis.xScale.domain([edges.minYear, edges.maxYear]);
+        vis.yScale.domain([edges.minCount, edges.maxCount]);
 
         vis.updateVis();
     }
@@ -119,7 +113,7 @@ class ReportsLineChartVis {
         let vis = this;
         
         var xAxis = d3.axisBottom(vis.xScale)
-            .tickFormat(d3.format("d"));
+            .tickFormat(d => d);
         var yAxis = d3.axisLeft(vis.yScale);
 
         // Create x-axis
@@ -157,13 +151,11 @@ class ReportsLineChartVis {
         let vis = this;
 
         const line = d3.line()
-            .x((_, i) => vis.xScale(i + 1914)) // Map year to x position
-            .y(d => vis.yScale(d)); // Map count to y position
-        console.log(vis.yearCounts)
-        console.log(vis.linePlot)
+            .x(d => vis.xScale(d.year))
+            .y(d => vis.yScale(d.value));
 
         vis.svg.append("path")
-            .datum(vis.linePlot)
+            .datum(vis.lineData)
             .attr("class", "line")
             .attr("fill", "none")
             .attr("stroke", "black")
@@ -177,12 +169,12 @@ class ReportsLineChartVis {
 
         // Append circles at data points
         vis.svg.selectAll("circle")
-            .data(vis.yearCounts)
+            .data(vis.lineData)
             .join("circle")
-            .attr("cx", d => vis.xScale(d))
-            .attr("cy", d => vis.yScale(vis.yearCounts[d]))
-            .attr("r", 3)
-            .attr("fill", "green")
+            .attr("cx", d => vis.xScale(d.year))
+            .attr("cy", d => vis.yScale(d.value))
+            .attr("r", 2)
+            .attr("fill", "#6DD0EB")
             .on("mouseover", (event, d) => {
                 vis.tooltip.transition()
                     .duration(200)
@@ -203,25 +195,27 @@ class ReportsLineChartVis {
     showSidebar(d) {
         let vis = this;
         let str = `<h3>${d.year}</h3> 
-        <span style="display: block;"># Reports: ${d.count}</span>
-        <span style="display: block;">% Increase from previous year: ${vis.getAverageReports(d.year)}</span>
+        <span style="display: block;"># Reports: ${d.value}</span>
+        <span style="display: block;">Change from previous year: ${vis.getReportIncrease(d)}%</span>
         <span style="display: block; height: 100%; width: 100%;" id="reportsOverTimePieGraph"><span>`;
 
         d3.select("#reportsOverTimeTooltip").html(str);
 
-        new ProportionalPieVis("reportsOverTimePieGraph", vis.data);
+        // new ProportionalPieVis("reportsOverTimePieGraph", vis.data);
     }
 
-    getAverageReports(year) {
+    getReportIncrease(entry) {
         let vis = this;
-        let lastYear = d3.min(vis.lineData, d => d.year);
+        let change = 100;
 
-        vis.lineData.forEach((entry) => {
-            if (lastYear < entry.year && entry.year < year) {
-                lastYear = entry.year;
+        vis.lineData.forEach(d => {
+            if (d.year + 1 == entry.year) {
+                change = (100 * ((entry.value - d.value) / d.value));
             }
-        });        
+        });
 
-        return lastYear;
+        change = Math.round(change * 100) / 100;
+
+        return change;
     }
 }

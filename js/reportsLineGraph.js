@@ -30,30 +30,28 @@ class ReportsLineChartVis {
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // init drawing area
-        vis.svg = d3.select("#" + vis.parentElement).append("svg")
-            .attr("width", vis.width)
+        vis.svg = d3.select("#" + vis.parentElement)
+            .append("svg")
+            .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append("g")
             .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
 
         // add title
         vis.svg.append('g')
-            .attr('class', 'title')
+            .attr('class', 'lineChartTitle')
             .attr('id', 'map-title')
             .append('text')
-            .attr('transform', `translate(${vis.width / 2 - 20}, 0)`)
+            .attr('transform', `translate(${vis.width / 2}, 0)`)
             .attr('text-anchor', 'middle')
-            .text("Reports Over Time");
+            .text("Reports Over Time")
+            .style("font-size", 20);
 
-        // Scales & Axis
-        // I had to subtract some values form the ranges, otherwise
-        // parts of the graphs were getting cut off. I don't know why
-        // this is happening, but by subtracting these values the graph
-        // seems to work.
+        // Scales
         vis.xScale = d3.scaleLinear()
-            .range([0, vis.width - 60]);
+            .range([0, vis.width]);
         vis.yScale = d3.scaleLinear()
-            .range([vis.height - 25, 0]);
+            .range([vis.height, 0]);
         
         // append tooltip
         vis.tooltip = d3.select("body").append('div')
@@ -66,95 +64,103 @@ class ReportsLineChartVis {
     wrangleData() {
         let vis = this;
 
-        // Count the occurrences of each year
-        const yearCounts = vis.data.reduce((acc, curr) => {
-            const year = curr.Date.getFullYear();
-            acc[year] = (acc[year] || 0) + 1;
-            return acc;
-        }, {});
+        // Count occurrences of each year
+        let rawData = {}; 
 
-        // Prepare data for line chart
-        vis.lineData = Object.entries(yearCounts).map(([year, count]) => ({
-            year: year,
-            count: count
+        vis.data.forEach(d => {
+            const year = +d.Date.getFullYear(); // Convert to number
+            rawData[year] = (rawData[year] || 0) + 1;
+        });
+
+        // Convert to an array of { year, value } objects
+        vis.lineData = Object.entries(rawData).map(([year, value]) => ({
+            year: +year,
+            value: value
         }));
 
+        let edges = {minYear: vis.lineData[0].year, maxYear: 0, minCount: 0, maxCount: 0};
+
+        vis.lineData.forEach(d => {
+            // Finds min/max year
+            if (d.year > edges.maxYear) {
+                edges.maxYear = d.year;
+            } else if (d.year < edges.minYear) {
+                edges.minYear = d.year;
+            }
+
+            // Finds min/max count
+            if (d.value > edges.maxCount) {
+                edges.maxCount = d.value;
+            } else if (d.value < edges.minCount) {
+                edges.minCount = d.value;
+            }
+        })
+
         // Set domain for scales
-        vis.xScale.domain([d3.min(vis.lineData, d => d.year), d3.max(vis.lineData, d => d.year)]);
-        vis.yScale.domain([0, d3.max(vis.lineData, d => d.count)]);
+        vis.xScale.domain([edges.minYear, edges.maxYear]);
+        vis.yScale.domain([edges.minCount, edges.maxCount]);
 
         vis.updateVis();
     }
 
     updateVis() {
-        this.createLine();
         this.createAxis();
+        this.createLine();
         this.updateEmphasize();
+    }
+
+    createAxis() {
+        let vis = this;
+        
+        var xAxis = d3.axisBottom(vis.xScale)
+            .tickFormat(d => d);
+        var yAxis = d3.axisLeft(vis.yScale);
+
+        // Create x-axis
+        vis.svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", `translate(0,${vis.height})`)
+            .call(xAxis);
+
+        // Create y-axis
+        vis.svg.append("g")
+            .attr("class", "y-axis")
+            .call(yAxis);
+        
+        // X-axis label
+        vis.svg.append('g')
+            .attr('class', 'lineChartAxisLabel')
+            .append('text')
+            .attr("text-anchor", "middle")
+            .attr("x", vis.width / 2)
+            .attr("y", vis.height + 30)
+            .text("Time");
+
+        // Y-axis label
+        vis.svg.append('g')
+            .attr('class', 'lineChartAxisLabel')
+            .append('text')
+            .attr('text-anchor', 'middle')
+            .attr("transform", "rotate(-90)")
+            .attr("x", -vis.height / 2)
+            .attr("y", -vis.margin.left / 2)
+            .text("Number of Reports");
     }
     
     createLine() {
         let vis = this;
 
         const line = d3.line()
-		    .x(d => vis.xScale(d.year))
-		    .y(d => vis.yScale(d.count));
+            .x(d => vis.xScale(d.year))
+            .y(d => vis.yScale(d.value));
 
-        vis.svg.selectAll(".line")
-            .data([vis.lineData])
-    		.join("path")
+        vis.svg.append("path")
+            .datum(vis.lineData)
             .attr("class", "line")
             .attr("fill", "none")
             .attr("stroke", "black")
             .attr("stroke-width", 1)
             .attr("d", line);
-    }
-
-    createAxis() {
-        let vis = this;
-        var xAxis = d3.axisBottom(vis.xScale)
-            .tickFormat(d3.format("d"));
-        var yAxis = d3.axisLeft(vis.yScale);
-
-        // Create or update x-axis
-        vis.svg.selectAll(".x-axis")
-            .data([null])
-            .join("g")
-            .attr("class", "x-axis")
-            .attr("transform", `translate(0,${vis.height - vis.margin.bottom + 5})`)
-            .call(xAxis);
-
-        // Create or update y-axis
-        vis.svg.selectAll(".y-axis")
-            .data([null])
-            .join("g")
-            .attr("class", "y-axis")
-            .call(yAxis);
-        
-        // X-axis label
-        vis.svg.selectAll(".x-axis-label")
-            .data([null])
-            .join("text")
-            .attr("class", "x-axis-label")
-            .attr("text-anchor", "middle")
-            .attr("x", vis.width / 2)
-            .attr("y", vis.height + 5)
-            .text("Year");
-
-        // Y-axis label
-        vis.svg.selectAll(".y-axis-label")
-            .data([null])
-            .join("text")
-            .attr("class", "y-axis-label")
-            .attr("text-anchor", "middle")
-            .attr("transform", "rotate(-90)")
-            .attr("x", -vis.height / 2)
-            .attr("y", -vis.margin.left + 15)
-            .text("Number of Reports");
-
-        vis.svg.selectAll(".x-axis path")
-            .style("stroke", "black")  // Ensure the axis line is visible
-            .style("stroke-width", "1px")
-            .style("shape-rendering", "crispEdges");  // Prevent blurriness
     }
 
     // Append an SVG circle on each x/y intersection 
@@ -166,9 +172,9 @@ class ReportsLineChartVis {
             .data(vis.lineData)
             .join("circle")
             .attr("cx", d => vis.xScale(d.year))
-            .attr("cy", d => vis.yScale(d.count))
-            .attr("r", 3)
-            .attr("fill", "green")
+            .attr("cy", d => vis.yScale(d.value))
+            .attr("r", 2)
+            .attr("fill", "#6DD0EB")
             .on("mouseover", (event, d) => {
                 vis.tooltip.transition()
                     .duration(200)
@@ -189,25 +195,27 @@ class ReportsLineChartVis {
     showSidebar(d) {
         let vis = this;
         let str = `<h3>${d.year}</h3> 
-        <span style="display: block;"># Reports: ${d.count}</span>
-        <span style="display: block;">% Increase from previous year: ${vis.getAverageReports(d.year)}</span>
+        <span style="display: block;"># Reports: ${d.value}</span>
+        <span style="display: block;">Change from previous year: ${vis.getReportIncrease(d)}%</span>
         <span style="display: block; height: 100%; width: 100%;" id="reportsOverTimePieGraph"><span>`;
 
         d3.select("#reportsOverTimeTooltip").html(str);
 
-        new ProportionalPieVis("reportsOverTimePieGraph", vis.data);
+        // new ProportionalPieVis("reportsOverTimePieGraph", vis.data);
     }
 
-    getAverageReports(year) {
+    getReportIncrease(entry) {
         let vis = this;
-        let lastYear = d3.min(vis.lineData, d => d.year);
+        let change = 100;
 
-        vis.lineData.forEach((entry) => {
-            if (lastYear < entry.year && entry.year < year) {
-                lastYear = entry.year;
+        vis.lineData.forEach(d => {
+            if (d.year + 1 == entry.year) {
+                change = (100 * ((entry.value - d.value) / d.value));
             }
-        });        
+        });
 
-        return lastYear;
+        change = Math.round(change * 100) / 100;
+
+        return change;
     }
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFO Sightings Visualization</title>
+    <link rel="stylesheet" href="css/clock.css">
+</head>
+<body>
+    <div class="clock-container">
+        <h1>UFO Sightings by Time of Day</h1>
+
+        <!-- Season Toggle Buttons -->
+        <div class="season-buttons">
+            <button class="season-btn selected" data-season="all">All Seasons</button>
+            <button class="season-btn" data-season="winter">Winter</button>
+            <button class="season-btn" data-season="spring">Spring</button>
+            <button class="season-btn" data-season="summer">Summer</button>
+            <button class="season-btn" data-season="autumn">Autumn</button>
+        </div>
+
+        <div class="clock-layout">
+            <!-- Left: Clock & Time Above -->
+            <div class="clock-wrapper">
+                <h2 id="time-display">12 AM</h2> <!-- Time is now above the clock -->
+                <svg id="clock" width="200" height="200"></svg>
+                <div class="button-container">
+                    <button id="play">Play</button>
+                    <button id="reset">Reset</button>
+                </div>
+            </div>
+
+            <!-- Sightings Panel (Right Side) -->
+            <div class="sightings-panel">
+                <h3>Sightings for this Hour:</h3>
+                <p id="sightings-count">Sightings: 0 (Low)</p>
+                <div id="ufo-space"></div>
+            </div>
+
+        </div>
+
+        <!-- Bar Chart Below -->
+        <div class="bar-chart-container">
+            <canvas id="barChart" width="300" height="200"></canvas>
+        </div>
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="js/clock.js"></script>
+</body>
+</html>
+
+

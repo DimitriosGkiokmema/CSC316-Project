@@ -53,12 +53,7 @@ function getDuration(time) {
 }
 
 function initVars(data) {
-	baseMap = new BaseMapVis("baseMap", data);
-	cultureChart = new PopularCultureVis("cultureChart", data);
 	reportsOverTimeChart = new ReportsLineChartVis("reportsOverTimeChart", data);
-	witnessesChart = new WitnessesBarChartVis("witnessesChart", data);
-	reportMap = new ReportMapVis("reportMap", data);
-	dailyReports = new DailyReportsClockVis("dailyReports", data);
 }
 
 function displayVis() {

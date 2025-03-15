@@ -18,14 +18,13 @@ class ReportsLineChartVis {
     constructor(parentElement, data) {
         this.parentElement = parentElement;
         this.data = data;
+        console.log("line chart composing");
 
         this.initVis()
     }
 
     initVis() {
-        console.log("line created")
         let vis = this;
-        console.log(vis.data)
 
         vis.margin = {top: 20, right: 20, bottom: 30, left: 55};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
@@ -41,16 +40,16 @@ class ReportsLineChartVis {
 
         // add title
         vis.svg.append('g')
-            .attr('class', 'title')
+            .attr('class', 'lineChartTitle')
             .attr('id', 'map-title')
             .append('text')
-            .attr('transform', `translate(${vis.width / 2 - 20}, 0)`)
+            .attr('transform', `translate(${vis.width / 2}, 0)`)
             .attr('text-anchor', 'middle')
             .text("Reports Over Time")
             .style("font-size", 20);
 
         // Scales
-        vis.xScale = d3.scaleTime()
+        vis.xScale = d3.scaleLinear()
             .range([0, vis.width]);
         vis.yScale = d3.scaleLinear()
             .range([vis.height, 0]);
@@ -66,98 +65,110 @@ class ReportsLineChartVis {
     wrangleData() {
         let vis = this;
 
-        // Count the occurrences of each year
-        const yearCounts = vis.data.forEach((acc, curr) => {
-            const year = curr.Date.getFullYear();
-            acc[year] = (acc[year] || 0) + 1;
+        let minYear = d3.min(vis.data, d => d.Date.getFullYear());
+        let maxYear = d3.max(vis.data, d => d.Date.getFullYear());
+
+        // Empty map of year: count
+        vis.yearCounts = d3.range(minYear, maxYear + 1).reduce((acc, year) => {
+            acc[year] = 0;
             return acc;
         }, {});
-        console.log(data);
 
-        // Prepare data for line chart
-        vis.lineData = Object.entries(yearCounts).map(([year, count]) => ({
-            year: year,
-            count: count
+        // Count occurrences of each year
+        vis.data.forEach(d => {
+            const year = +d.Date.getFullYear(); // Convert to number
+            dataObj[year] = (dataObj[year] || 0) + 1;
+        });
+
+        // Convert to an array of { year, value } objects
+        const data = Object.entries(dataObj).map(([year, value]) => ({
+            year: +year,
+            value: value
         }));
-        console.log(yearCounts)
-        console.log(vis.lineData)
+
+        // Filled map of year: count
+        vis.data.forEach(function(d) {
+            vis.yearCounts[d.Date.getFullYear()]++;
+        });
+
+        minYear = Math.min(...Object.keys(vis.yearCounts).map(Number));
+        maxYear = Math.max(...Object.keys(vis.yearCounts).map(Number));
 
         // Set domain for scales
-        vis.xScale.domain([d3.min(vis.lineData, d => d.year), d3.max(vis.lineData, d => d.year)]);
-        vis.yScale.domain([0, d3.max(vis.lineData, d => d.count)]);
+        vis.xScale.domain([minYear, maxYear]);
+        vis.yScale.domain([vis.yearCounts[minYear], vis.yearCounts[maxYear]]);
+
+        // Create array of counts to plot later
+        vis.lineData = Object.entries(vis.data).map(([year, value]) => ({
+            year: +year,
+            value: value
+        }));
+
+        console.log(vis.lineData)
 
         vis.updateVis();
     }
 
     updateVis() {
-        this.createLine();
         this.createAxis();
+        this.createLine();
         this.updateEmphasize();
+    }
+
+    createAxis() {
+        let vis = this;
+        
+        var xAxis = d3.axisBottom(vis.xScale)
+            .tickFormat(d3.format("d"));
+        var yAxis = d3.axisLeft(vis.yScale);
+
+        // Create x-axis
+        vis.svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", `translate(0,${vis.height})`)
+            .call(xAxis);
+
+        // Create y-axis
+        vis.svg.append("g")
+            .attr("class", "y-axis")
+            .call(yAxis);
+        
+        // X-axis label
+        vis.svg.append('g')
+            .attr('class', 'lineChartAxisLabel')
+            .append('text')
+            .attr("text-anchor", "middle")
+            .attr("x", vis.width / 2)
+            .attr("y", vis.height + 30)
+            .text("Time");
+
+        // Y-axis label
+        vis.svg.append('g')
+            .attr('class', 'lineChartAxisLabel')
+            .append('text')
+            .attr('text-anchor', 'middle')
+            .attr("transform", "rotate(-90)")
+            .attr("x", -vis.height / 2)
+            .attr("y", -vis.margin.left / 2)
+            .text("Number of Reports");
     }
     
     createLine() {
         let vis = this;
 
         const line = d3.line()
-		    .x(d => vis.xScale(d.year))
-		    .y(d => vis.yScale(d.count));
+            .x((_, i) => vis.xScale(i + 1914)) // Map year to x position
+            .y(d => vis.yScale(d)); // Map count to y position
+        console.log(vis.yearCounts)
+        console.log(vis.linePlot)
 
-        vis.svg.selectAll(".line")
-            .data([1, 2, 3])
-    		.join("path")
+        vis.svg.append("path")
+            .datum(vis.linePlot)
             .attr("class", "line")
             .attr("fill", "none")
             .attr("stroke", "black")
             .attr("stroke-width", 1)
             .attr("d", line);
-    }
-
-    createAxis() {
-        let vis = this;
-        var xAxis = d3.axisBottom(vis.xScale)
-            .tickFormat(d3.format("d"));
-        var yAxis = d3.axisLeft(vis.yScale);
-
-        // Create or update x-axis
-        vis.svg.selectAll(".x-axis")
-            .data(vis.lineData)
-            .join("g")
-            .attr("class", "x-axis")
-            .attr("transform", `translate(0,${vis.height - vis.margin.bottom + 5})`)
-            .call(xAxis);
-
-        // Create or update y-axis
-        vis.svg.selectAll(".y-axis")
-            .data([null])
-            .join("g")
-            .attr("class", "y-axis")
-            .call(yAxis);
-        
-        // X-axis label
-        vis.svg.selectAll(".x-axis-label")
-            .data([null])
-            .join("text")
-            .attr("class", "x-axis-label")
-            .attr("text-anchor", "middle")
-            .attr("x", vis.width / 2)
-            .attr("y", vis.height + 5)
-            .text("Year");
-
-        // Y-axis label
-        vis.svg.selectAll(".y-axis-label")
-            .data([null])
-            .join("text")
-            .attr("class", "y-axis-label")
-            .attr("text-anchor", "middle")
-            .attr("transform", "rotate(-90)")
-            .attr("x", -vis.height / 2)
-            .attr("y", -vis.margin.left + 15)
-            .text("Number of Reports");
-
-        vis.svg.selectAll(".x-axis path")
-            .style("stroke", "black")  // Ensure the axis line is visible
-            .style("stroke-width", "1px")
-            .style("shape-rendering", "crispEdges");  // Prevent blurriness
     }
 
     // Append an SVG circle on each x/y intersection 
@@ -166,10 +177,10 @@ class ReportsLineChartVis {
 
         // Append circles at data points
         vis.svg.selectAll("circle")
-            .data(vis.lineData)
+            .data(vis.yearCounts)
             .join("circle")
-            .attr("cx", d => vis.xScale(d.year))
-            .attr("cy", d => vis.yScale(d.count))
+            .attr("cx", d => vis.xScale(d))
+            .attr("cy", d => vis.yScale(vis.yearCounts[d]))
             .attr("r", 3)
             .attr("fill", "green")
             .on("mouseover", (event, d) => {

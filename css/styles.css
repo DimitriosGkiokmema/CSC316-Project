@@ -1,8 +1,35 @@
 /***********/
+/*  Accessing Custom Fonts */
+/***********/
+@font-face {
+  font-family: 'aliens'; /* The name you will use in CSS */
+  src: url('/fonts/AliensAndCows.ttf') format('truetype');
+}
+
+
+/***********/
 /*  Header */
 /***********/
+.headerContainer {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: white;
+}
+
+.headerContainer h1 {
+  font-family: 'aliens', serif;
+  font-size: 30px;
+  /* background-color: red; */
+}
+
+.title {
+  font-size: 10vh;
+  font-family: 'aliens', sans-serif;
+}
+
 .header {
-  font-;
+  font-size: 20px;
 }
 
 /***********/

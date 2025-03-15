@@ -22,17 +22,12 @@
 		<div class="page-container">
 			<!-- Header & Intro Section -->
 			<section class="page-section" style="display: block;">
-				<header class="header">
+				<div class="headerContainer">
 					<h1>Aliens Among us</h1>
-					<h1>Canadian Alien Encounters: Tracking UFO Sightings</h1>
-					<h1>1930 - 2025</h1>
-					<br>
-					<!-- <h3>Dive into historical trends and witness details in Canada’s mysterious encounters</h3> -->
-				</header>
-
-				<div class="row" style="border: thin solid lightgrey; border-radius: 5px; background: #d6e2e9">
-					<p>Intro: TODO</p>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laboriosam, earum amet, ipsum distinctio facere officiis numquam voluptatem labore, dolore animi? Id nam sed voluptates aliquam facilis asperiores, non porro.</p>
+					<h2>Canadian Alien Encounters: <br> Tracking UFO Sightings <br> 1930 - 2025</h2>
+					<h3>Dive into historical trends and witness details in Canada’s mysterious extraterrestrial encounters</h3>
+					<h3>Intro: TODO</h3>
+					<h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laboriosam, earum amet, ipsum distinctio facere officiis numquam voluptatem labore, dolore animi? Id nam sed voluptates aliquam facilis asperiores, non porro.</h3>
 				</div>
 			</section>
 
@@ -167,13 +162,14 @@
 			<!-- Line chart not displaying: fix later -->
 			<section id="lineChart" class="page-section">
 				<div class="col-7">
-					<div id="reportsOverTimeChart" style="min-height: 40vh; width: 100%"></div>
+					<div id="reportsOverTimeChart" style="min-height: 40vh; width: 100%; background-color: red;"></div>
 				</div>
 				<div class="col-5">
 					<div id="reportsOverTimeTooltip" style="min-height: 40vh; width: 100%;"></div>
 				</div>
 			</section>
 
+			<!-- Clock -->
 			<section id="clockSection" class="page-section">
 			<div class="clock-container">
 				<h1>UFO Sightings by Time of Day</h1>
@@ -274,7 +270,6 @@
 			<span class="dot" onclick="scrollToSection(7)"></span>
 		</div>
 	
-		<script src="js/scroll.js"></script>
 
 		<!-- JavaScript Libraries -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -294,5 +289,6 @@
 		<script src="js/shape.js"></script>
 		<script src="js/reportsLineGraph.js"></script>
 		<script src="js/main.js"></script>
+		<script src="js/scroll.js"></script>
 	</body>
 </html>

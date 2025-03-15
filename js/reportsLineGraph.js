@@ -25,14 +25,16 @@ class ReportsLineChartVis {
     initVis() {
         console.log("line created")
         let vis = this;
+        console.log(vis.data)
 
         vis.margin = {top: 20, right: 20, bottom: 30, left: 55};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // init drawing area
-        vis.svg = d3.select("#" + vis.parentElement).append("svg")
-            .attr("width", vis.width)
+        vis.svg = d3.select("#" + vis.parentElement)
+            .append("svg")
+            .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append("g")
             .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
@@ -44,17 +46,14 @@ class ReportsLineChartVis {
             .append('text')
             .attr('transform', `translate(${vis.width / 2 - 20}, 0)`)
             .attr('text-anchor', 'middle')
-            .text("Reports Over Time");
+            .text("Reports Over Time")
+            .style("font-size", 20);
 
-        // Scales & Axis
-        // I had to subtract some values form the ranges, otherwise
-        // parts of the graphs were getting cut off. I don't know why
-        // this is happening, but by subtracting these values the graph
-        // seems to work.
-        vis.xScale = d3.scaleLinear()
-            .range([0, vis.width - 60]);
+        // Scales
+        vis.xScale = d3.scaleTime()
+            .range([0, vis.width]);
         vis.yScale = d3.scaleLinear()
-            .range([vis.height - 25, 0]);
+            .range([vis.height, 0]);
         
         // append tooltip
         vis.tooltip = d3.select("body").append('div')
@@ -68,17 +67,20 @@ class ReportsLineChartVis {
         let vis = this;
 
         // Count the occurrences of each year
-        const yearCounts = vis.data.reduce((acc, curr) => {
+        const yearCounts = vis.data.forEach((acc, curr) => {
             const year = curr.Date.getFullYear();
             acc[year] = (acc[year] || 0) + 1;
             return acc;
         }, {});
+        console.log(data);
 
         // Prepare data for line chart
         vis.lineData = Object.entries(yearCounts).map(([year, count]) => ({
             year: year,
             count: count
         }));
+        console.log(yearCounts)
+        console.log(vis.lineData)
 
         // Set domain for scales
         vis.xScale.domain([d3.min(vis.lineData, d => d.year), d3.max(vis.lineData, d => d.year)]);
@@ -101,7 +103,7 @@ class ReportsLineChartVis {
 		    .y(d => vis.yScale(d.count));
 
         vis.svg.selectAll(".line")
-            .data([vis.lineData])
+            .data([1, 2, 3])
     		.join("path")
             .attr("class", "line")
             .attr("fill", "none")
@@ -118,7 +120,7 @@ class ReportsLineChartVis {
 
         // Create or update x-axis
         vis.svg.selectAll(".x-axis")
-            .data([null])
+            .data(vis.lineData)
             .join("g")
             .attr("class", "x-axis")
             .attr("transform", `translate(0,${vis.height - vis.margin.bottom + 5})`)

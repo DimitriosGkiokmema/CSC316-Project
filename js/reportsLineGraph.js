@@ -56,7 +56,7 @@ class ReportsLineChartVis {
         // append tooltip
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
-            .style('opacity', 0)
+            .style('opacity', 0);
         
         vis.wrangleData()
     }
@@ -158,7 +158,7 @@ class ReportsLineChartVis {
             .datum(vis.lineData)
             .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "black")
+            .attr("stroke", "white")
             .attr("stroke-width", 1)
             .attr("d", line);
     }

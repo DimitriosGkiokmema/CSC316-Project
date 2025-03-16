@@ -16,18 +16,110 @@
 		<link rel="stylesheet" href="css/map.css">
 		<link rel="stylesheet" href="css/shape.css">
 		<link rel="stylesheet" href="css/witness.css">
+		<link rel="stylesheet" href="css/ui.css">
 		
 	</head>
 	<body>
 		<div class="page-container">
 			<!-- Header & Intro Section -->
 			<section class="page-section" style="display: block;">
-				<div class="headerContainer">
-					<h1>Aliens Among us</h1>
-					<h2>Canadian Alien Encounters: <br> Tracking UFO Sightings <br> 1930 - 2025</h2>
-					<h3>Dive into historical trends and witness details in Canada’s mysterious extraterrestrial encounters</h3>
-				</div>
+				<section id="title-card" class="fullscreen title-section">
+					<h1>What do UFO Sightings <br> Reveal About Us?</h1>
+					<p>A Data-Driven Analysis of Sightings Across Canada</p>
+				</section>
 			</section>
+
+			<section class="page-section">
+				<section id="intro" class="fullscreen">
+					<h2>Ufology in Canada: A History of the Unknown</h2>
+					<p>
+						For decades, Canadians have reported <strong>strange lights in the sky, unidentified craft, and unexplained encounters.</strong> 
+						Some believe these are misidentified aircraft, natural phenomena, or hoaxes. 
+						Others argue they are <strong>evidence of something beyond our understanding.</strong>
+					</p>
+					<p>
+						But UFO sightings aren’t just isolated stories—they form <strong>patterns</strong> over time. 
+						When we examine them as <strong>data</strong>, we begin to see something unexpected.
+					</p>
+				</section>
+			</section>
+
+			<!-- Cool, but idk if we have the graph/data for what it talk about -->
+			<!-- <section class="page-section">
+				<section id="transition-intro-to-temporal" class="fullscreen transition-slide">
+					<p><em>If UFO sightings were random, we’d expect them to be evenly spread across history. But they aren’t.</em> 
+						<br><br>Instead, they surge at specific moments. Why?</p>
+				</section>
+			</section> -->
+
+			<!-- Introduces the clock  -->
+			<section class="page-section">
+				<section id="transition-temporal-to-clock" class="fullscreen transition-slide">
+					<p><em>If history shapes UFO reports, does time of day play a role too?</em></p>
+					<h2>The UFO Clock: Sightings by Time of Day</h2>
+					<p>
+						People expect to see UFOs at night. That’s exactly when most sightings happen.  
+						Are we witnessing something real—or just filling in the blanks with <strong>what we expect to see</strong>?
+					</p>
+				</section>
+			</section>
+
+			<!-- Clock Vis -->
+			<section class="page-section">
+				<section id="clock-analysis" class="fullscreen analysis-section">
+
+					<div class="clock-container" id="clockSection">
+						<h1>UFO Sightings by Time of Day</h1>
+				
+						<!-- Season Toggle Buttons -->
+						<div class="season-buttons">
+							<button class="season-btn selected" data-season="all">All Seasons</button>
+							<button class="season-btn" data-season="winter">Winter</button>
+							<button class="season-btn" data-season="spring">Spring</button>
+							<button class="season-btn" data-season="summer">Summer</button>
+							<button class="season-btn" data-season="autumn">Autumn</button>
+						</div>
+				
+						<div class="clock-layout">
+							<!-- Left: Clock & Time Above -->
+							<div class="clock-wrapper">
+								<h2 id="time-display">12 AM</h2> <!-- Time is now above the clock -->
+								<svg id="clock" width="200" height="200"></svg>
+								<div class="button-container">
+									<button id="play">Play</button>
+									<button id="reset">Reset</button>
+								</div>
+							</div>
+				
+							<!-- Sightings Panel (Right Side) -->
+							<div class="sightings-panel">
+								<h3>Sightings for this Hour:</h3>
+								<p id="sightings-count">Sightings: 0 (Low)</p>
+								<div id="ufo-space"></div>
+							</div>
+				
+						</div>
+				
+						<!-- Bar Chart Below -->
+						<div class="bar-chart-container">
+							<canvas id="barChart" width="300" height="200"></canvas>
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<!-- Map Intro -->
+			 <section class="page-section">
+				<section id="transition-clock-to-geography" class="fullscreen transition-slide">
+					<p><em>If UFO sightings follow time-based trends, where do they happen the most?</em></p>
+					<h2>Cities, Bases, or the Middle of Nowhere:<br> Where Do UFOs Show Up?</h2>
+					<p>
+						Some places report <strong>far more UFO sightings</strong> than others.  
+						Are these hotspots just <strong>more watchful</strong>, or is something actually happening in these locations?  
+						The map reveals patterns—some expected, others surprising.
+					</p>
+				</section>
+			 </section>
 
 			<!-- Zoomed map Section-->
 			<section class="page-section">
@@ -46,14 +138,90 @@
 				</div>
 			</section>
 
+			<!-- Intro to witnesses -->
+			<section class="page-section">
+				<section id="transition-geography-to-witnesses" class="fullscreen transition-slide">
+					<p><em>If UFO sightings are influenced by location, what about the number of witnesses?</em></p>
+				</section>
+			</section>
+
+			<section class="page-section">
+				<section id="witness-analysis" class="fullscreen analysis-section">
+					<h2>Strength in Numbers? Examining Group vs. Solo Reports</h2>
+					<p>
+						Does having more witnesses make a UFO sighting more <strong>believable</strong>—or just more <strong>influenced</strong>?  
+						Solo encounters tend to be more detailed, while large groups report <strong>stranger phenomena</strong>.  
+						Why?
+					</p>
+				</section>
+			</section>
+
+			<!-- Witness Vis -->
+			<section id="witnessSection" class="page-section">
+				<div class="container">
+					<!-- Left Side: UFO & Witness Area -->
+					<div class="left-panel">
+						<div class="ufo-space2" id="ufo-space2"></div> <!-- Space for UFOs -->
+						<div class="landing-pad" id="landing-pad"></div> <!-- Oval Platform for Stickmen -->
+					</div>
+			
+					<!-- Right Side: Selection Buttons -->
+					<div class="right-panel">
+						<h2 style="color: black">Witness & Ship Sightings Visualization</h2>
+			
+						<div class="selection-container">
+							<h3 style="color: black;">Select Number of Witnesses (Optional):</h3>
+							<div class="button-group">
+								<button class="witness-btn" data-value="solo">Solo</button>
+								<button class="witness-btn" data-value="smallGroup">Small Group</button>
+								<button class="witness-btn" data-value="crowd">Crowd</button>
+								<button class="witness-btn" data-value="none">No Selection</button>
+							</div>
+						</div>
+			
+						<div class="selection-container">
+							<h3 style="color: black;">Select Number of UFOs (Optional):</h3>
+							<div class="button-group">
+								<button class="ship-btn" data-value="single">Single</button>
+								<button class="ship-btn" data-value="smallGroup">Small Group</button>
+								<button class="ship-btn" data-value="fleet">Fleet</button>
+								<button class="ship-btn" data-value="none">No Selection</button>
+							</div>
+						</div>
+			
+						<h3 id="percentage-output" style="color: black;">Select witnesses and/or ships to see data.</h3>
+						<div class="percentage-container">
+							<div class="percentage-bar" id="percentage-bar"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Intro to shapes & reports over time -->
+			<section class="page-section">
+				<section id="transition-witnesses-to-shapes" class="fullscreen transition-slide">
+					<p><em>If witnesses shape the UFO narrative, what do they actually describe?</em></p>
+				</section>
+			</section>
+
+			<section class="page-section">
+				<section id="shape-analysis" class="fullscreen analysis-section">
+					<h2>Shape-Shifting Phenomena: Are UFO Ships Evolving?</h2>
+					<p>
+						The UFO ships of today don’t look like the ships of the past.  
+						Saucers dominated the 1950s. Triangles rule today.  
+						Have aliens changed their ships—or have we changed what we expect to see?
+					</p>
+				</section>
+			</section>
+
 			<!-- Shape Visualization & Line Chart -->
 			<section id="shapeSection" class="page-section">
 				<div id="page-title">
-					<h2>A Decade-by-Decade Analysis of Encounters and Cultural Impact</h2>
+					<h2>Analysis of Encounters and Cultural Impact</h2>
 				</div>
 				<div id="main-content-shape">
 					<div id="line-chart-container" style="display: flex;">
-						<!-- <canvas id="line-chart"></canvas> -->
 						<div class="col-7">
 							<div id="reportsOverTimeChart" style="min-height: 30vh; width: 100%;"></div>
 						</div>
@@ -110,96 +278,50 @@
 					<div id="pop-culture-text">
 						<h3>Pop Culture References</h3>
 						<p>Insert your pop culture commentary or text here...</p>
+						<!-- TODO: Dimitrios will put some kind of easter egg for the alien movies -->
 					</div>
 				</div>
 			</section>
 
-			<!-- Clock -->
-			<section id="clockSection" class="page-section">
-			<div class="clock-container">
-				<h1>UFO Sightings by Time of Day</h1>
-		
-				<!-- Season Toggle Buttons -->
-				<div class="season-buttons">
-					<button class="season-btn selected" data-season="all">All Seasons</button>
-					<button class="season-btn" data-season="winter">Winter</button>
-					<button class="season-btn" data-season="spring">Spring</button>
-					<button class="season-btn" data-season="summer">Summer</button>
-					<button class="season-btn" data-season="autumn">Autumn</button>
-				</div>
-		
-				<div class="clock-layout">
-					<!-- Left: Clock & Time Above -->
-					<div class="clock-wrapper">
-						<h2 id="time-display">12 AM</h2> <!-- Time is now above the clock -->
-						<svg id="clock" width="200" height="200"></svg>
-						<div class="button-container">
-							<button id="play">Play</button>
-							<button id="reset">Reset</button>
-						</div>
-					</div>
-		
-					<!-- Sightings Panel (Right Side) -->
-					<div class="sightings-panel">
-						<h3>Sightings for this Hour:</h3>
-						<p id="sightings-count">Sightings: 0 (Low)</p>
-						<div id="ufo-space"></div>
-					</div>
-		
-				</div>
-		
-				<!-- Bar Chart Below -->
-				<div class="bar-chart-container">
-					<canvas id="barChart" width="300" height="200"></canvas>
-				</div>
-			</div>
-			</section>
-
-			<section id="witnessSection" class="page-section">
-				<div class="container">
-					<!-- Left Side: UFO & Witness Area -->
-					<div class="left-panel">
-						<div class="ufo-space2" id="ufo-space2"></div> <!-- Space for UFOs -->
-						<div class="landing-pad" id="landing-pad"></div> <!-- Oval Platform for Stickmen -->
-					</div>
+			<!-- Again: cool, but we don't have the needed vis -->
+			<!-- <section class="page-section">
+				<section id="transition-shapes-to-sentiment" class="fullscreen transition-slide">
+					<p><em>Beyond shapes, what emotions are tied to these reports?</em></p>
+				</section>
+				
 			
-					<!-- Right Side: Selection Buttons -->
-					<div class="right-panel">
-						<h2>Witness & Ship Sightings Visualization</h2>
-			
-						<div class="selection-container">
-							<h3>Select Number of Witnesses (Optional):</h3>
-							<div class="button-group">
-								<button class="witness-btn" data-value="solo">Solo</button>
-								<button class="witness-btn" data-value="smallGroup">Small Group</button>
-								<button class="witness-btn" data-value="crowd">Crowd</button>
-								<button class="witness-btn" data-value="none">No Selection</button>
-							</div>
-						</div>
-			
-						<div class="selection-container">
-							<h3>Select Number of UFOs (Optional):</h3>
-							<div class="button-group">
-								<button class="ship-btn" data-value="single">Single</button>
-								<button class="ship-btn" data-value="smallGroup">Small Group</button>
-								<button class="ship-btn" data-value="fleet">Fleet</button>
-								<button class="ship-btn" data-value="none">No Selection</button>
-							</div>
-						</div>
-			
-						<h3 id="percentage-output">Select witnesses and/or ships to see data.</h3>
-						<div class="percentage-container">
-							<div class="percentage-bar" id="percentage-bar"></div>
-						</div>
-					</div>
-				</div>
-			</section>
+				<section id="sentiment-analysis" class="fullscreen analysis-section">
+					<h2>The Emotional Spectrum of UFO Reports</h2>
+					<p>
+						One witness describes awe. Another, terror. Another dismisses it entirely.  
+						The same sighting, three different reactions. What makes one report more credible than another?
+					</p>
+				
+					<div class="viz-placeholder">[Sentiment Analysis Visualization Here]</div>
+				</section>
+			</section> -->
 
 			<section class="page-section">
-				<div class="row" style="border: thin solid lightgrey; height: 100%; border-radius: 5px; background: #d6e2e9">
-					<p>Conclusion: TODO</p>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laboriosam, earum amet, ipsum distinctio facere officiis numquam voluptatem labore, dolore animi? Id nam sed voluptates aliquam facilis asperiores, non porro.</p>
-				</div>
+				<section id="closing-slide" class="fullscreen closing-section">
+					<h2>Thank You for Exploring the Unknown</h2>
+					<p>Special Thanks to the NUFORC Organization</p>
+					<p>Project by <em>The Conspiracy Theorists</em></p>
+				
+					<div class="team-container">
+						<div class="team-member">
+							<img src="img/placeholder.png" alt="Team Member 1">
+							<p>Team Member 1</p>
+						</div>
+						<div class="team-member">
+							<img src="img/placeholder.png" alt="Team Member 2">
+							<p>Team Member 2</p>
+						</div>
+						<div class="team-member">
+							<img src="img/dimitrios.jpg" alt="Team Member 3">
+							<p>Dimitrios Gkiokmema</p>
+						</div>
+					</div>
+				</section>
 			</section>
 		</div>
 
@@ -211,6 +333,13 @@
 			<span class="dot" onclick="scrollToSection(3)"></span>
 			<span class="dot" onclick="scrollToSection(4)"></span>
 			<span class="dot" onclick="scrollToSection(5)"></span>
+			<span class="dot" onclick="scrollToSection(6)"></span>
+			<span class="dot" onclick="scrollToSection(7)"></span>
+			<span class="dot" onclick="scrollToSection(8)"></span>
+			<span class="dot" onclick="scrollToSection(9)"></span>
+			<span class="dot" onclick="scrollToSection(10)"></span>
+			<span class="dot" onclick="scrollToSection(11)"></span>
+			<span class="dot" onclick="scrollToSection(12)"></span>
 		</div>
 	
 

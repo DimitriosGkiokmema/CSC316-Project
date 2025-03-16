@@ -1,13 +1,17 @@
 // Creating vis and data variables
-let baseMap,
-	cultureChart,
-	reportsOverTimeChart,
-	witnessesChart,
-	reportMap,
-	dailyReports;
+let reportsOverTimeChart;
 let data;
 
 loadData();
+
+// For Scrolling
+// Maybe this is not needed as Haya created the side buttons
+document.addEventListener("DOMContentLoaded", function () {
+    const sections = document.querySelectorAll(".fullscreen");
+    sections.forEach(section => {
+        section.style.scrollSnapAlign = "start";
+    });
+});
 
 // Dataset column titles:
 // Date,Time,Duration,City,State,Country,Lat,Lon,TotalObservers,Summary,NumShips,Shape,NUFORC_Note,Explanation,Certainty

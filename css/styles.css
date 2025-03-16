@@ -72,14 +72,13 @@
 #info-panel {
   width: 30%;
   padding: 10px;
-  background: #f4f4f4;
   overflow-y: auto;
 }
 
 .province-link {
   cursor: pointer;
   font-size: 14px;
-  color: black;
+  color: white;
   padding: 3px;
 }
 
@@ -107,7 +106,7 @@
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    background-color: white;
+    background-color: black;
 }
 
 
@@ -148,4 +147,11 @@
 /******************/
 #reportsOverTimeChart {
   margin: auto;
+}
+
+/******************/
+/*    Witnesses   */
+/******************/
+.witness-btn, .ship-btn, #percentage-output {
+  color: black;
 }

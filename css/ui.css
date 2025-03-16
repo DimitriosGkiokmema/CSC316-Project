@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Special+Elite&family=Turret+Road:wght@400;700&display=swap');
+
+/* Global Styles */
+:root {
+    --background-dark: black;
+    --text-body: white;
+    --text-header: white;
+    --alert-red: #FF3F3F;
+    --border-color: #1F2833;
+}
+
+/* General Layout */
+body {
+    font-family: 'Special Elite', sans-serif;
+    background: var(--background-dark);
+    color: var(--text-body);
+    margin: 0;
+    padding: 0;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+}
+
+/* Fullscreen Sections */
+.fullscreen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    scroll-snap-align: start;
+}
+
+/* Title Section (Now Scrolls with Page) */
+.title-section {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, var(--background-dark)), 
+                url('../img/ufoBackground.jpg') no-repeat center center;
+    background-size: cover;
+    background-attachment: scroll; /* Allows the image to move when scrolling */
+}
+
+
+.title-section h1 {
+    font-size: 80px;
+    text-align: center;
+    font-weight: 100;
+    color: black;
+    margin-top: -80px;
+}
+
+.title-section p {
+    font-size: 25px;
+    text-align: center;
+    color: black;
+    font-weight: 500;
+    margin-top: -50px;
+}
+
+/* Intro Section Styling */
+#intro {
+    background: var(--background-dark); /* Keeps the black background */
+    text-align: center;
+    padding: 60px 10%;
+}
+
+#intro h2 {
+    font-size: 2.8rem;
+    font-family: 'Rubik Glitch', sans-serif;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: 100;
+}
+
+#intro p {
+    font-size: 1.2rem;
+    color: #CCCCCC; /* Slightly dimmed text for readability */
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    line-height: 1.6;
+}
+
+/* Emphasized transition text leading to next section */
+.transition-text {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: white;
+    margin-top: 40px;
+}
+
+/* Universal Analysis Section Styles */
+.analysis-section {
+    background: var(--background-dark);
+    text-align: center;
+    padding: 60px 10%;
+}
+
+/* Standardized Heading for All Analysis Sections */
+.analysis-section h2 {
+    font-size: 2.5rem;
+    font-family: 'Rubik Glitch', sans-serif;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: 100;
+}
+
+/* Standardized Description for All Analysis Sections */
+.analysis-section p {
+    font-size: 1.2rem;
+    color: #CCCCCC; /* Slightly dimmed text */
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    line-height: 1.6;
+}
+
+/* Standardized Visualization Placeholder */
+.viz-placeholder {
+    width: 80%;
+    height: 400px;
+    background: #1F2833; /* Muted gray-blue */
+    color: #CCCCCC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 30px auto;
+    border: 2px dashed #CCCCCC;
+}
+
+/* Universal Transition Slide Styles */
+.transition-slide {
+    background: var(--background-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+    padding: 60px 10%;
+}
+
+/* Standardized Transition Text */
+.transition-slide p {
+    font-size: 2rem;
+    font-style: italic;
+    color: white;
+    max-width: 1000px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+
+/* Closing Slide */
+.closing-section {
+    background: var(--background-dark);
+    text-align: center;
+    padding: 60px 10%;
+}
+
+.closing-section h2 {
+    font-size: 2.8rem;
+    font-family: 'Rubik Glitch', sans-serif;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: 100;
+}
+
+.closing-section p {
+    font-size: 1.4rem;
+    color: #CCCCCC;
+    margin-bottom: 30px;
+}
+
+/* Team Container */
+.team-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+/* Team Member Profiles */
+.team-member {
+    text-align: center;
+}
+
+.team-member img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid #CCCCCC;
+}
+
+.team-member p {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: white;
+}
+
+
+
+/* Black Background for Other Sections */
+#timeline, #location, #witnesses, #shapes, #sentiment {
+    background: var(--background-dark);
+}
+
+/* Headings */
+h1, h2 {
+    font-family: 'Rubik Glitch', sans-serif;
+    color: var(--text-header);
+    text-transform: uppercase;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+}
+
+/* Buttons */
+button {
+    font-family: 'Turret Road', sans-serif;
+    background: var(--alert-red);
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    transition: background 0.2s ease-in-out;
+}
+
+button:hover {
+    background: #B22222; /* Deeper red */
+}
+
+/* Smooth Scroll Effect */
+html {
+    scroll-behavior: smooth;
+}

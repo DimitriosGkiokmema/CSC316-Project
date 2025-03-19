@@ -18,8 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadData() {
 	// Load CSV file
 	d3.csv("data/NUFORCData.csv", row => {
-		// load date
-		row.Date = new Date(row.Date + " " + row.Time);
+		// Mine - ID,Date,Time,Duration,City,State,Country,Lat,Lon,TotalObservers,Summary,NumShips,Shape,NUFORC_Note,Explanation,Certainty,Highlight
+		// Theirs - Sighting ID,EventDate,EventTime,Duration,City,State,Country,Lat,Lon,TotalObservers,Summary,NumShips,Shape,NUFORC Note,Explanation,Certainty,Highlight
+		row.ID = +row['Sighting ID'];
+		row.Date = new Date(row.EventDate + " " + row.EventTime);
+		row.NUFORC = row['NUFORC Note'];
 
 		/* ------    load duration     ---------
 		The difficulty is that people gave MANY different formats,
@@ -42,7 +45,10 @@ function loadData() {
 		row.NumShips = +row.NumShips;
 
 		// Delete unnecessary columns
-        delete row.Time;
+		delete row['Sighting ID'];
+		delete row.EventDate;
+        delete row.EventTime;
+		delete row['NUFORC Note'];
 
 		return row;
 	}).then( data => {

@@ -1,91 +1,53 @@
-/* Global styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-/* Header styling */
-header {
-    text-align: center;
-    padding: 20px 0;
-}
-
-/* Top controls styling */
-#top-controls {
-    text-align: center;
-    margin: 20px 0;
-}
-
-#view-controls {
-    margin-bottom: 10px;
-}
-
-#main-content-map {
+/* Ensure the entire section takes full height */
+#map-analysis {
     display: flex;
-    flex-direction: row; /* Places map and filters side by side */
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;  /* Space between the map and filters */
-}
-  
-
-/* Adjust map container to shift map slightly to the left */
-#map-container {
-    margin-right: 20px;
-    width: 400px;
-    height: 400px;
+    height: 100vh; /* Full screen height */
+    width: 100%;
 }
 
-/* Filter container styling */
-#filter-container {
+/* This container ensures the map and info panel are side by side */
+#container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+/* Map styling - takes up 60% of screen */
+#map {
+    width: 60vw; /* 60% width */
+    height: 100vh;
+    position: relative; /* Ensures absolute elements like menu position correctly */
+}
+
+/* Info panel - properly positioned on the right */
+#info-panel {
+    flex: 0 0 40%; /* 40% width */
+    background-color: black; /* Dark background */
+    color: white;
+    padding: 20px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    gap: 20px;
+    justify-content: flex-start; /* Aligns content to the top */
+    align-items: center;
+    height: 100vh; /* Makes sure it matches map height */
 }
 
-/* Map styling */
-#map {
-    background-color: white;
-}
-
-/* Styling for the filter dropdowns */
-#witnesses-filter, #ships-filter {
-    text-align: left;
-}
-
-/* Decade controls styling */
-#decade-controls {
+/* Ensures panel text is properly centered */
+#info-panel h2 {
+    margin-top: 30px;
+    font-size: 28px;
+    margin-bottom: 10px;
     text-align: center;
-    margin: 10px 0;
+    font-family: "Special Elite";
 }
 
-#view-controls {
-    margin-bottom: 20px;  /* Adjust the value as needed */
-  }
-  
-
-/* Existing button styling */
-.view-btn {
-    padding: 10px 20px;
-    margin: 0 10px;
+#info-panel p {
     font-size: 16px;
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ccc;
-    cursor: pointer;
+    line-height: 1.5;
+    text-align: center;
+    font-family: "Special Elite";
 }
 
-.view-btn:hover {
-    background-color: #ddd;
-}
-
-.view-btn.active {
-    background-color: #333;
-    color: white;
-}
-
-
-
-/* Other existing styles remain unchanged */

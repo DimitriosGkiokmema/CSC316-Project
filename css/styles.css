@@ -1,157 +1,62 @@
-/***********/
-/*  Accessing Custom Fonts */
-/***********/
-@font-face {
-  font-family: 'aliens'; /* The name you will use in CSS */
-  src: url('/fonts/AliensAndCows.ttf') format('truetype');
-}
-
-/***********/
-/*  Header */
-/***********/
-.headerContainer {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background-color: white;
-}
-
-.headerContainer h1 {
-  font-family: 'aliens', serif;
-  font-size: 15vh;
-  /* background-color: red; */
-}
-
-.title {
-  font-size: 10vh;
-  font-family: 'aliens', sans-serif;
-}
-
-.header {
-  font-size: 20px;
-}
-
-/***********/
-/*   MAP   */
-/***********/
-
-#zoom-map-container {
-  position: relative;
-  width: 70%;
-  height: 100vh;
-}
-
-#map {
-  width: 100%;
-  height: 100%;
-}
-
-#menu {
-  position: absolute;
-  top: 10px;
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  background-color: #1F2833;
+  padding: 20px;
+  border: 2px solid #00FF41;
+  box-shadow: 0px 0px 10px rgba(0, 255, 65, 0.5);
+  width: 50%;
+  max-width: 400px;
+  text-align: left;
   z-index: 1000;
-  background: white;
-  padding: 8px 12px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  display: flex;
-  gap: 10px;
 }
-
-#menu button {
-  padding: 8px 12px;
-  cursor: pointer;
+.popup-content {
+  font-size: 16px;
+  color: #fff;
 }
-
-#container {
-  display: flex;
-}
-
-#info-panel {
-  width: 30%;
-  padding: 10px;
-  overflow-y: auto;
-}
-
-.province-link {
-  cursor: pointer;
-  font-size: 14px;
+.close-btn {
+  background: red;
+  border: none;
   color: white;
-  padding: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  float: right;
 }
-
-.province-link:hover {
+.highlight {
+  color: #00FF41;
+  cursor: pointer;
   text-decoration: underline;
 }
-
-.page-container {
-    scroll-snap-type: y mandatory;
-    overflow-y: auto; /* Allows scrolling */
-    height: 100vh;
-    scroll-behavior: smooth;
-    scrollbar-width: none; /* Hide scrollbar in Firefox */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
 }
 
-.page-container::-webkit-scrollbar {
-    display: none; /* Hide scrollbar in Chrome & Safari */
+.section-header {
+  margin-top: 250px;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-.page-section {
-    scroll-snap-align: start;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
-    background-color: black;
+.section-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  font-family: "Rubik Glitch";
 }
 
-
-/* Navigation Dots */
-.nav-dots {
-    position: fixed;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.dot {
-    width: 12px;
-    height: 12px;
-    background-color: gray;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.dot.active {
-    background-color: rgb(61, 59, 59);
-    transform: scale(1.3);
-}
-
-#mapSection {
-    display: block !important;
-}
-#shapeSection {
-    display: block !important;
-}
-
-/******************/
-/*    Line Chart  */
-/******************/
-#reportsOverTimeChart {
-  margin: auto;
-}
-
-/******************/
-/*    Witnesses   */
-/******************/
-.witness-btn, .ship-btn, #percentage-output {
-  color: black;
+.section-header p {
+  font-size: 1.2rem;
+  color: #CCCCCC; /* Adjust to match your theme */
+  max-width: 90%;
+  margin: 0 auto;
+  font-family: "Special Elite";
 }

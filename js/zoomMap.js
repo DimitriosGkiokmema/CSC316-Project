@@ -66,15 +66,16 @@
  function loadSightingsMap() {
      sightingsMapLayer.clearLayers();
      d3.csv("data/NUFORCData.csv").then(data => {
-         data.forEach(d => {
+        console.log("CSV Data Loaded:", data.slice(0, 5)); 
+        data.forEach(d => {
              const lat = parseFloat(d.Lat);
              const lon = parseFloat(d.Lon);
-             const certainty = d.Certainty;
+             const highlight = d.Highlight;
  
-             if (!isNaN(lat) && !isNaN(lon) && certainty === 'Probable' || certainty === 'Possible' || certainty === 'Certain') {
-                 const marker = L.marker([lat, lon], { icon: ufoIcon }).addTo(sightingsMapLayer);
-                 marker.on('click', () => showDetails(d));
-             }
+             if (!isNaN(lat) && !isNaN(lon) && highlight == -1) {
+                const marker = L.marker([lat, lon], { icon: ufoIcon }).addTo(sightingsMapLayer);
+                marker.on('click', () => showDetails(d));
+             } 
          });
      });
  }

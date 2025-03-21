@@ -222,64 +222,19 @@
 				</div>
 				<div id="main-content-shape">
 					<div id="line-chart-container" style="display: flex;">
-						<div class="col-7">
-							<div id="reportsOverTimeChart" style="min-height: 30vh; width: 100%;"></div>
+						<div class="col">
+							<div id="chart" style="min-height: 30vh; width: 100%;"></div>
+							<div id="controls">
+								<button id="play-pause">Play</button>
+								<button id="reset">Reset</button>
+							</div>
 						</div>
-						<div class="col-5">
-							<div id="reportsOverTimeTooltip" style="min-height: 40vh; width: 100%;"></div>
-						</div>
-					</div>
-					
-					<div id="decade-controls-shape" style="margin-top: 10vh;">
-						<label for="decade-dropdown-shape">Select Decade:</label>
-						<select id="decade-dropdown-shape">
-							<option value="All">All Reports</option>
-							<option value="1960">1960s and prior</option>
-							<option value="1970">1970s</option>
-							<option value="1980">1980s</option>
-							<option value="1990">1990s</option>
-							<option value="2000">2000s</option>
-							<option value="2010">2010s</option>
-							<option value="2020">2020s</option>
-						</select>
-						<span id="decade-label-shape" style="display: none;">1960s and prior</span>
 					</div>
 				</div>
-				
-				<div id="content-container">
-					<div id="left-section">
-						<div id="popularity-section">
-							<div id="buttons-column">
-								<button id="most-popular" class="popularity-button">Most Popular</button>
-								<button id="least-popular" class="popularity-button">Least Popular</button>
-							</div>
-							<div id="hovercrafts-column">
-								<div id="shape-1" class="hovercraft-wrapper">
-									<div class="hovercraft">
-										<div class="tooltip"></div>
-									</div>
-								</div>
-								<div id="shape-2" class="hovercraft-wrapper">
-									<div class="hovercraft">
-										<div class="tooltip"></div>
-									</div>
-								</div>
-								<div id="shape-3" class="hovercraft-wrapper">
-									<div class="hovercraft">
-										<div class="tooltip"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div id="pie-chart-container">
-							<svg id="pie-chart" width="300" height="300"></svg>
-						</div>
-					</div>
-					<div id="pop-culture-text">
-						<h3>Pop Culture References</h3>
-						<p>Insert your pop culture commentary or text here...</p>
-						<!-- TODO: Dimitrios will put some kind of easter egg for the alien movies -->
-					</div>
+				<div id="pop-culture-text" style="margin-top: 100px">
+					<h3>Pop Culture References</h3>
+					<p>Insert your pop culture commentary or text here...</p>
+					<!-- TODO: Dimitrios will put some kind of easter egg for the alien movies -->
 				</div>
 			</section>
 
@@ -358,7 +313,8 @@
 		<script src="js/clock.js"></script>
 		<script src="js/zoomMap.js"></script>
 		<script src="js/shape.js"></script>
-		<script src="js/reportsLineGraph.js"></script>
+		<!-- <script src="js/reportsLineGraph.js"></script> -->
+		<script src="js/line.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/scroll.js"></script>
 	</body>

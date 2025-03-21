@@ -13,6 +13,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Add button event listeners
+document.getElementById("play-pause").addEventListener("click", function () {
+	if (visualViewport.animationPaused) {
+		visualViewport.startAnimation();
+		this.textContent = "Pause";
+	} else {
+		reportsOverTimeChart.pauseAnimation();
+		this.textContent = "Play";
+	}
+});
+
+document.getElementById("reset").addEventListener("click", function () {
+	console.log("reset plz")
+	vis.resetAnimation();
+	document.getElementById("play-pause").textContent = "Play";
+});
+
 // Dataset column titles:
 // Date,Time,Duration,City,State,Country,Lat,Lon,TotalObservers,Summary,NumShips,Shape,NUFORC_Note,Explanation,Certainty
 function loadData() {

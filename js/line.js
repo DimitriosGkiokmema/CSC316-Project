@@ -1,9 +1,9 @@
 const margin = { top: 70, right: 50, bottom: 70, left: 80 }, // Increased top & bottom margins
-    parentElement = "chart";
+    parentElement = "reportsOverTimeChart";
     width = document.getElementById(parentElement).getBoundingClientRect().width - margin.left - margin.right,
     height = document.getElementById(parentElement).getBoundingClientRect().height - margin.top - margin.bottom;
 
-const svg = d3.select("#chart")
+const svg = d3.select("#" + parentElement)
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -85,7 +85,6 @@ d3.csv("data/NUFORCdata.csv").then(data => {
         .attr("r", 3.5)
         .attr("fill", "white")
         .attr("opacity", 0);
-    console.log("drew dots")
 
     path.attr("stroke-dasharray", totalLength + " " + totalLength)
         .attr("stroke-dashoffset", totalLength)

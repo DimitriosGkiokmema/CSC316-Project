@@ -4,19 +4,13 @@ let data;
 
 loadData();
 
-// For Scrolling
-// Maybe this is not needed as Haya created the side buttons
-document.addEventListener("DOMContentLoaded", function () {
-    const sections = document.querySelectorAll(".fullscreen");
-    sections.forEach(section => {
-        section.style.scrollSnapAlign = "start";
-    });
-});
-
-// Add button event listeners
+//////////////////////////////////////////////////////////
+/////////////       Listeners            /////////////////
+//////////////////////////////////////////////////////////
+// Play/pause line graph
 document.getElementById("play-pause").addEventListener("click", function () {
-	if (visualViewport.animationPaused) {
-		visualViewport.startAnimation();
+	if (reportsOverTimeChart.animationPaused) {
+		reportsOverTimeChart.startAnimation();
 		this.textContent = "Pause";
 	} else {
 		reportsOverTimeChart.pauseAnimation();
@@ -24,9 +18,9 @@ document.getElementById("play-pause").addEventListener("click", function () {
 	}
 });
 
-document.getElementById("reset").addEventListener("click", function () {
-	console.log("reset plz")
-	vis.resetAnimation();
+// Resets line graph
+document.getElementById("resetLine").addEventListener("click", function () {
+	reportsOverTimeChart.resetAnimation();
 	document.getElementById("play-pause").textContent = "Play";
 });
 

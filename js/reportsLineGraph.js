@@ -71,7 +71,6 @@ class ReportsLineChartVis {
 
         vis.wrangleData();
         vis.createAxis();
-        vis.createLine();
     }
 
     wrangleData() {
@@ -122,6 +121,9 @@ class ReportsLineChartVis {
 
         vis.totalLength = vis.path.node().getTotalLength();
 
+        vis.path.attr("stroke-dasharray", vis.totalLength + " " + vis.totalLength)
+            .attr("stroke-dashoffset", vis.totalLength);
+
         vis.updateVis();
     }
 
@@ -166,20 +168,6 @@ class ReportsLineChartVis {
             .text("Number of Reports");
     }
 
-    createLine() {
-        let vis = this;
-
-        // Update or create the line
-        vis.svg.selectAll(".line").remove(); // Remove existing line
-        vis.svg.append("path")
-            .datum(vis.lineData)
-            .attr("class", "line")
-            .attr("fill", "none")
-            .attr("stroke", "white")
-            .attr("stroke-width", 1)
-            .attr("d", vis.line);
-    }
-
     updateVis() {
         let vis = this;
 
@@ -192,6 +180,7 @@ class ReportsLineChartVis {
             .append("circle")
             .attr("class", "data-point")
             .attr("r", 3) // Default radius
+            .attr("opacity", 0) // Hidden at start
             .attr("fill", "#6DD0EB")
             .on("mouseover", (event, d) => {
                 // Highlight on hover
@@ -226,8 +215,31 @@ class ReportsLineChartVis {
         // EXIT: Remove unused circles
         vis.circles.exit().remove();
 
+        // vis.displayLine();
         vis.displayUFOs();
     }
+
+    // displayLine() {
+    //     let vis = this;
+
+    //     // Bind data to circles
+    //     vis.lines = vis.svg.selectAll(".line")
+    //         .data(vis.lineData, d => d.year); // Use year as key for data binding
+
+    //     // ENTER: Create new circles
+    //     vis.lines.enter()
+    //         .append("path")
+    //         .attr("class", "line")
+    //         .attr("fill", "none")
+    //         .attr("stroke", "white")
+    //         .attr("stroke-width", 1)
+    //         .attr("opacity", 0) // Hidden at start
+    //         .merge(vis.lines)
+    //         .attr("d", vis.line);
+
+    //     // EXIT: Remove unused circles
+    //     vis.lines.exit().remove();
+    // }
 
     displayUFOs() {
         let vis = this;
@@ -264,6 +276,17 @@ class ReportsLineChartVis {
             .on("click", function (event, d) {
                 vis.showPopup(d.year, d.text);
             });
+    }
+
+    updateUFOs(currentX) {
+        let vis = this;
+
+        vis.ufoIcons.each(function (d) {
+            let ufo = d3.select(this);
+            if (vis.xScale(d.year) <= currentX && ufo.attr("opacity") == 0) { 
+                ufo.attr("opacity", 1);
+            }
+        });
     }
 
     showSidebar(d) {
@@ -333,7 +356,6 @@ class ReportsLineChartVis {
 
         vis.animationPaused = true;
         vis.animationStarted = false;
-        console.log(vis.timer)
         vis.timer.stop();
     }
 
@@ -344,22 +366,11 @@ class ReportsLineChartVis {
         vis.animationStarted = false;
         vis.animationPaused = true;
         vis.progress = 0;
-        vis.path.attr("stroke-dashoffset", totalLength);
+        vis.path.attr("stroke-dashoffset", vis.totalLength);
         vis.circles.attr("opacity", 0);
         vis.timer.stop();
 
         vis.ufoIcons.attr("opacity", 0)
-    }
-
-    updateUFOs(currentX) {
-        let vis = this;
-
-        vis.ufoIcons.each(function (d) {
-            let ufo = d3.select(this);
-            if (vis.xScale(d.year) <= currentX && ufo.attr("opacity") == 0) { 
-                ufo.attr("opacity", 1);
-            }
-        });
     }
 
     // Function to show pop-up (only one at a time)

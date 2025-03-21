@@ -87,7 +87,7 @@ class ReportsLineChartVis {
         // Convert to an array of { year, value } objects
         vis.lineData = Object.entries(rawData).map(([year, value]) => ({
             year: +year,
-            value: value
+            value: +value
         }));
 
         let edges = { minYear: vis.lineData[0].year, maxYear: 0, minCount: 0, maxCount: 0 };
@@ -112,7 +112,7 @@ class ReportsLineChartVis {
         vis.xScale.domain([edges.minYear, edges.maxYear]);
         vis.yScale.domain([edges.minCount, edges.maxCount]);
 
-        vis.path = svg.append("path")
+        vis.path = vis.svg.append("path")
             .datum(vis.lineData)
             .attr("fill", "none")
             .attr("stroke", "white")
@@ -123,7 +123,7 @@ class ReportsLineChartVis {
 
         vis.path.attr("stroke-dasharray", vis.totalLength + " " + vis.totalLength)
             .attr("stroke-dashoffset", vis.totalLength);
-
+        console.log(vis.path)
         vis.updateVis();
     }
 
@@ -215,31 +215,31 @@ class ReportsLineChartVis {
         // EXIT: Remove unused circles
         vis.circles.exit().remove();
 
-        // vis.displayLine();
+        vis.displayLine();
         vis.displayUFOs();
     }
 
-    // displayLine() {
-    //     let vis = this;
+    displayLine() {
+        let vis = this;
 
-    //     // Bind data to circles
-    //     vis.lines = vis.svg.selectAll(".line")
-    //         .data(vis.lineData, d => d.year); // Use year as key for data binding
+        // Bind data to circles
+        vis.lines = vis.svg.selectAll(".line")
+            .data(vis.lineData, d => d.year); // Use year as key for data binding
 
-    //     // ENTER: Create new circles
-    //     vis.lines.enter()
-    //         .append("path")
-    //         .attr("class", "line")
-    //         .attr("fill", "none")
-    //         .attr("stroke", "white")
-    //         .attr("stroke-width", 1)
-    //         .attr("opacity", 0) // Hidden at start
-    //         .merge(vis.lines)
-    //         .attr("d", vis.line);
+        // ENTER: Create new circles
+        vis.lines.enter()
+            .append("line")
+            .attr("class", "line")
+            .attr("fill", "none")
+            .attr("stroke", "white")
+            .attr("stroke-width", 1)
+            .attr("opacity", 0) // Hidden at start
+            .merge(vis.lines)
+            .attr("d", vis.line);
 
-    //     // EXIT: Remove unused circles
-    //     vis.lines.exit().remove();
-    // }
+        // EXIT: Remove unused circles
+        vis.lines.exit().remove();
+    }
 
     displayUFOs() {
         let vis = this;
@@ -251,7 +251,7 @@ class ReportsLineChartVis {
             .append("text")
             .attr("class", "ufo")
             .attr("x", d => vis.xScale(d.year))
-            .attr("y", d => vis.yScale(d.sightings) - 20) // Slightly above the line
+            .attr("y", d => vis.yScale(d.sightings) - 5) // Slightly above the line
             .attr("font-size", "25px")
             .attr("opacity", 0) // Hidden at start
             .text("🛸") // UFO emoji
@@ -321,11 +321,11 @@ class ReportsLineChartVis {
         if (vis.animationStarted) return; // Prevent multiple starts
         vis.animationStarted = true;
         vis.animationPaused = false;
-        vis.startTime = Date.now() - (vis.progress * 8000); // Resume from progress point
+        vis.startTime = Date.now() - (vis.progress * 4000); // Resume from progress point
 
         vis.timer = d3.timer(function () {
             let elapsed = Date.now() - vis.startTime;
-            vis.progress = elapsed / 8000; // 8 sec total animation
+            vis.progress = elapsed / 4000; // 8 sec total animation
 
             if (vis.progress > 1) {
                 vis.progress = 1;

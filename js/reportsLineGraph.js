@@ -42,6 +42,10 @@ class ReportsLineChartVis {
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
             .style('opacity', 0);
+
+        vis.circleTooltip = d3.select("body").append('div')
+            .attr('class', "circleTooltip")
+            .style('opacity', 0);
         
         // Variables for controlling animation
         vis.animationPaused = true;
@@ -172,11 +176,11 @@ class ReportsLineChartVis {
         let vis = this;
 
         // Bind data to circles
-        vis.circles = vis.svg.selectAll("circle")
+        const circleUpdates = vis.svg.selectAll(".data-point")
             .data(vis.lineData, d => d.year); // Use year as key for data binding
 
         // ENTER: Create new circles
-        vis.circles.enter()
+        circleUpdates.enter()
             .append("circle")
             .attr("class", "data-point")
             .attr("r", 3) // Default radius
@@ -188,13 +192,12 @@ class ReportsLineChartVis {
                     .attr("r", 5) // Increase radius
                     .attr("fill", "orange");
 
-                // Show tooltip
-                vis.tooltip.transition()
-                    .duration(200)
-                    .style("opacity", 1);
-                vis.tooltip.html(`Year: ${d.year}<br>Reports: ${d.value}`)
+                // Show circleTooltip
+                vis.circleTooltip.style("opacity", 1);
+                vis.circleTooltip.html(`Year: ${d.year}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
+                console.log(d3.select(".circleTooltip").node());
             })
             .on("mouseout", (event, d) => {
                 // Reset on mouseout
@@ -202,18 +205,19 @@ class ReportsLineChartVis {
                     .attr("r", 3) // Reset radius
                     .attr("fill", "#6DD0EB");
 
-                // Hide tooltip
-                vis.tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
+                // Hide circleTooltip
+                vis.circleTooltip.style("opacity", 0);
             })
             .on("click", (event, d) => vis.showSidebar(d))
-            .merge(vis.circles)
+            .merge(circleUpdates)
             .attr("cx", d => vis.xScale(d.year))
             .attr("cy", d => vis.yScale(d.value));
 
         // EXIT: Remove unused circles
-        vis.circles.exit().remove();
+        circleUpdates.exit().remove();
+
+        // Stores the complete selection for later use
+        vis.circles = vis.svg.selectAll(".data-point")
 
         vis.displayLine();
         vis.displayUFOs();
@@ -222,11 +226,11 @@ class ReportsLineChartVis {
     displayLine() {
         let vis = this;
 
-        // Bind data to circles
+        // Bind data to lin
         vis.lines = vis.svg.selectAll(".line")
             .data(vis.lineData, d => d.year); // Use year as key for data binding
 
-        // ENTER: Create new circles
+        // ENTER: Create new line parts
         vis.lines.enter()
             .append("line")
             .attr("class", "line")
@@ -237,7 +241,7 @@ class ReportsLineChartVis {
             .merge(vis.lines)
             .attr("d", vis.line);
 
-        // EXIT: Remove unused circles
+        // EXIT: Remove unused line parts
         vis.lines.exit().remove();
     }
 
@@ -336,12 +340,12 @@ class ReportsLineChartVis {
             let currentPoint = vis.path.node().getPointAtLength(currentLength);
             let currentX = currentPoint.x;
 
-            // ** Fix: Keep the line continuing smoothly instead of restarting **
+            // ** Keeps the line continuing smoothly instead of restarting **
             vis.path.attr("stroke-dashoffset", vis.totalLength * (1 - vis.progress));
 
             // Ensure dots continue appearing at the right time
             vis.circles.each(function (d) {
-                if (x(d.year) <= currentX) {
+                if (vis.xScale(d.year) <= currentX) {
                     d3.select(this).attr("opacity", 1);
                 }
             });

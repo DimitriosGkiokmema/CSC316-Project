@@ -1,6 +1,7 @@
 // Creating vis and data variables
 let reportsOverTimeChart;
 let data;
+let movies;
 
 loadData();
 
@@ -64,7 +65,6 @@ function loadData() {
 		return row;
 	}).then( data => {
 		initVars(data);
-		displayVis();
 	});
 }
 
@@ -73,10 +73,26 @@ function getDuration(time) {
 	// TODO
 }
 
-function initVars(data) {
-	reportsOverTimeChart = new ReportsLineChartVis("reportsOverTimeChart", data);
-}
+async function initVars(data) {
+	let promises = [
+        d3.csv("data/movieData.csv")
+    ];
+    try {
+        movies = await Promise.all(promises);
+		movies = movies[0];
+    } catch (err) {
+        console.error(err);
+    }
 
-function displayVis() {
-	// TODO
+	// name,releaseDate,profit,rating
+	movies = movies.map(function(d) {
+		d.releaseDate = new Date(d.releaseDate);
+		d.profit = +d.profit;
+		d.rating = +d.rating;
+
+		return d;
+	})
+	console.log(movies)
+
+	reportsOverTimeChart = new ReportsLineChartVis("reportsOverTimeChart", data, movies);
 }

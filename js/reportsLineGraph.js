@@ -1,8 +1,9 @@
 class ReportsLineChartVis {
 
-    constructor(parentElement, data) {
+    constructor(parentElement, data, movieData) {
         this.parentElement = parentElement;
         this.data = data;
+        this.movieData = movieData;
 
         this.initVis();
     }
@@ -10,7 +11,7 @@ class ReportsLineChartVis {
     initVis() {
         let vis = this;
 
-        vis.margin = { top: 20, right: 20, bottom: 50, left: 55 };
+        vis.margin = { top: 20, right: 50, bottom: 50, left: 70 };
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
@@ -41,14 +42,7 @@ class ReportsLineChartVis {
 
         // Append tooltip
         vis.tooltip = d3.select("body").append('div')
-            .attr('class', "circleTooltip")
-            .style("position", "absolute")
-            .style("background", "black")
-            .style("color", "white")
-            .style("padding", "5px")
-            .style("border", "1px solid white")
-            .style("border-radius", "5px")
-            .style("display", "none");
+            .attr('class', "circleTooltip");
         
         // Variables for controlling animation
         vis.animationPaused = true;
@@ -130,7 +124,7 @@ class ReportsLineChartVis {
 
         vis.path.attr("stroke-dasharray", vis.totalLength + " " + vis.totalLength)
             .attr("stroke-dashoffset", vis.totalLength);
-        console.log(vis.path)
+
         vis.updateVis();
     }
 
@@ -303,12 +297,31 @@ class ReportsLineChartVis {
 
     showSidebar(d) {
         let vis = this;
-        let str = `<h3>${d.year}</h3> 
+        let yearData = `<h3>${d.year}</h3> 
         <span style="display: block;"># Reports: ${d.value}</span>
-        <span style="display: block;">Change from previous year: ${vis.getReportIncrease(d)}%</span>
-        <span style="display: block; height: 100%; width: 100%;" id="reportsOverTimePieGraph"><span>`;
+        <span style="display: block;">Change from previous year: ${vis.getReportIncrease(d)}%</span>`;
 
-        d3.select("#reportsOverTimeTooltip").html(str);
+        let movies = `<h3>Movies Released in ${d.year}</h3><table><tr><th>Title</th><th>Released</th><th>Profit</th><th>Rating</th>`;
+        // <table>
+        //     <tr>
+        //         <th>Company</th>
+        //         <th>Contact</th>
+        //         <th>Country</th>
+        //     </tr>
+        //     <tr>
+        //         <td>Alfreds Futterkiste</td>
+        console.log(vis.movieData)
+        // name,releaseDate,profit,rating
+        vis.movieData.forEach(function(movie) {
+            if (movie.releaseDate.getFullYear() == d.year) {
+                movies = movies + `<tr><td>${movie.name}</td><td>${movie.releaseDate.getFullYear()}</td><td>${movie.profit}</td><td>${movie.rating}%</td></tr>`;
+            }
+        });
+
+        movies = movies + "</table>"
+
+        d3.select("#yearData").html(yearData);
+        d3.select("#movieData").html(movies);
     }
 
     getReportIncrease(entry) {

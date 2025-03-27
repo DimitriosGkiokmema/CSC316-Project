@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ufoSightings = {}; // Reset
 
         fullData.forEach(row => {
-            const dateStr = row["Date"]?.trim();
+            const dateStr = row["EventDate"]?.trim();
             const shape = row["Shape"]?.trim();
             if (!dateStr || !shape) return; // Skip missing data
 

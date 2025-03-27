@@ -35,9 +35,11 @@
  const map = L.map('map').setView([56.1304, -106.3468], 4);
  
  // Load tiles
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-     attribution: '&copy; OpenStreetMap contributors'
- }).addTo(map);
+L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 20,
+	ext: 'png'
+}).addTo(map);
  
  let sightingsMapLayer = L.layerGroup();
  let airportsMapLayer = L.layerGroup();
@@ -114,7 +116,11 @@
  function showSightingsMap() {
      map.setView([56.1304, -106.3468], 4);
      map.eachLayer(layer => map.removeLayer(layer));
-     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+     L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 20,
+        ext: 'png'
+    }).addTo(map);
      sightingsMapLayer.addTo(map);
  
      // Reset panel content
@@ -127,7 +133,11 @@
  function showAirportsMap() {
      map.setView([56.1304, -106.3468], 4);
      map.eachLayer(layer => map.removeLayer(layer));
-     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+     L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 20,
+        ext: 'png'
+    }).addTo(map);
      airportsMapLayer.addTo(map);
  
      const provinces = {

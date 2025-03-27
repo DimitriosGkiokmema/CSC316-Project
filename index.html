@@ -74,23 +74,26 @@
 					<div class="row">
 						<div class="col">
 							<div id="reportsOverTimeChart" style="min-height: 50vh; width: 100%;"></div>
-							<div id="controls" style="display: block;">
+							<div id="controls" style="display: block; justify-self: center;">
 								<button id="play-pause">Play</button>
 								<button id="resetLine">Reset</button>
 							</div>
 						</div>
 					</div>
-					<div class="row" style="height: 30vh; color: black;">
-						<div class="col" id="yearData">
-							Click a point on the line to view its statistics
+					<div id="lineSidebar" class="row" style="height: 30vh; color: black; text-align: center;">
+						<div class="col" id="yearDataContainer">
+							<div id="yearData"></div>
+							<h3>Click a point on the line to view its statistics</h3>
 						</div>
-						<div class="col" id="movieData">
-							Click a point on the line to view its cultural impact
+						<div class="col" id="movieDataContainer">
+							<div id="movieData"></div>
+							<h3>Click a green point on the line to view the alien movies released on that year</h3>
 						</div>
 					</div>
 				</div>
 			</section>
 
+			<!-- Clock -->
 			<div class="section-header">
 				<h2>🕒 When Do UFOs Appear?</h2>
 				<p>Click "Play" to watch sightings change by the hour. Pause and drag the clock hand to explore different times. Toggle seasons to see if UFOs are more common in summer or winter.</p>
@@ -133,8 +136,8 @@
 							<h3>Zone Thresholds</h3>
 							<p id="zone-text"></p>
 						</div>
-						<div id="zone-insight" class="zone-insight"></div>
 						<button id="toggle-threshold-lines" class="toggle-btn">Toggle Threshold Lines</button>
+						<div id="zone-insight" class="zone-insight"></div>
 					</div>	
 				</div>		
 			</section>
@@ -151,7 +154,7 @@
 					<div id="zoom-map-container">
 						<div id="menu">
 							<button onclick="showSightingsMap()">Key Sightings</button>
-							<button onclick="showAirportsMap()">Sightings vs. Canadian Airports and Airbases</button>
+							<button onclick="showAirportsMap()">All Sightings vs. Canadian Airports and Airbases</button>
 						</div>
 						<div id="map"></div>
 					</div>
@@ -222,7 +225,6 @@
 			<!-- Shape Visualization -->
 			<section id="shape-analysis">
 				<div id = "container">
-
 					<!-- Container for Night Sky and UFO Shapes -->
 					<div id="night-sky">
 						<svg class="ufo-shape" data-x="480" data-y="60" id="shape-disk" width="160" height="80" viewBox="320 255 160 80">

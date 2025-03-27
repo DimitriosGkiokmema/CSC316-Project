@@ -51,6 +51,7 @@
   font-size: 2.5rem;
   margin-bottom: 30px;
   font-family: "Rubik Glitch";
+  color: white;
 }
 
 .section-header p {
@@ -232,7 +233,14 @@
   display: none;
 }
 
-#yearData {
+#lineSidebar h3{
+  font-size: 30px;
+  color: black;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+#yearDataContainer {
   background-color: #b5b1b1;
   border-radius: 5px;
   border-width: 2px;
@@ -240,7 +248,7 @@
   margin-left: 20px;
 }
 
-#movieData {
+#movieDataContainer {
   background-color: #b5b1b1;
   border-radius: 5px;
   border-width: 2px;

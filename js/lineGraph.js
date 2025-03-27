@@ -125,6 +125,8 @@ class ReportsLineChartVis {
         vis.path.attr("stroke-dasharray", vis.totalLength + " " + vis.totalLength)
             .attr("stroke-dashoffset", vis.totalLength);
 
+        vis.dashedLines = [];
+
         vis.updateVis();
     }
 
@@ -156,7 +158,7 @@ class ReportsLineChartVis {
             .attr("text-anchor", "middle")
             .attr("x", vis.width / 2)
             .attr("y", vis.height + 40)
-            .text("Time")
+            .text("Years")
             .style("fill", "white");
 
         // Y-axis label
@@ -177,6 +179,7 @@ class ReportsLineChartVis {
         // Bind data to circles
         const circleUpdates = vis.svg.selectAll(".data-point")
             .data(vis.lineData, d => d.year); // Use year as key for data binding
+        console.log(vis.lineData)
 
         // ENTER: Create new circles
         circleUpdates.enter()
@@ -184,7 +187,13 @@ class ReportsLineChartVis {
             .attr("class", "data-point")
             .attr("r", 3) // Default radius
             .attr("opacity", 0) // Hidden at start
-            .attr("fill", "#6DD0EB")
+            .attr("fill", d => {
+                if (vis.checkMovies(d.year)) {
+                    return "rgb(7, 212, 51)";
+                }
+
+                return "#6DD0EB";
+            })
             .on("mouseover", (event, d) => {
                 // Highlight on hover
                 d3.select(event.currentTarget)
@@ -205,7 +214,13 @@ class ReportsLineChartVis {
                 // Reset on mouseout
                 d3.select(event.currentTarget)
                     .attr("r", 3) // Reset radius
-                    .attr("fill", "#6DD0EB");
+                    .attr("fill", d => {
+                        if (vis.checkMovies(d.year)) {
+                            return "rgb(7, 212, 51)";
+                        }
+        
+                        return "#6DD0EB";
+                    })
 
                 // Hide tooltip
                 vis.tooltip.style("display", "none");
@@ -223,6 +238,7 @@ class ReportsLineChartVis {
 
         vis.displayLine();
         vis.displayUFOs();
+        vis.createDashedLine();
     }
 
     displayLine() {
@@ -256,11 +272,11 @@ class ReportsLineChartVis {
             .enter()
             .append("text")
             .attr("class", "ufo")
-            .attr("x", d => vis.xScale(d.year))
-            .attr("y", d => vis.yScale(d.sightings) - 5) // Slightly above the line
+            .attr("x", d => vis.xScale(d.year) - 17)
+            .attr("y", d => vis.yScale(vis.lineData.find(item => item.year === parseInt(d.year)).value) - 20) // Slightly above the line
             .attr("font-size", "25px")
             .attr("opacity", 0) // Hidden at start
-            .text("🛸") // UFO emoji
+            .text("📝") // Note emoji
             .style("cursor", "pointer")
             .on("mouseover", function (event, d) {
                 if (d3.select(this).attr("opacity") == 1) { // Only show tooltip if UFO is visible
@@ -284,6 +300,48 @@ class ReportsLineChartVis {
             });
     }
 
+    // Function to create a dashed line dynamically
+    createDashedLine() {
+        let vis = this;
+        let eventYears = vis.ufoEvents.map(function(d) {
+            return d.year;
+        })
+        
+        // Clear previous dashed lines if needed
+        vis.svg.selectAll(".dashedLine").remove();
+        
+        // Create and store the selection
+        vis.dashedLines = vis.svg.selectAll(".dashedLine")
+            .data(vis.lineData)
+            .enter()
+            .append("line")
+            .attr("class", "dashedLine")
+            .attr("stroke", "red")
+            .attr("stroke-width", 2)
+            .attr("stroke-dasharray", "5,5")
+            .attr("opacity", 0)
+            .attr("x1", d => {
+                if (eventYears.includes(d.year)) {
+                    return vis.xScale(d.year);
+                }
+            })
+            .attr("y1", d => {
+                if (eventYears.includes(d.year)) {
+                    return vis.yScale(d.value);
+                }
+            })
+            .attr("x2", d => {
+                if (eventYears.includes(d.year)) {
+                    return vis.xScale(d.year);
+                }
+            })
+            .attr("y2", d => {
+                if (eventYears.includes(d.year)) {
+                    return vis.yScale(d.value) - 15;
+                }
+            })
+    }
+
     updateUFOs(currentX) {
         let vis = this;
 
@@ -295,15 +353,27 @@ class ReportsLineChartVis {
         });
     }
 
+    checkMovies(year) {
+        let vis = this;
+        let yearExists = false;
+
+        vis.movieData.forEach(function(movie) {
+            if (movie.releaseDate.getFullYear() == year) {
+                yearExists = true;
+            }
+        });
+
+        return yearExists;
+    }
+
     showSidebar(d) {
         let vis = this;
-        let yearData = `<h3>${d.year}</h3> 
+        let yearData = `<h2>${d.year}</h2> 
         <span style="display: block;"># Reports: ${d.value}</span>
         <span style="display: block;">Change from previous year: ${vis.getReportIncrease(d)}%</span>`;
 
-        let movies = `<h3>Movies Released in ${d.year}</h3><table><tr><th>Title</th><th>Profit</th><th>Rating</th>`;
+        let movies = `<h2>Alien Movies Released in ${d.year}</h2><table><tr><th>Title</th><th>Profit</th><th>Rating</th>`;
 
-        console.log(vis.movieData)
         // name,releaseDate,profit,rating
         vis.movieData.forEach(function(movie) {
             if (movie.releaseDate.getFullYear() == d.year) {
@@ -358,11 +428,18 @@ class ReportsLineChartVis {
             vis.path.attr("stroke-dashoffset", vis.totalLength * (1 - vis.progress));
 
             // Ensure dots continue appearing at the right time
-            vis.circles.each(function (d) {
+            vis.circles.each(function(d) {
                 if (vis.xScale(d.year) <= currentX) {
                     d3.select(this).attr("opacity", 1);
                 }
             });
+
+            // Update dashed lines
+            vis.dashedLines
+                .filter(d => vis.xScale(d.year) <= currentX)
+                .transition()
+                .duration(200)
+                .attr("opacity", 1);
 
             vis.updateUFOs(currentX);
         });
@@ -389,16 +466,18 @@ class ReportsLineChartVis {
         vis.timer.stop();
 
         vis.ufoIcons.attr("opacity", 0)
+        vis.dashedLines.attr("opacity", 0);
+
     }
 
     // Function to show pop-up (only one at a time)
     showPopup(year, text) {
         // Remove any existing pop-up
-        d3.select(".popup").remove();
+        d3.select(".UFOpopup").remove();
 
         // Create new pop-up
         const popup = d3.select("body").append("div")
-            .attr("class", "popup")
+            .attr("class", "UFOpopup")
             .html(`
                 <div style="display: flex; justify-content: space-between;">
                     <strong>${year} UFO Event</strong>

@@ -53,6 +53,14 @@
   font-family: "Rubik Glitch";
 }
 
+.section-header p {
+  font-size: 1.2rem;
+  color: #CCCCCC; /* Adjust to match your theme */
+  max-width: 90%;
+  margin: 0 auto;
+  font-family: "Special Elite";
+}
+
 .dot {
     width: 12px;
     height: 12px;

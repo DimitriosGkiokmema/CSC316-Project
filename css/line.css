@@ -1,59 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Special+Elite&family=Turret+Road:wght@100;400;700&display=swap');
+
 body {
     background-color: black;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
 }
 
-#chart-container {
+
+.top-center {
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    position: relative;
-    margin-top: -100px;
+    margin-bottom: -25px;
+    margin-top: -150px;
 }
 
-#controls {
+
+
+.season-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.season-btn {
+    padding: 8px 16px;
+    font-size: 18px;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: "Turret Road";
+    font-weight: 700;
+}
+
+.season-btn.selected {
+    background-color: white;
+    color: black; 
+}
+
+
+.clock-container {
+    position: relative;
+    display: flex;
+    align-items: center; /* Ensures vertical alignment */
+    justify-content: flex-start; /* Aligns elements to the left */
+    width: 100%;
+    gap: 100px;
+}
+
+
+
+.clock-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    position: absolute;
-    right: 8%;
+    align-items: center;
+    text-align: center;
+    justify-content: center; /* Centers it vertically */
+    margin-top: 60px;
+    margin-left: -50px;
 }
 
-#chart-container button { /* <-- Restrict to line viz buttons */
+
+
+
+#time-display {
+    color: white;
+    text-align: center;
+    font-size: 24px; 
+    font-family: "Turret Road";
+    font-weight: 100;
+    letter-spacing: 3px;
+    margin-bottom: -20px;
+    margin-left: -40px;
+}
+
+#play, #reset {
     background-color: white;
     color: black;
-    border: none;
+    font-family: "Turret Road";
+    font-weight: 600;
+    font-size: 18px;
     padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-right: -50px;
+    letter-spacing: 1px;
 }
 
-#chart-container button:hover {
-    background-color: gray;
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: -150px;
+    margin-left: -43px;
 }
 
-svg {
-    width: 80%;
-    height: 500px;
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers contents */
+    justify-content: center;
+    margin-top: 30px; /* Space below season buttons */
+    width: 60%; /* Adjust width to fit content */
+    margin-left: -250px; /* ✅ Removes the negative push */
+    max-width: 800px; /* ✅ Ensures it doesn’t stretch */
+    text-align: center;
 }
 
-.popup {
-    position: fixed;
+
+
+.sightings-info {
+    display: flex;
+    margin-top: 20px;
+}
+
+#sightings-count {
+    margin-top: 25px;
+    margin-left: 10px;
+    font-size: 24px !important; /* Force smaller size */
+    color: white !important;
+    font-weight: 100 !important;
+    font-family: "Turret Road";
+}
+
+
+/* UFO Hovering Effect */
+.hovering-ufo {
+    width: 100px; 
+    animation: floatUFO 2s infinite alternate ease-in-out;
+}
+
+@keyframes floatUFO {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-10px); }
+}
+
+
+
+.line-chart-container {
+    width: 100%;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center chart */
+    justify-content: center;
+    margin: 20px 0; /* Space between chart and sightings count */
+}
+
+
+
+h3 {
+    color: grey;
+    font-weight: 100;
+    font-family: "Turret Road";
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
+
+
+#zone-container {
+    position: absolute;
+    right: 10px; /* Reduce spacing */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px; /* Reduce width */
+}
+
+
+
+.zone-info {
     background: black;
     color: white;
-    padding: 20px;
+    font-family: 'Turret Road', sans-serif;
+    padding: 12px;
     border: 1px solid white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    z-index: 1000;
+    width: 180px; /* ✅ Keeps it compact */
     text-align: center;
-    width: 300px;
+    font-size: 14px;
+    margin-bottom: 10px; /* ✅ Space between info box & button */
+    letter-spacing: 2px;
 }
 
+
+.zone-details {
+    background: black;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid white;
+    display: none;
+    margin-top: 10px;
+}
+
+
+.zone-insight {
+    background: black;
+    color: white;
+    padding: 30px;
+    border: 1px solid white;
+    font-size: 18px;
+    text-align: center;
+    width: 220px;
+    margin-top: 10px;
+    font-family: "Turret Road";
+    font-weight: 100;
+    letter-spacing: 2px;
+}
+
+
+
+
+.toggle-btn {
+    background: none;
+    color: white;
+    border: 2px solid white;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    width: 100%;
+}
+
+.toggle-btn:hover {
+    background: white;
+    color: black;
+}

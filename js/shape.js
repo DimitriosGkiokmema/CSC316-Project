@@ -55,9 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
         
     }
 
-
-
-
     function updateShapeSizes() {
         const maxSightings = Math.max(...Object.values(ufoSightings));
         const minSightings = Math.min(...Object.values(ufoSightings));

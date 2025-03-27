@@ -301,20 +301,13 @@ class ReportsLineChartVis {
         <span style="display: block;"># Reports: ${d.value}</span>
         <span style="display: block;">Change from previous year: ${vis.getReportIncrease(d)}%</span>`;
 
-        let movies = `<h3>Movies Released in ${d.year}</h3><table><tr><th>Title</th><th>Released</th><th>Profit</th><th>Rating</th>`;
-        // <table>
-        //     <tr>
-        //         <th>Company</th>
-        //         <th>Contact</th>
-        //         <th>Country</th>
-        //     </tr>
-        //     <tr>
-        //         <td>Alfreds Futterkiste</td>
+        let movies = `<h3>Movies Released in ${d.year}</h3><table><tr><th>Title</th><th>Profit</th><th>Rating</th>`;
+
         console.log(vis.movieData)
         // name,releaseDate,profit,rating
         vis.movieData.forEach(function(movie) {
             if (movie.releaseDate.getFullYear() == d.year) {
-                movies = movies + `<tr><td>${movie.name}</td><td>${movie.releaseDate.getFullYear()}</td><td>${movie.profit}</td><td>${movie.rating}%</td></tr>`;
+                movies = movies + `<tr><td>${movie.name}</td><td>${movie.profit}</td><td>${movie.rating}%</td></tr>`;
             }
         });
 

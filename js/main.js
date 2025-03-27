@@ -92,7 +92,6 @@ async function initVars(data) {
 
 		return d;
 	})
-	console.log(movies)
 
 	reportsOverTimeChart = new ReportsLineChartVis("reportsOverTimeChart", data, movies);
 }

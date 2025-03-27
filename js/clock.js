@@ -208,7 +208,7 @@ function updateSightingsForHour(hour, season = "all") {
         let filteredSightings = (season === "all") 
             ? sightingsData 
             : sightingsData.filter(d => {
-                let month = parseInt(d.Date.split("/")[0]); 
+                let month = parseInt(d.EventDate.split("/")[0]); 
                 return (season === "winter" && [12, 1, 2].includes(month)) ||
                     (season === "spring" && [3, 4, 5].includes(month)) ||
                     (season === "summer" && [6, 7, 8].includes(month)) ||
@@ -216,8 +216,9 @@ function updateSightingsForHour(hour, season = "all") {
             });
 
         let sightingsPerHour = new Array(24).fill(0);
+        console.log(sightingsPerHour)
         filteredSightings.forEach(d => {
-            let rawTime = d.Time.trim(); 
+            let rawTime = d.EventTime.trim(); 
             let isPM = rawTime.includes("PM");
             let eventHour = parseInt(rawTime.split(":")[0]); 
 
@@ -461,7 +462,7 @@ function getLineChartData(season) {
     let filteredSightings = (season === "all") 
         ? sightingsData 
         : sightingsData.filter(d => {
-            let month = parseInt(d.Date.split("/")[0]); 
+            let month = parseInt(d.EventDate.split("/")[0]); 
             return (season === "winter" && [12, 1, 2].includes(month)) ||
                 (season === "spring" && [3, 4, 5].includes(month)) ||
                 (season === "summer" && [6, 7, 8].includes(month)) ||
@@ -469,7 +470,7 @@ function getLineChartData(season) {
         });
 
     filteredSightings.forEach(d => {
-        let rawTime = d.Time.trim();
+        let rawTime = d.EventTime.trim();
         let isPM = rawTime.includes("PM");
         let eventHour = parseInt(rawTime.split(":")[0]);
 

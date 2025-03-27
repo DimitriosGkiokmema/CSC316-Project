@@ -12,6 +12,8 @@
     height: 100%;
 }
 
+
+
 /* Map styling - takes up 60% of screen */
 #map {
     width: 60vw; /* 60% width */
@@ -48,4 +50,3 @@
     text-align: center;
     font-family: "Special Elite";
 }
-

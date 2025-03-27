@@ -1,192 +1,153 @@
-/* Title styling */
-#page-title {
-    text-align: center;
-    margin: 20px 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Special+Elite&family=Turret+Road:wght@400;700&display=swap');
 
-#page-title h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-}
-
-#line-chart-container {
-    height: 150px; /* Adjust as needed */
-    margin-left: 50px;
-    margin-right: 80px;
-}
-#line-chart {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-/* Centered dropdown decade filter styling */
-#decade-controls-shape {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-}
+/* Reset default styles */
+#shape-analysis {
+    background-image: url('../img/nightsky.jpg'); /* Path to your image */
+    background-size: cover; /* Ensures it covers the full screen */
+    background-position: center; /* Centers the image */
+    background-attachment: fixed; /* Keeps it in place when scrolling */
+    background-repeat: no-repeat; /* Prevents tiling */
+    color: white;
+    position: relative;
+  }
   
-
-#content-container {
+  /* Container layout */
+  #container {
     display: flex;
-    flex-direction: row; /* Places sections side by side */
-    justify-content: center;
-    align-items: flex-start;
-    gap: 50px;
+    height: 100vh; /* Full viewport height */
+  }
+  
+  /* Night sky area */
+  #night-sky {
+    flex: 3; /* 75% of width */
+    position: relative; /* for absolute positioning of shapes later */
+    border-right: 2px solid #1F2833; /* separator line */
+  }
+  
+  #ufo-sidebar {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border: 2px solid white;
+    text-align: center;
+    font-family: "Special Elite";
+    margin-right: 50px;
 }
 
-
-/* Left column containing popularity and pie chart sections */
-#left-section {
-    width: 500px; /* Adjust this width as needed */
+.tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  pointer-events: none;
+  display: none;
+  z-index: 1000;
 }
 
-/* New container for the popularity section */
-#popularity-section {
+  
+  #sidebar h2 {
+    margin-top: 0;
+  }
+  
+  #sidebar {
+    width: 300px;
+    background-color: #1F2833; /* Dark theme, tweak as needed */
+    color: #00FF41; /* Terminal green for text */
+    padding: 15px;
+    border-radius: 8px;
     display: flex;
-    justify-content: flex-start; /* Center the overall section */
-    align-items: center;
-    gap: 50px;             /* Space between the two columns */
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* Left column: Buttons stacked vertically */
-#buttons-column {
-    width: 125px;
+#shape-info {
+    background-color: #0B0C10; /* Slightly darker background for contrast */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 255, 65, 0.2);
+}
+
+#shape-title {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+#shape-details p {
+    font-size: 16px;
+    color: #C5C6C7; /* Slightly muted color */
+}
+
+#controls {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    justify-content: center;
-    padding-left: 30px;
+    padding: 10px;
+    background-color: #0B0C10;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 255, 65, 0.2);
 }
 
-#hovercrafts-column {
-    width: 280px;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
+#shape-analysis h2{
+  font-size: 24px;
 }
 
-
-/* Wrapper that controls scaling with a smooth transition */
-.hovercraft-wrapper {
-    display: inline-block;
-    transition: transform 0.8s ease-in-out; /* Increased duration for smoother scaling */
-    transform-origin: center center; /* Scale from the center */
-}
-
-/* Inner hovercraft element: applies the up/down animation */
-.hovercraft {
-    width: 80px;
-    height: 80px;
-    background-color: #FF5733;
-    border-radius: 50%;
-    position: relative;
-    display: inline-block;
-    /* Remove any transition on transform from here */
-    animation: hover 3s ease-in-out infinite;
-}
-
-/* Up/down animation for the inner hovercraft element */
-@keyframes hover {
-    0%   { transform: translateY(0); }
-    50%  { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
-}
-
-/* When the shrink class is added to the wrapper, scale it down */
-.hovercraft-wrapper.shrink {
-    transform: scale(0.625); /* 0.625 * 80px ≈ 50px, adjust as needed */
-}
-
-
-/* Tooltip styling for hovercrafts */
-.tooltip {
-    display: none;
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
+/* Style dropdown */
+#decade-select {
+    background-color: #1F2833;
     color: white;
-    padding: 5px 10px;
+    padding: 5px;
+    border: 1px solid white;
     border-radius: 5px;
-    font-size: 14px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-/* Show tooltip on hover */
-.hovercraft:hover .tooltip {
-    display: block;
-    opacity: 1;
-}
-
-/* General button styling */
-button {
-    margin: 0 10px;
-    padding: 10px 20px;
     font-size: 14px;
     cursor: pointer;
-    border: none;
-    background-color: #FF5733;
-    color: white;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.popularity-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Optional: if you're making a circular button, ensure width/height are equal */
-    width: 80px;
-    height: 60px;
-    border-radius: 10%;
-}
-  
-
-/* Button hover effect */
-button:hover {
-    background-color: #e64a1b;
-}
-
-/* Unselected state for popularity buttons */
-.popularity-button.unselected {
-    background-color: #FF5733;
-    color: white;
-}
-
-/* Selected state for popularity buttons */
-.popularity-button.selected {
-    background-color: #d84b2c;
-    font-weight: bold;
-}
-
-/* Pie Chart & Pop Culture Text Section Adjustments */
-#pie-text-section {
-    display: flex;
-    margin: 10px 0;         /* Reduced vertical gap to bring it closer to the above section */
-    align-items: flex-start; /* Ensure both columns are top-aligned */
-    /* Ensure this container is left-aligned by not applying auto margins */
-}
-  
-#pie-chart-container {
-    width: 320px;           /* Fixed width for the pie chart container */
-    padding-left: 150px;
-    text-align: left;
-}
-  
-#pop-culture-text {
-    flex: 1;                /* Occupies the remaining horizontal space */
-    padding-left: 50px;
-    text-align: left;     /* Reduced margin so it starts closer to the pie chart container */
-    align-self: flex-start; /* Force the pop culture text to align to the top of the container */
     margin-top: 10px;
 }
+
+/* Style button */
+#toggle-proportional {
+    background-color: black;
+    color: white;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+#toggle-proportional:hover {
+    background-color: white;
+    color: black;
+    transform: scale(1.05);
+}
+
+#toggle-proportional.active {
+  background-color: white !important; /* Stay white */
+  color: #0B0C10; /* Dark text for contrast */
+  border-color: white; /* Keep border white */
+}
+
+
+  .ufo-shape {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    /* This will center any SVG or image */
+    transform: translate(-50%, -50%);
+  }
+  
+  .ufo-shape:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
   
   
   

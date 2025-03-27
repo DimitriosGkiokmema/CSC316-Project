@@ -22,14 +22,14 @@
 	<body>
 		<div class="page-container">
 			<!-- Header & Intro Section -->
-			<section class="page-section" style="display: block;">
+			<section style="display: block;">
 				<section id="title-card" class="fullscreen title-section">
 					<h1>What do UFO Sightings <br> Reveal About Us?</h1>
 					<p>A Data-Driven Analysis of Sightings Across Canada</p>
 				</section>
 			</section>
 
-			<section class="page-section">
+			<section>
 				<section id="intro" class="fullscreen">
 					<h2>Ufology in Canada: A History of the Unknown</h2>
 					<p>
@@ -44,16 +44,8 @@
 				</section>
 			</section>
 
-			<!-- Cool, but idk if we have the graph/data for what it talk about -->
-			<!-- <section class="page-section">
-				<section id="transition-intro-to-temporal" class="fullscreen transition-slide">
-					<p><em>If UFO sightings were random, we’d expect them to be evenly spread across history. But they aren’t.</em> 
-						<br><br>Instead, they surge at specific moments. Why?</p>
-				</section>
-			</section> -->
-
 			<!-- Introduces the clock  -->
-			<section class="page-section">
+			<section>
 				<section id="transition-temporal-to-clock" class="fullscreen transition-slide">
 					<p><em>If history shapes UFO reports, does time of day play a role too?</em></p>
 					<h2>The UFO Clock: Sightings by Time of Day</h2>
@@ -65,7 +57,7 @@
 			</section>
 
 			<!-- Clock Vis -->
-			<section class="page-section">
+			<section>
 				<section id="clock-analysis" class="fullscreen analysis-section">
 
 					<div class="clock-container" id="clockSection">
@@ -109,7 +101,7 @@
 			</section>
 
 			<!-- Map Intro -->
-			 <section class="page-section">
+			 <section>
 				<section id="transition-clock-to-geography" class="fullscreen transition-slide">
 					<p><em>If UFO sightings follow time-based trends, where do they happen the most?</em></p>
 					<h2>Cities, Bases, or the Middle of Nowhere:<br> Where Do UFOs Show Up?</h2>
@@ -122,7 +114,7 @@
 			 </section>
 
 			<!-- Zoomed map Section-->
-			<section class="page-section">
+			<section>
 				<div id="container" style="height: 100%; width: 100%;">
 					<div id="zoom-map-container">
 						<div id="menu">
@@ -139,13 +131,13 @@
 			</section>
 
 			<!-- Intro to witnesses -->
-			<section class="page-section">
+			<section>
 				<section id="transition-geography-to-witnesses" class="fullscreen transition-slide">
 					<p><em>If UFO sightings are influenced by location, what about the number of witnesses?</em></p>
 				</section>
 			</section>
 
-			<section class="page-section">
+			<section>
 				<section id="witness-analysis" class="fullscreen analysis-section">
 					<h2>Strength in Numbers? Examining Group vs. Solo Reports</h2>
 					<p>
@@ -157,7 +149,7 @@
 			</section>
 
 			<!-- Witness Vis -->
-			<section id="witnessSection" class="page-section">
+			<section id="witnessSection">
 				<div class="container">
 					<!-- Left Side: UFO & Witness Area -->
 					<div class="left-panel">
@@ -198,13 +190,13 @@
 			</section>
 
 			<!-- Intro to shapes & reports over time -->
-			<section class="page-section">
+			<section>
 				<section id="transition-witnesses-to-shapes" class="fullscreen transition-slide">
 					<p><em>If witnesses shape the UFO narrative, what do they actually describe?</em></p>
 				</section>
 			</section>
 
-			<section class="page-section">
+			<section>
 				<section id="shape-analysis" class="fullscreen analysis-section">
 					<h2>Shape-Shifting Phenomena: Are UFO Ships Evolving?</h2>
 					<p>
@@ -216,47 +208,32 @@
 			</section>
 
 			<!-- Shape Visualization & Line Chart -->
-			<section id="shapeSection" class="page-section">
+			<section id="shapeSection">
 				<div id="page-title">
 					<h2>Analysis of Encounters and Cultural Impact</h2>
 				</div>
 				<div id="main-content-shape">
-					<div id="line-chart-container" style="display: flex;">
+					<div class="row">
 						<div class="col">
-							<div id="reportsOverTimeChart" style="min-height: 60vh; width: 100%;"></div>
+							<div id="reportsOverTimeChart" style="min-height: 50vh; width: 100%;"></div>
 							<div id="controls">
 								<button id="play-pause">Play</button>
 								<button id="resetLine">Reset</button>
 							</div>
 						</div>
 					</div>
+					<div class="row" style="height: 30vh; color: black">
+						<div class="col" id="yearData">
+							Click a point on the line to view its statistics
+						</div>
+						<div class="col" id="movieData">
+							Click a point on the line to view its cultural impact
+						</div>
+					</div>
 				</div>
-				<!-- <div id="pop-culture-text" style="margin-top: 100px">
-					<h3>Pop Culture References</h3>
-					<p>Insert your pop culture commentary or text here...</p>
-					TODO: Dimitrios will put some kind of easter egg for the alien movies
-				</div> -->
 			</section>
 
-			<!-- Again: cool, but we don't have the needed vis -->
-			<!-- <section class="page-section">
-				<section id="transition-shapes-to-sentiment" class="fullscreen transition-slide">
-					<p><em>Beyond shapes, what emotions are tied to these reports?</em></p>
-				</section>
-				
-			
-				<section id="sentiment-analysis" class="fullscreen analysis-section">
-					<h2>The Emotional Spectrum of UFO Reports</h2>
-					<p>
-						One witness describes awe. Another, terror. Another dismisses it entirely.  
-						The same sighting, three different reactions. What makes one report more credible than another?
-					</p>
-				
-					<div class="viz-placeholder">[Sentiment Analysis Visualization Here]</div>
-				</section>
-			</section> -->
-
-			<section class="page-section">
+			<section>
 				<section id="closing-slide" class="fullscreen closing-section">
 					<h2>Thank You for Exploring the Unknown</h2>
 					<p>Special Thanks to the NUFORC Organization</p>
@@ -280,24 +257,6 @@
 			</section>
 		</div>
 
-		<!-- Navigation Dots -->
-		<div class="nav-dots">
-			<span class="dot active" onclick="scrollToSection(0)"></span>
-			<span class="dot" onclick="scrollToSection(1)"></span>
-			<span class="dot" onclick="scrollToSection(2)"></span>
-			<span class="dot" onclick="scrollToSection(3)"></span>
-			<span class="dot" onclick="scrollToSection(4)"></span>
-			<span class="dot" onclick="scrollToSection(5)"></span>
-			<span class="dot" onclick="scrollToSection(6)"></span>
-			<span class="dot" onclick="scrollToSection(7)"></span>
-			<span class="dot" onclick="scrollToSection(8)"></span>
-			<span class="dot" onclick="scrollToSection(9)"></span>
-			<span class="dot" onclick="scrollToSection(10)"></span>
-			<span class="dot" onclick="scrollToSection(11)"></span>
-			<span class="dot" onclick="scrollToSection(12)"></span>
-		</div>
-	
-
 		<!-- JavaScript Libraries -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -313,8 +272,7 @@
 		<script src="js/clock.js"></script>
 		<script src="js/zoomMap.js"></script>
 		<script src="js/shape.js"></script>
-		<script src="js/reportsLineGraph.js"></script>
-		<!-- <script src="js/line.js"></script> -->
+		<script src="js/lineGraph.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/scroll.js"></script>
 	</body>

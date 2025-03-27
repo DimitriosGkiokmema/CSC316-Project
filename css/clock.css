@@ -1,122 +1,230 @@
-/* Center Everything */
-.clock-container {
-    text-align: center;
-    font-family: Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Special+Elite&family=Turret+Road:wght@100;400;700&display=swap');
+
+body {
+    background-color: black;
 }
 
-/* Title Styling */
-h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
+
+.top-center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -25px;
+    margin-top: -150px;
 }
 
-/* Season Button Styling */
+
+
 .season-buttons {
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 .season-btn {
-    padding: 10px 15px;
-    margin: 5px;
-    border: none;
+    padding: 8px 16px;
+    font-size: 18px;
     background-color: #444;
     color: white;
+    border: none;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.season-btn:hover {
-    background-color: #666;
+    transition: background 0.2s;
+    font-family: "Turret Road";
+    font-weight: 700;
 }
 
 .season-btn.selected {
-    background-color: #FFD700;
-    color: black;
+    background-color: white;
+    color: black; 
 }
 
-.clock-layout {
+
+.clock-container {
+    position: relative;
     display: flex;
-    align-items: center;
-    justify-content: center; /* Centers everything */
-    gap: 80px; /* Adjust spacing */
-    width: 90%;
-    max-width: 1100px; /* Adjust width slightly */
-    margin: auto; /* Fully centers it */
+    align-items: center; /* Ensures vertical alignment */
+    justify-content: flex-start; /* Aligns elements to the left */
+    width: 100%;
+    gap: 100px;
 }
+
 
 
 .clock-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    margin-left: 0; /* Fully centers it */
+    justify-content: center; /* Centers it vertically */
+    margin-top: 60px;
+    margin-left: -50px;
 }
 
 
-/* Time Display - Centered Above Clock */
+
+
 #time-display {
-    font-size: 24px;
-    font-weight: bold;
+    color: white;
     text-align: center;
+    font-size: 24px; 
+    font-family: "Turret Road";
+    font-weight: 100;
+    letter-spacing: 3px;
+    margin-bottom: -20px;
+    margin-left: -40px;
 }
 
-/* Buttons - Centered Below Clock */
+#play, #reset {
+    background-color: white;
+    color: black;
+    font-family: "Turret Road";
+    font-weight: 600;
+    font-size: 18px;
+    padding: 10px 20px;
+    letter-spacing: 1px;
+}
+
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
+    margin-top: -150px;
+    margin-left: -43px;
 }
 
-/* Sightings Panel (Right Side) */
-.sightings-panel {
-    text-align: center;
-    width: 200px;
-    margin-right: 100px;
-}
-
-/* UFO Space */
-#ufo-space {
-    width: 200px;
-    height: 100px;
-    position: relative;
-}
-
-.ufo {
-    width: 50px;
-    position: absolute;
-    animation: hover 2s infinite ease-in-out;
-}
-
-@keyframes hover {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-}
-
-/* Bar Chart - Directly Below Clock */
-.bar-chart-container {
-    width: 100%;
-    max-width: 400px;
-    max-height: 200px;
-    margin: 30px auto 0; /* Adjust space under clock */
+.right-panel {
     display: flex;
-    justify-content: center; /* Align with clock */
+    flex-direction: column;
+    align-items: center; /* Centers contents */
+    justify-content: center;
+    margin-top: 30px; /* Space below season buttons */
+    width: 60%; /* Adjust width to fit content */
+    margin-left: -250px; /* ✅ Removes the negative push */
+    max-width: 800px; /* ✅ Ensures it doesn’t stretch */
+    text-align: center;
 }
 
 
 
+.sightings-info {
+    display: flex;
+    margin-top: 20px;
+}
 
-/* Play and Reset Buttons */
-#play, #reset {
-    padding: 10px 15px;
-    border: none;
-    background-color: #333;
+#sightings-count {
+    margin-top: 25px;
+    margin-left: 10px;
+    font-size: 24px !important; /* Force smaller size */
+    color: white !important;
+    font-weight: 100 !important;
+    font-family: "Turret Road";
+}
+
+
+/* UFO Hovering Effect */
+.hovering-ufo {
+    width: 100px; 
+    animation: floatUFO 2s infinite alternate ease-in-out;
+}
+
+@keyframes floatUFO {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-10px); }
+}
+
+
+
+.line-chart-container {
+    width: 100%;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center chart */
+    justify-content: center;
+    margin: 20px 0; /* Space between chart and sightings count */
+}
+
+
+
+h3 {
+    color: grey;
+    font-weight: 100;
+    font-family: "Turret Road";
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
+
+
+#zone-container {
+    position: absolute;
+    right: 10px; /* Reduce spacing */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px; /* Reduce width */
+}
+
+
+
+.zone-info {
+    background: black;
     color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s;
+    font-family: 'Turret Road', sans-serif;
+    padding: 12px;
+    border: 1px solid white;
+    width: 180px; /* ✅ Keeps it compact */
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px; /* ✅ Space between info box & button */
+    letter-spacing: 2px;
 }
 
-#play:hover, #reset:hover {
-    background-color: #555;
+
+.zone-details {
+    background: black;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid white;
+    display: none;
+    margin-top: 10px;
 }
+
+
+.zone-insight {
+    background: black;
+    color: white;
+    padding: 30px;
+    border: 1px solid white;
+    font-size: 18px;
+    text-align: center;
+    width: 220px;
+    margin-top: 10px;
+    font-family: "Turret Road";
+    font-weight: 100;
+    letter-spacing: 2px;
+}
+
+
+
+
+.toggle-btn {
+    background: none;
+    color: white;
+    border: 2px solid white;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    width: 100%;
+}
+
+.toggle-btn:hover {
+    background: white;
+    color: black;
+}
+
+
+
 
 

@@ -10,7 +10,7 @@ class ReportsLineChartVis {
     initVis() {
         let vis = this;
 
-        vis.margin = { top: 20, right: 20, bottom: 30, left: 55 };
+        vis.margin = { top: 20, right: 20, bottom: 50, left: 55 };
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
@@ -30,7 +30,8 @@ class ReportsLineChartVis {
             .attr('transform', `translate(${vis.width / 2}, 0)`)
             .attr('text-anchor', 'middle')
             .text("Reports Over Time")
-            .style("font-size", 20);
+            .style("font-size", 20)
+            .style("fill", "white");
 
         // Scales
         vis.xScale = d3.scaleLinear()
@@ -40,12 +41,14 @@ class ReportsLineChartVis {
 
         // Append tooltip
         vis.tooltip = d3.select("body").append('div')
-            .attr('class', "tooltip")
-            .style('opacity', 0);
-
-        vis.circleTooltip = d3.select("body").append('div')
             .attr('class', "circleTooltip")
-            .style('opacity', 0);
+            .style("position", "absolute")
+            .style("background", "black")
+            .style("color", "white")
+            .style("padding", "5px")
+            .style("border", "1px solid white")
+            .style("border-radius", "5px")
+            .style("display", "none");
         
         // Variables for controlling animation
         vis.animationPaused = true;
@@ -158,8 +161,9 @@ class ReportsLineChartVis {
             .append('text')
             .attr("text-anchor", "middle")
             .attr("x", vis.width / 2)
-            .attr("y", vis.height + 30)
-            .text("Time");
+            .attr("y", vis.height + 40)
+            .text("Time")
+            .style("fill", "white");
 
         // Y-axis label
         vis.svg.append('g')
@@ -168,8 +172,9 @@ class ReportsLineChartVis {
             .attr('text-anchor', 'middle')
             .attr("transform", "rotate(-90)")
             .attr("x", -vis.height / 2)
-            .attr("y", -vis.margin.left / 2)
-            .text("Number of Reports");
+            .attr("y", -vis.margin.left * 2 / 3)
+            .text("Number of Reports")
+            .style("fill", "white");
     }
 
     updateVis() {
@@ -192,12 +197,15 @@ class ReportsLineChartVis {
                     .attr("r", 5) // Increase radius
                     .attr("fill", "orange");
 
-                // Show circleTooltip
-                vis.circleTooltip.style("opacity", 1);
-                vis.circleTooltip.html(`Year: ${d.year}`)
+                // Show tooltip
+                vis.tooltip.style("display", "block")
+                    .html(`Year: ${d.year}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
-                console.log(d3.select(".circleTooltip").node());
+            })
+            .on("mousemove", (event) => {
+                vis.tooltip.style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
             })
             .on("mouseout", (event, d) => {
                 // Reset on mouseout
@@ -205,8 +213,8 @@ class ReportsLineChartVis {
                     .attr("r", 3) // Reset radius
                     .attr("fill", "#6DD0EB");
 
-                // Hide circleTooltip
-                vis.circleTooltip.style("opacity", 0);
+                // Hide tooltip
+                vis.tooltip.style("display", "none");
             })
             .on("click", (event, d) => vis.showSidebar(d))
             .merge(circleUpdates)

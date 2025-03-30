@@ -1,8 +1,10 @@
 class ReportsLineChartVis {
 
     constructor(parentElement, data, movieData) {
+    constructor(parentElement, data, movieData) {
         this.parentElement = parentElement;
         this.data = data;
+        this.movieData = movieData;
         this.movieData = movieData;
 
         this.initVis();
@@ -11,6 +13,7 @@ class ReportsLineChartVis {
     initVis() {
         let vis = this;
 
+        vis.margin = { top: 20, right: 50, bottom: 50, left: 70 };
         vis.margin = { top: 20, right: 50, bottom: 50, left: 70 };
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
@@ -33,6 +36,8 @@ class ReportsLineChartVis {
             .text("Reports Over Time")
             .style("font-size", 20)
             .style("fill", "white");
+            .style("font-size", 20)
+            .style("fill", "white");
 
         // Scales
         vis.xScale = d3.scaleLinear()
@@ -42,6 +47,7 @@ class ReportsLineChartVis {
 
         // Append tooltip
         vis.tooltip = d3.select("body").append('div')
+            .attr('class', "circleTooltip");
             .attr('class', "circleTooltip");
         
         // Variables for controlling animation
@@ -171,6 +177,9 @@ class ReportsLineChartVis {
             .attr("y", -vis.margin.left * 2 / 3)
             .text("Number of Reports")
             .style("fill", "white");
+            .attr("y", -vis.margin.left * 2 / 3)
+            .text("Number of Reports")
+            .style("fill", "white");
     }
 
     updateVis() {
@@ -203,8 +212,15 @@ class ReportsLineChartVis {
                 // Show tooltip
                 vis.tooltip.style("display", "block")
                     .html(`Year: ${d.year}`)
+                // Show tooltip
+                vis.tooltip.style("display", "block")
+                    .html(`Year: ${d.year}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mousemove", (event) => {
+                vis.tooltip.style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
             })
             .on("mousemove", (event) => {
                 vis.tooltip.style("left", (event.pageX + 10) + "px")

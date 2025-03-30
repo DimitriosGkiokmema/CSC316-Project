@@ -45,7 +45,7 @@
  // UFO marker for sightings
  const ufoIcon = L.icon({
      iconUrl: 'img/ufo.png',
-     iconSize: [32, 32],
+     iconSize: [22, 22],
      iconAnchor: [16, 16],
      popupAnchor: [0, -16]
  });
@@ -65,36 +65,28 @@
  // Sightings map
  function loadSightingsMap() {
      sightingsMapLayer.clearLayers();
-     d3.csv("data/NUFORCData.csv").then(data => {
+     d3.csv("data/NUFORCdata.csv").then(data => {
          data.forEach(d => {
              const lat = parseFloat(d.Lat);
              const lon = parseFloat(d.Lon);
-             const certainty = d.Certainty;
+             const highlight = parseInt(d.Highlight);
  
-             if (!isNaN(lat) && !isNaN(lon) && certainty === 'Probable' || certainty === 'Possible' || certainty === 'Certain') {
+             if (!isNaN(lat) && !isNaN(lon) && highlight === -1) {
                  const marker = L.marker([lat, lon], { icon: ufoIcon }).addTo(sightingsMapLayer);
                  marker.on('click', () => showDetails(d));
              }
          });
      });
  }
+
+let ufoSightingsData = [];
  
  function loadAirportsMap() {
      airportsMapLayer.clearLayers();
- 
-     // Load airports/bases
-     d3.csv("data/main_airports_bases.csv").then(dataAirports => {
-         dataAirports.forEach(dA => {
-             const lat = parseFloat(dA.Lat);
-             const lon = parseFloat(dA.Lon);
-             if (!isNaN(lat) && !isNaN(lon)) {
-                 L.marker([lat, lon], { icon: airportIcon }).addTo(airportsMapLayer);
-             }
-         });
-     });
- 
+
      // Load NUFORC data
-     d3.csv("data/NUFORCData.csv").then(data => {
+     d3.csv("data/NUFORCdata.csv").then(data => {
+         ufoSightingsData = data;
          data.forEach(d => {
              const lat = parseFloat(d.Lat);
              const lon = parseFloat(d.Lon);
@@ -108,7 +100,71 @@
              }
          });
      });
+
+     // Load airports/bases
+     d3.csv("data/main_airports_bases.csv").then(dataAirports => {
+         dataAirports.forEach(dA => {
+             const lat = parseFloat(dA.Lat);
+             const lon = parseFloat(dA.Lon);
+             if (!isNaN(lat) && !isNaN(lon)) {
+                 const marker = L.marker([lat, lon], { icon: airportIcon }).addTo(airportsMapLayer);
+
+                 // Pop up on click
+                 marker.on('click', function () {
+
+                     marker.unbindPopup();
+
+                     const airportName = dA.Name || "Unknown Airport";
+                     let countWithin75 = 0;
+                     let minDistance = Infinity;
+
+                     if (ufoSightingsData && ufoSightingsData.length > 0) {
+                         ufoSightingsData.forEach(sighting => {
+                             const sLat = parseFloat(sighting.Lat);
+                             const sLon = parseFloat(sighting.Lon);
+                             if (!isNaN(sLat) && !isNaN(sLon)) {
+                                 const distance = getDistanceFromLatLonInKm(lat, lon, sLat, sLon);
+                                 if (distance <= 75) {
+                                     countWithin75++;
+                                 }
+                                 if (distance < minDistance) {
+                                     minDistance = distance;
+                                 }
+                             }
+                         });
+                     }
+
+                     const formattedDistance = (minDistance === Infinity) ? "N/A" : minDistance.toFixed(2) + " km";
+
+                     const popupContent = `
+                        <strong>${airportName}</strong><br>
+                        Sightings within 75 km: <strong>${countWithin75}</strong><br>
+                        Closest sighting: <strong>${formattedDistance}</strong>
+                    `;
+
+                     marker.bindPopup(popupContent).openPopup();
+                 });
+             }
+         });
+     });
  }
+// Get distance between 2 points
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the Earth in km
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
+
  
  function showSightingsMap() {
      map.setView([56.1304, -106.3468], 4);

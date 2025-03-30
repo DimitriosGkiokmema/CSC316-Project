@@ -91,6 +91,10 @@
   src: url('/fonts/AliensAndCows.ttf') format('truetype');
 }
 
+.alien-word {
+  font: aliens;
+}
+
 /***********/
 /*  Header */
 /***********/

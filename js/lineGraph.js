@@ -1,7 +1,6 @@
 class ReportsLineChartVis {
 
     constructor(parentElement, data, movieData) {
-    constructor(parentElement, data, movieData) {
         this.parentElement = parentElement;
         this.data = data;
         this.movieData = movieData;
@@ -36,8 +35,6 @@ class ReportsLineChartVis {
             .text("Reports Over Time")
             .style("font-size", 20)
             .style("fill", "white");
-            .style("font-size", 20)
-            .style("fill", "white");
 
         // Scales
         vis.xScale = d3.scaleLinear()
@@ -47,7 +44,6 @@ class ReportsLineChartVis {
 
         // Append tooltip
         vis.tooltip = d3.select("body").append('div')
-            .attr('class', "circleTooltip");
             .attr('class', "circleTooltip");
         
         // Variables for controlling animation
@@ -174,9 +170,6 @@ class ReportsLineChartVis {
             .attr('text-anchor', 'middle')
             .attr("transform", "rotate(-90)")
             .attr("x", -vis.height / 2)
-            .attr("y", -vis.margin.left * 2 / 3)
-            .text("Number of Reports")
-            .style("fill", "white");
             .attr("y", -vis.margin.left * 2 / 3)
             .text("Number of Reports")
             .style("fill", "white");

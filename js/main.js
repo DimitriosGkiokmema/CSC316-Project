@@ -2,7 +2,6 @@
 let reportsOverTimeChart;
 let data;
 let movies;
-let movies;
 
 loadData();
 

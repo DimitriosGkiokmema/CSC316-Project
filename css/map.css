@@ -12,7 +12,17 @@
     height: 100%;
 }
 
+.leaflet-popup-content-wrapper {
+    background: #000;
+    color: #fff;
+    text-align: center;
+    font-family: 'Special Elite', sans-serif;
+    border-radius: 5px;
+}
 
+.leaflet-popup-tip {
+    background: #000;
+}
 
 /* Map styling - takes up 60% of screen */
 #map {

@@ -5,6 +5,7 @@ class ReportsLineChartVis {
         this.data = data;
         this.movieData = movieData;
         this.movieData = movieData;
+        console.log(data)
 
         this.initVis();
     }
@@ -181,7 +182,6 @@ class ReportsLineChartVis {
         // Bind data to circles
         const circleUpdates = vis.svg.selectAll(".data-point")
             .data(vis.lineData, d => d.year); // Use year as key for data binding
-        console.log(vis.lineData)
 
         // ENTER: Create new circles
         circleUpdates.enter()
@@ -204,16 +204,9 @@ class ReportsLineChartVis {
 
                 // Show tooltip
                 vis.tooltip.style("display", "block")
-                    .html(`Year: ${d.year}`)
-                // Show tooltip
-                vis.tooltip.style("display", "block")
-                    .html(`Year: ${d.year}`)
+                    .html(`${d.year}<br>Reports: ${d.value}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mousemove", (event) => {
-                vis.tooltip.style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY - 10) + "px");
             })
             .on("mousemove", (event) => {
                 vis.tooltip.style("left", (event.pageX + 10) + "px")
@@ -377,6 +370,15 @@ class ReportsLineChartVis {
 
     showSidebar(d) {
         let vis = this;
+
+        // Filters dataset by selected year
+        const filteredData = vis.data.filter(function(report) {
+            if (report.Date.getFullYear() === d.year) {
+                return report;
+            }
+        });
+        console.log(filteredData)
+
         let yearData = `<h2>${d.year}</h2> 
         <span style="display: block;"># Reports: ${d.value}</span>
         <span style="display: block;">Change from previous year: ${vis.getReportIncrease(d)}%</span>`;
@@ -390,7 +392,7 @@ class ReportsLineChartVis {
             }
         });
 
-        movies = movies + "</table>"
+        movies = movies + "</table>";
 
         d3.select("#yearData").html(yearData);
         d3.select("#movieData").html(movies);

@@ -1,6 +1,5 @@
 // Creating vis and data variables
 let reportsOverTimeChart;
-let data;
 let movies;
 
 loadData();

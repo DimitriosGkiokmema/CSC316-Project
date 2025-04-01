@@ -105,9 +105,10 @@ body {
 /* Percentage Fill */
 .percentage-bar {
     height: 100%;
-    width: 0%; /* Will update dynamically */
+    width: 100%; /* Will update dynamically */
     background-color: #4CAF50;
     border-radius: 10px;
+    position: absolute;
     transition: width 0.5s ease-in-out;
 }
 

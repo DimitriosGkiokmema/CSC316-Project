@@ -123,7 +123,7 @@ function updateLandingPad() {
             { left: "80px", bottom: "15px" },
             { left: "60px", bottom: "10px" }
         ];
-    } else if (selectedWitness === "crowd") {
+    } else {
         positions = [
             { left: "110px", bottom: "15px" },
             { left: "10px", bottom: "15px" },
@@ -166,7 +166,7 @@ function updateUfoSpace() {
             { left: "120px", top: "10px" },
             { left: "190px", top: "20px" }
         ];
-    } else if (selectedShip === "fleet") {
+    } else {
         positions = [
             { left: "20px", top: "-100px" },
             { left: "80px", top: "-90px" },

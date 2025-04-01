@@ -4,8 +4,7 @@ class ReportsLineChartVis {
         this.parentElement = parentElement;
         this.data = data;
         this.movieData = movieData;
-        this.movieData = movieData;
-        console.log(data)
+        console.log(data);
 
         this.initVis();
     }
@@ -13,7 +12,6 @@ class ReportsLineChartVis {
     initVis() {
         let vis = this;
 
-        vis.margin = { top: 20, right: 50, bottom: 50, left: 70 };
         vis.margin = { top: 20, right: 50, bottom: 50, left: 70 };
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
@@ -372,12 +370,11 @@ class ReportsLineChartVis {
         let vis = this;
 
         // Filters dataset by selected year
-        const filteredData = vis.data.filter(function(report) {
+        let filteredData = vis.data.filter(function(report) {
             if (report.Date.getFullYear() === d.year) {
                 return report;
             }
         });
-        console.log(filteredData)
 
         let yearData = `<h2>${d.year}</h2> 
         <span style="display: block;"># Reports: ${d.value}</span>

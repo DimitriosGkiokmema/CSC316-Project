@@ -17,6 +17,7 @@
 		<link rel="stylesheet" href="css/shape.css">
 		<link rel="stylesheet" href="css/witness.css">
 		<link rel="stylesheet" href="css/ui.css">
+		<link rel="stylesheet" href="css/line.css">
 		
 	</head>
 	<body>
@@ -24,110 +25,146 @@
 			<!-- Header & Intro Section -->
 			<section class="page-section" style="display: block;">
 				<section id="title-card" class="fullscreen title-section">
-					<h1>What do UFO Sightings <br> Reveal About Us?</h1>
+					<h1>UFO Sightings in Canada</h1>
 					<p>A Data-Driven Analysis of Sightings Across Canada</p>
 				</section>
 			</section>
 
-			<section class="page-section">
-				<section id="intro" class="fullscreen">
-					<h2>Ufology in Canada: A History of the Unknown</h2>
-					<p>
-						For decades, Canadians have reported <strong>strange lights in the sky, unidentified craft, and unexplained encounters.</strong> 
-						Some believe these are misidentified aircraft, natural phenomena, or hoaxes. 
-						Others argue they are <strong>evidence of something beyond our understanding.</strong>
+			<section id="intro" class="fullscreen">
+				<div class="intro-content">
+					<p class="intro-line">As Canada launches its <strong>Sky Canada Project</strong>, what does decades of civilian data reveal?</p>
+					<p class="intro-line">But what do we already know?</p>
+					
+					<p class="intro-line">
+						Using data from <span class="highlight" onclick="openPopup()">NUFORC</span>, this project explores 
+						<strong>when, where, and how</strong> sightings happen in Canada.
 					</p>
-					<p>
-						But UFO sightings aren’t just isolated stories—they form <strong>patterns</strong> over time. 
-						When we examine them as <strong>data</strong>, we begin to see something unexpected.
+
+					<p class="intro-line">
+						This analysis of 4,000+ Canadian NUFORC reports uncovers:
+
+						<ul class="intro-line">
+							<li style="margin-left: 150px;">Hotspot provinces with unusual activity patterns</li>
+							<li style="margin-left: 150px;">Decades-long waves tied to cultural moments</li>
+							<li style="margin-left: 150px;">Strange consistencies in witness descriptions</li>
+						</ul>
 					</p>
-				</section>
+					
+					<p class="intro-line">
+						With official investigations now beginning, does the civilian data point to real phenomena... or reflect our collective imagination? Explore what Canadians have actually been reporting since 1974.
+					</p>
+			
+					<p class="intro-line">
+						As Canada prepares to investigate UAPs, <strong>this is what the data reveals.</strong>
+					</p>
+				</div>
+			
+				<!-- NUFORC Pop-up -->
+				<div id="popup" class="popup">
+					<button class="close-btn" onclick="closePopup()">X</button>
+					<div class="popup-content">
+						<h2>What is NUFORC?</h2>
+						<p>NUFORC (National UFO Reporting Center) has collected <strong>over 180,000 UFO reports</strong> since the 1970s.</p>
+						<p>Before 1995, reports were taken via <strong>telephone hotline & mail</strong>. Since then, <strong>its website has been the primary way people report sightings.</strong></p>
+						<p>This ensures the data analyzed in this project comes from <strong>public reports spanning decades.</strong></p>
+					</div>
+				</div>
+				
+				<div id="overlay" class="overlay"></div>
 			</section>
 
-			<!-- Cool, but idk if we have the graph/data for what it talk about -->
-			<!-- <section class="page-section">
-				<section id="transition-intro-to-temporal" class="fullscreen transition-slide">
-					<p><em>If UFO sightings were random, we’d expect them to be evenly spread across history. But they aren’t.</em> 
-						<br><br>Instead, they surge at specific moments. Why?</p>
-				</section>
-			</section> -->
-
-			<!-- Introduces the clock  -->
-			<section class="page-section">
-				<section id="transition-temporal-to-clock" class="fullscreen transition-slide">
-					<p><em>If history shapes UFO reports, does time of day play a role too?</em></p>
-					<h2>The UFO Clock: Sightings by Time of Day</h2>
-					<p>
-						People expect to see UFOs at night. That’s exactly when most sightings happen.  
-						Are we witnessing something real—or just filling in the blanks with <strong>what we expect to see</strong>?
-					</p>
-				</section>
-			</section>
-
-			<!-- Clock Vis -->
-			<section class="page-section">
-				<section id="clock-analysis" class="fullscreen analysis-section">
-
-					<div class="clock-container" id="clockSection">
-						<h1>UFO Sightings by Time of Day</h1>
-				
-						<!-- Season Toggle Buttons -->
-						<div class="season-buttons">
-							<button class="season-btn selected" data-season="all">All Seasons</button>
-							<button class="season-btn" data-season="winter">Winter</button>
-							<button class="season-btn" data-season="spring">Spring</button>
-							<button class="season-btn" data-season="summer">Summer</button>
-							<button class="season-btn" data-season="autumn">Autumn</button>
-						</div>
-				
-						<div class="clock-layout">
-							<!-- Left: Clock & Time Above -->
-							<div class="clock-wrapper">
-								<h2 id="time-display">12 AM</h2> <!-- Time is now above the clock -->
-								<svg id="clock" width="200" height="200"></svg>
-								<div class="button-container">
-									<button id="play">Play</button>
-									<button id="reset">Reset</button>
-								</div>
+			
+			<!-- Line Chart -->
+			<div class="section-header">
+				<h2>📈 Sightings Over Time</h2>
+				<p>Press "Play" to watch sightings increase and decrease over the years. Pause anytime to explore spikes and dips.</p>
+			</div>
+			<section>
+				<div id="main-content-shape">
+					<div class="row">
+						<div class="col">
+							<div id="reportsOverTimeChart" style="min-height: 50vh; width: 100%;"></div>
+							<div id="controls" style="display: block; justify-self: center;">
+								<button id="play-pause">Play</button>
+								<button id="resetLine">Reset</button>
 							</div>
-				
-							<!-- Sightings Panel (Right Side) -->
-							<div class="sightings-panel">
-								<h3>Sightings for this Hour:</h3>
-								<p id="sightings-count">Sightings: 0 (Low)</p>
-								<div id="ufo-space"></div>
-							</div>
-				
-						</div>
-				
-						<!-- Bar Chart Below -->
-						<div class="bar-chart-container">
-							<canvas id="barChart" width="300" height="200"></canvas>
 						</div>
 					</div>
-				</section>
+					<div id="lineSidebar" class="row" style="height: 30vh; color: black; text-align: center;">
+						<div class="col" id="yearDataContainer">
+							<div id="yearData"></div>
+							<h3>Click a point on the line to view its statistics</h3>
+						</div>
+						<div class="col" id="movieDataContainer">
+							<div id="movieData"></div>
+							<h3>Click a green point on the line to view the alien movies released on that year</h3>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Clock -->
+			<div class="section-header">
+				<h2>🕒 When Do UFOs Appear?</h2>
+				<p>Click "Play" to watch sightings change by the hour. Pause and drag the clock hand to explore different times. Toggle seasons to see if UFOs are more common in summer or winter.</p>
+			</div>
+			<section id="clock-analysis" class="fullscreen analysis-section">
+				<div class="top-center">
+					<div class="season-buttons">
+						<button class="season-btn selected" data-season="all">All Seasons</button>
+						<button class="season-btn" data-season="winter">Winter</button>
+						<button class="season-btn" data-season="spring">Spring</button>
+						<button class="season-btn" data-season="summer">Summer</button>
+						<button class="season-btn" data-season="autumn">Autumn</button>
+					</div>
+				</div>
+				<div class="clock-container">
+					<div class="clock-wrapper" style="margin-left: -80px; margin-right: 120px;">
+						<h2 id="time-display" style="margin-left: 10px;">12 AM</h2>
+						<svg id="clock" width="350" height="350"></svg>
+						<div class="button-container" style="margin-top: 10px; margin-left: 10px">
+							<button id="play">Play</button>
+							<button id="reset">Reset</button>
+						</div>
+					</div>
+				
+					<div class="right-panel">
+						<div class="sightings-info">
+							<img src="img/ufo1.png" class="hovering-ufo">
+							<h2 id="sightings-count">Sightings for this hour: 392 (High)</h2>
+						</div>
+				
+						<div class="line-chart-container">
+							<h3 class="chart-title">See how sighting patterns change over time!</h3>
+							<canvas id="lineChart"></canvas>
+							<div id="zone-details" class="zone-details"></div>
+						</div>
+					</div>
+	
+					<div id="zone-container">
+						<div id="zone-info-box" class="zone-info">
+							<h3>Zone Thresholds</h3>
+							<p id="zone-text"></p>
+						</div>
+						<button id="toggle-threshold-lines" class="toggle-btn">Toggle Threshold Lines</button>
+						<div id="zone-insight" class="zone-insight"></div>
+					</div>	
+				</div>		
 			</section>
 
 			<!-- Map Intro -->
-			 <section class="page-section">
-				<section id="transition-clock-to-geography" class="fullscreen transition-slide">
-					<p><em>If UFO sightings follow time-based trends, where do they happen the most?</em></p>
-					<h2>Cities, Bases, or the Middle of Nowhere:<br> Where Do UFOs Show Up?</h2>
-					<p>
-						Some places report <strong>far more UFO sightings</strong> than others.  
-						Are these hotspots just <strong>more watchful</strong>, or is something actually happening in these locations?  
-						The map reveals patterns—some expected, others surprising.
-					</p>
-				</section>
-			 </section>
+			<div class="section-header">
+				<h2>🗺️ Where Do UFOs Appear?</h2>
+				<p>Are UFOs more common in certain places? Or do we just report them where we live?</p>
+			</div>
 
 			<!-- Zoomed map Section-->
-			<section class="page-section">
+			<section id="map-analysis">
 				<div id="container" style="height: 100%; width: 100%;">
 					<div id="zoom-map-container">
 						<div id="menu">
 							<button onclick="showSightingsMap()">Key Sightings</button>
-							<button onclick="showAirportsMap()">Sightings vs. Canadian Airports and Airbases</button>
+							<button onclick="showAirportsMap()">All Sightings vs. Canadian Airports and Airbases</button>
 						</div>
 						<div id="map"></div>
 					</div>
@@ -139,34 +176,31 @@
 			</section>
 
 			<!-- Intro to witnesses -->
-			<section class="page-section">
-				<section id="transition-geography-to-witnesses" class="fullscreen transition-slide">
-					<p><em>If UFO sightings are influenced by location, what about the number of witnesses?</em></p>
-				</section>
-			</section>
-
-			<section class="page-section">
-				<section id="witness-analysis" class="fullscreen analysis-section">
-					<h2>Strength in Numbers? Examining Group vs. Solo Reports</h2>
-					<p>
-						Does having more witnesses make a UFO sighting more <strong>believable</strong>—or just more <strong>influenced</strong>?  
-						Solo encounters tend to be more detailed, while large groups report <strong>stranger phenomena</strong>.  
-						Why?
-					</p>
-				</section>
+			<section id="witness-analysis" class="section-header">
+				<h2>Strength in Numbers? Examining Group vs. Solo Reports</h2>
+				<p>
+					Does having more witnesses make a UFO sighting more <strong>believable</strong>—or just more <strong>influenced</strong>?  
+					Solo encounters tend to be more detailed, while large groups report <strong>stranger phenomena</strong>.  
+					Why?
+				</p>
 			</section>
 
 			<!-- Witness Vis -->
-			<section id="witnessSection" class="page-section">
+			<section id="witnessSection">
 				<div class="container">
 					<!-- Left Side: UFO & Witness Area -->
 					<div class="left-panel">
 						<div class="ufo-space2" id="ufo-space2"></div> <!-- Space for UFOs -->
 						<div class="landing-pad" id="landing-pad"></div> <!-- Oval Platform for Stickmen -->
+
+						<h3 id="percentage-output" style="color: white; margin-top: 20px;">Select witnesses and/or ships to see data.</h3>
+						<div class="percentage-container" style="color: white; text-align: center;">
+							<div class="percentage-bar" id="percentage-bar" style="color: black;"></div>
+						</div>
 					</div>
 			
 					<!-- Right Side: Selection Buttons -->
-					<div class="right-panel">
+					<div class="witness-right-panel">
 						<h2 style="color: black">Witness & Ship Sightings Visualization</h2>
 			
 						<div class="selection-container">
@@ -175,7 +209,7 @@
 								<button class="witness-btn" data-value="solo">Solo</button>
 								<button class="witness-btn" data-value="smallGroup">Small Group</button>
 								<button class="witness-btn" data-value="crowd">Crowd</button>
-								<button class="witness-btn" data-value="none">No Selection</button>
+								<button class="witness-btn" data-value="none">All Witnesses</button>
 							</div>
 						</div>
 			
@@ -185,123 +219,298 @@
 								<button class="ship-btn" data-value="single">Single</button>
 								<button class="ship-btn" data-value="smallGroup">Small Group</button>
 								<button class="ship-btn" data-value="fleet">Fleet</button>
-								<button class="ship-btn" data-value="none">No Selection</button>
+								<button class="ship-btn" data-value="none">All Ships</button>
 							</div>
-						</div>
-			
-						<h3 id="percentage-output" style="color: black;">Select witnesses and/or ships to see data.</h3>
-						<div class="percentage-container">
-							<div class="percentage-bar" id="percentage-bar"></div>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<!-- Intro to shapes & reports over time -->
-			<section class="page-section">
-				<section id="transition-witnesses-to-shapes" class="fullscreen transition-slide">
-					<p><em>If witnesses shape the UFO narrative, what do they actually describe?</em></p>
-				</section>
-			</section>
+			<!-- Shapes Intro -->
+			<div class="section-header">
+				<h2>🛸 Have UFOs Changed?</h2>
+				<p>Explore how UFO shapes have changed over time! <br> <br>Pick a shape to highlight its trend, use the "Resize UFOs by Frequency" button to scale shapes based on sightings, and select a decade from the dropdown to see how reports evolved</p>
+			</div>
 
-			<section class="page-section">
-				<section id="shape-analysis" class="fullscreen analysis-section">
-					<h2>Shape-Shifting Phenomena: Are UFO Ships Evolving?</h2>
-					<p>
-						The UFO ships of today don’t look like the ships of the past.  
-						Saucers dominated the 1950s. Triangles rule today.  
-						Have aliens changed their ships—or have we changed what we expect to see?
-					</p>
-				</section>
-			</section>
+			<!-- Shape Visualization -->
+			<section id="shape-analysis">
+				<div id = "container">
+					<!-- Container for Night Sky and UFO Shapes -->
+					<div id="night-sky">
+						<svg class="ufo-shape" data-x="480" data-y="60" id="shape-disk" width="160" height="80" viewBox="320 255 160 80">
+							<!-- Main Disk Body -->
+							<ellipse cx="400" cy="300" rx="80" ry="25" fill="silver" stroke="white" stroke-width="3"/>
+							<!-- Dome on Top -->
+							<ellipse cx="400" cy="280" rx="30" ry="15" fill="gray" stroke="white" stroke-width="2"/>
+						</svg>
 
-			<!-- Shape Visualization & Line Chart -->
-			<section id="shapeSection" class="page-section">
-				<div id="page-title">
-					<h2>Analysis of Encounters and Cultural Impact</h2>
-				</div>
-				<div id="main-content-shape">
-					<div id="line-chart-container" style="display: flex;">
-						<div class="col-7">
-							<div id="reportsOverTimeChart" style="min-height: 30vh; width: 100%;"></div>
-						</div>
-						<div class="col-5">
-							<div id="reportsOverTimeTooltip" style="min-height: 40vh; width: 100%;"></div>
-						</div>
+						<svg class="ufo-shape" data-x="220" data-y="90" id="shape-triangle" width="100" height="80" viewBox="310 210 180 160">
+							<!-- Main Triangle Body -->
+							<polygon points="400,220 480,360 320,360" fill="darkgray" stroke="white" stroke-width="3"/>
+							<!-- Lights at the three corners -->
+							<circle cx="400" cy="220" r="8" fill="white"/>
+							<circle cx="480" cy="360" r="8" fill="white"/>
+							<circle cx="320" cy="360" r="8" fill="white"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="810" data-y="110" id="shape-circle" width="90" height="90" viewBox="355 255 90 90">
+							<!-- Circle UFO Shape -->
+							<circle cx="400" cy="300" r="40"
+									fill="silver"
+									stroke="white"
+									stroke-width="3"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="100" data-y="220" id="shape-oval" width="100" height="50" viewBox="340 270 120 60">
+							<!-- Main Oval Body -->
+							<ellipse cx="400" cy="300" rx="50" ry="20" fill="silver" stroke="white" stroke-width="3"/>
+						</svg>
+
+						<!-- Cylinder -->
+						<svg class="ufo-shape" data-x="830" data-y="210" id="shape-cylinder" width="60" height="130" viewBox="365 235 70 130">
+							<!-- Main Body -->
+							<rect x="370" y="250" width="60" height="100" fill="silver" stroke="white" stroke-width="3"/>
+							<!-- Top Oval -->
+							<ellipse cx="400" cy="250" rx="30" ry="10" fill="gray" stroke="white" stroke-width="2"/>
+							<!-- Bottom Oval -->
+							<ellipse cx="400" cy="350" rx="30" ry="10" fill="darkgray" stroke="white" stroke-width="2"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="90" data-y="420" id="shape-cigar" width="100" height="25" viewBox="300 275 200 50">
+							<!-- Cigar UFO Shape -->
+							<ellipse cx="400" cy="300" rx="100" ry="25"
+									fill="gray"
+									stroke="white"
+									stroke-width="3"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="660" data-y="270" id="shape-rectangle" width="100" height="60" viewBox="350 270 100 60">
+							<!-- Main Rectangle Body -->
+							<rect x="350" y="270" width="100" height="60" fill="silver" stroke="white" stroke-width="3" rx="8" ry="8"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="960" data-y="580" id="shape-cube" width="120" height="130" viewBox="355 235 130 130">
+							<!-- Front Face -->
+							<polygon points="360,280 440,280 440,360 360,360" fill="silver" stroke="white" stroke-width="3"/>
+							<!-- Top Face -->
+							<polygon points="360,280 400,240 480,240 440,280" fill="gray" stroke="white" stroke-width="3"/>
+							<!-- Side Face -->
+							<polygon points="440,280 480,240 480,320 440,360" fill="darkgray" stroke="white" stroke-width="3"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="850" data-y="480" id="shape-sphere" width="80" height="80" viewBox="360 260 80 80">
+							<!-- Main Sphere -->
+							<circle cx="400" cy="300" r="30" fill="silver" stroke="white" stroke-width="3"/>
+							<!-- Light Reflection for Depth -->
+							<ellipse cx="385" cy="285" rx="8" ry="4" fill="white" opacity="0.7"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="220" data-y="555" id="shape-teardrop" width="50" height="140" viewBox="340 180 120 190">
+							<!-- Teardrop Shape -->
+							<path d="M 400 180 
+									C 460 260, 460 330, 400 370 
+									C 340 330, 340 260, 400 180" 
+								fill="silver" stroke="white" stroke-width="3"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="720" data-y="580" id="shape-diamond" width="50" height="80" viewBox="350 220 100 160">
+							<!-- Diamond Shape -->
+							<polygon points="400,220 450,300 400,380 350,300" 
+									fill="silver" stroke="white" stroke-width="3"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="520" data-y="620" id="shape-other" width="120" height="120" viewBox="300 200 200 200">
+							<!-- Abstract, irregular shape -->
+							<path d="M 400 250 
+									C 420 220, 480 240, 450 290 
+									C 470 320, 420 350, 400 340 
+									C 360 350, 320 320, 340 280 
+									C 320 240, 380 220, 400 250" 
+								fill="gray" stroke="white" stroke-width="3"/>
+							<!-- Glow Effect -->
+							<circle cx="400" cy="300" r="50" fill="white" opacity="0.15"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="520" data-y="200" id="shape-flash" width="80" height="150" viewBox="360 190 120 170">
+							<!-- Lightning Bolt Shape -->
+							<polygon points="400,200 440,270 410,270 450,350 370,280 400,280" 
+									fill="silver" stroke="white" stroke-width="3"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="350" data-y="170" id="shape-cross" width="100" height="100" viewBox="355 255 90 90">
+							<!-- Vertical Arm -->
+							<rect x="390" y="260" width="20" height="80" fill="silver" stroke="white" stroke-width="3"/>
+							<!-- Horizontal Arm -->
+							<rect x="360" y="290" width="80" height="20" fill="silver" stroke="white" stroke-width="3"/>
+							<!-- Center Circle (UFO core) -->
+							<circle cx="400" cy="300" r="15" fill="gray" stroke="white" stroke-width="2"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="650" data-y="130" id="shape-formation" width="140" height="120" viewBox="320 240 160 120">
+							<!-- Leading UFO -->
+							<circle cx="400" cy="250" r="15" fill="silver" stroke="white" stroke-width="2"/>
+							<!-- Left Wing UFO -->
+							<circle cx="360" cy="300" r="12" fill="silver" stroke="white" stroke-width="2"/>
+							<!-- Right Wing UFO -->
+							<circle cx="440" cy="300" r="12" fill="silver" stroke="white" stroke-width="2"/>
+							<!-- Bottom Left UFO -->
+							<circle cx="330" cy="350" r="10" fill="silver" stroke="white" stroke-width="2"/>
+							<!-- Bottom Right UFO -->
+							<circle cx="470" cy="350" r="10" fill="silver" stroke="white" stroke-width="2"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="250" data-y="320" id="shape-egg" width="50" height="90" viewBox="350 235 100 130">
+							<!-- Main Egg Shape -->
+							<path d="M 400 240 
+									C 430 240, 450 280, 440 320 
+									C 430 360, 370 360, 360 320 
+									C 350 280, 370 240, 400 240" 
+								fill="silver" stroke="white" stroke-width="3"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="800" data-y="320" id="shape-changing" width="80" height="80" viewBox="0 0 100 100">
+							<!-- Circle -->
+							<circle cx="50" cy="50" r="30" fill="black">
+								<animate attributeName="fill" dur="6s" repeatCount="indefinite"
+									values="black;gray;white;black"/>
+								<animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+									values="1;0;0;1"/>
+							</circle>
+						
+							<!-- Square -->
+							<rect x="20" y="20" width="60" height="60" fill="gray">
+								<animate attributeName="fill" dur="6s" repeatCount="indefinite"
+									values="gray;white;black;gray"/>
+								<animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+									values="0;1;0;0"/>
+							</rect>
+						
+							<!-- Triangle -->
+							<polygon points="50,10 90,90 10,90" fill="white">
+								<animate attributeName="fill" dur="6s" repeatCount="indefinite"
+									values="white;black;gray;white"/>
+								<animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+									values="0;0;1;0"/>
+							</polygon>
+						</svg>
+						
+						<img class="ufo-shape" 
+							data-x="380" data-y="580" 
+							id="shape-fireball" 
+							src="img/fireball.png" 
+							alt="Fireball UFO"
+							width="80" height="80">
+
+						<!-- Checkmark -->
+						<svg class="ufo-shape" data-x="870" data-y="370" id="shape-chevron" width="160" height="100" viewBox="-80 -40 160 100">
+							<!-- Chevron Shape -->
+							<polygon points="-50,-25 0,25 50,-25 75,-12.5 0,50 -75,-12.5"
+									fill="silver"
+									stroke="white"
+									stroke-width="3"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="340" data-y="440" id="shape-cone" width="100" height="140" viewBox="350 215 100 145">
+							<!-- Cone Shape -->
+							<polygon points="350,350 450,350 400,220"
+									fill="silver"
+									stroke="white"
+									stroke-width="3"/>
+							<!-- Cone Base (Oval for Depth) -->
+							<ellipse cx="400" cy="350" rx="50" ry="10"
+									fill="gray"
+									stroke="white"
+									stroke-width="2"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="680" data-y="440" id="shape-unknown" width="80" height="80" viewBox="0 0 80 80">
+							<!-- Centered Question Mark -->
+							<text x="40" y="60" font-size="60" text-anchor="middle" fill="white" font-weight="bold" font-family="Arial">
+								?
+							</text>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="520" data-y="480" id="shape-star" width="60" height="50" viewBox="320 250 160 150">
+							<!-- Star Shape -->
+							<polygon points="400,250 420,310 480,310 430,340 450,400 
+											400,370 350,400 370,340 320,310 380,310" 
+									fill="silver" stroke="white" stroke-width="3"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="410" data-y="300" id="shape-orb" width="100" height="100" viewBox="350 250 100 100">
+							<defs>
+								<!-- Gradient Definition -->
+								<radialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
+									<stop offset="0%" stop-color="silver"/>
+									<stop offset="70%" stop-color="gray"/>
+									<stop offset="100%" stop-color="black"/>
+								</radialGradient>
+							</defs>
+						
+							<!-- Outer Glow -->
+							<circle cx="400" cy="300" r="50" fill="white" opacity="0.15"/>
+							<circle cx="400" cy="300" r="45" fill="white" opacity="0.1"/>
+						
+							<!-- Main Orb -->
+							<circle cx="400" cy="300" r="35" fill="url(#orbGlow)" stroke="white" stroke-width="2"/>
+						
+							<!-- Inner Energy Core -->
+							<circle cx="400" cy="300" r="12" fill="white" opacity="0.8"/>
+							<circle cx="400" cy="300" r="6" fill="white" opacity="0.9"/>
+						</svg>
+						
+						<svg class="ufo-shape" data-x="550" data-y="360" id="shape-light" width="130" height="130" viewBox="0 0 260 260">
+							<!-- Intense Bright Core -->
+							<circle cx="130" cy="130" r="30" fill="white" opacity="1"/>
+						
+							<!-- Glow Rings -->
+							<circle cx="130" cy="130" r="50" fill="white" opacity="0.8"/>
+							<circle cx="130" cy="130" r="70" fill="white" opacity="0.5"/>
+							<circle cx="130" cy="130" r="90" fill="white" opacity="0.3"/>
+							<circle cx="130" cy="130" r="110" fill="white" opacity="0.15"/>
+							<circle cx="130" cy="130" r="130" fill="white" opacity="0.1"/>
+						</svg>
+
 					</div>
 					
-					<div id="decade-controls-shape" style="margin-top: 10vh;">
-						<label for="decade-dropdown-shape">Select Decade:</label>
-						<select id="decade-dropdown-shape">
-							<option value="All">All Reports</option>
-							<option value="1960">1960s and prior</option>
-							<option value="1970">1970s</option>
-							<option value="1980">1980s</option>
-							<option value="1990">1990s</option>
-							<option value="2000">2000s</option>
-							<option value="2010">2010s</option>
-							<option value="2020">2020s</option>
+
+					<div id="ufo-sidebar"> 
+						<h2 id="shape-title">Select a UFO Shape</h2>
+						<br>
+
+						<!-- Rounded switch -->
+						 <div style="display: flex;">
+							<p>Resize UFOs by Frequency</p>
+							<label class="switch" id="toggle-proportional">
+								<input type="checkbox">
+								<span class="slider round"></span>
+							</label>
+						</div>
+						
+						<div id="shape-details">Details will appear here when you select a shape.</div>
+						<br>
+						<br>
+						<h2>Filters & Controls</h2>
+						
+						<label for="decade-select">Filter by Decade:</label>
+						<select id="decade-select">
+							<option value="all">All Decades</option>
+							<option value="1960s">1960s and prior</option>
+							<option value="1970s">1970s</option>
+							<option value="1980s">1980s</option>
+							<option value="1990s">1990s</option>
+							<option value="2000s">2000s</option>
+							<option value="2010s">2010s</option>
+							<option value="2020s">2020s</option>
 						</select>
-						<span id="decade-label-shape" style="display: none;">1960s and prior</span>
 					</div>
+
 				</div>
-				
-				<div id="content-container">
-					<div id="left-section">
-						<div id="popularity-section">
-							<div id="buttons-column">
-								<button id="most-popular" class="popularity-button">Most Popular</button>
-								<button id="least-popular" class="popularity-button">Least Popular</button>
-							</div>
-							<div id="hovercrafts-column">
-								<div id="shape-1" class="hovercraft-wrapper">
-									<div class="hovercraft">
-										<div class="tooltip"></div>
-									</div>
-								</div>
-								<div id="shape-2" class="hovercraft-wrapper">
-									<div class="hovercraft">
-										<div class="tooltip"></div>
-									</div>
-								</div>
-								<div id="shape-3" class="hovercraft-wrapper">
-									<div class="hovercraft">
-										<div class="tooltip"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div id="pie-chart-container">
-							<svg id="pie-chart" width="300" height="300"></svg>
-						</div>
-					</div>
-					<div id="pop-culture-text">
-						<h3>Pop Culture References</h3>
-						<p>Insert your pop culture commentary or text here...</p>
-						<!-- TODO: Dimitrios will put some kind of easter egg for the alien movies -->
-					</div>
-				</div>
+				<div id="tooltip" class="tooltip"></div>
 			</section>
 
-			<!-- Again: cool, but we don't have the needed vis -->
-			<!-- <section class="page-section">
-				<section id="transition-shapes-to-sentiment" class="fullscreen transition-slide">
-					<p><em>Beyond shapes, what emotions are tied to these reports?</em></p>
-				</section>
-				
-			
-				<section id="sentiment-analysis" class="fullscreen analysis-section">
-					<h2>The Emotional Spectrum of UFO Reports</h2>
-					<p>
-						One witness describes awe. Another, terror. Another dismisses it entirely.  
-						The same sighting, three different reactions. What makes one report more credible than another?
-					</p>
-				
-					<div class="viz-placeholder">[Sentiment Analysis Visualization Here]</div>
-				</section>
-			</section> -->
-
-			<section class="page-section">
+			<!-- Closing Regards -->
+			<section>
 				<section id="closing-slide" class="fullscreen closing-section">
 					<h2>Thank You for Exploring the Unknown</h2>
 					<p>Special Thanks to the NUFORC Organization</p>
@@ -313,8 +522,8 @@
 							<p>Team Member 1</p>
 						</div>
 						<div class="team-member">
-							<img src="img/placeholder.png" alt="Team Member 2">
-							<p>Team Member 2</p>
+							<img src="img/jana.jpg" alt="Team Member 2">
+ 							<p>Jana van Heeswyk</p>
 						</div>
 						<div class="team-member">
 							<img src="img/dimitrios.jpg" alt="Team Member 3">
@@ -324,24 +533,6 @@
 				</section>
 			</section>
 		</div>
-
-		<!-- Navigation Dots -->
-		<div class="nav-dots">
-			<span class="dot active" onclick="scrollToSection(0)"></span>
-			<span class="dot" onclick="scrollToSection(1)"></span>
-			<span class="dot" onclick="scrollToSection(2)"></span>
-			<span class="dot" onclick="scrollToSection(3)"></span>
-			<span class="dot" onclick="scrollToSection(4)"></span>
-			<span class="dot" onclick="scrollToSection(5)"></span>
-			<span class="dot" onclick="scrollToSection(6)"></span>
-			<span class="dot" onclick="scrollToSection(7)"></span>
-			<span class="dot" onclick="scrollToSection(8)"></span>
-			<span class="dot" onclick="scrollToSection(9)"></span>
-			<span class="dot" onclick="scrollToSection(10)"></span>
-			<span class="dot" onclick="scrollToSection(11)"></span>
-			<span class="dot" onclick="scrollToSection(12)"></span>
-		</div>
-	
 
 		<!-- JavaScript Libraries -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -353,13 +544,23 @@
 		
 
 		<!-- Custom JS -->
-		<script src="js/scroll.js"></script>
 		<script src="js/witness.js"></script>
 		<script src="js/clock.js"></script>
 		<script src="js/zoomMap.js"></script>
 		<script src="js/shape.js"></script>
-		<script src="js/reportsLineGraph.js"></script>
+		<script src="js/lineGraph.js"></script>
 		<script src="js/main.js"></script>
-		<script src="js/scroll.js"></script>
+
+		<script>
+			function openPopup() {
+				document.getElementById("popup").style.display = "block";
+				document.getElementById("overlay").style.display = "block";
+			}
+	
+			function closePopup() {
+				document.getElementById("popup").style.display = "none";
+				document.getElementById("overlay").style.display = "none";
+			}
+		</script>
 	</body>
 </html>

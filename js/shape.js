@@ -1,255 +1,202 @@
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("shape.js loaded");
-
-    // Global variables
-    let sightingsData = [];
-    let lineChart;
-    let shapeFrequencies = {};
-    let currentPopularity = 'most';
-    let pie, arc, color, shapeOrder, tooltip, svg; // <-- svg added here
-
-    shapeOrder = ["light", "triangle", "circle", "disk", "fireball", "sphere", "cigar", "oval",
-        "changing", "chevron", "cone", "cross", "cube", "cylinder", "diamond", "egg", "flash",
-        "formation", "orb", "other", "rectangle", "star", "unknown"];
-
-    Papa.parse('data/NUFORCdata.csv', {
-        download: true,
-        header: true,
-        dynamicTyping: true,
-        complete: function(results) {
-            sightingsData = results.data.map(row => ({
-                year: new Date(row.EventDate).getFullYear(),
-                shape: row.Shape ? row.Shape.trim().toLowerCase() : "unknown"
-            }));
-        
-            // Explicitly calculate shape frequencies initially!
-            shapeFrequencies = {};
-            sightingsData.forEach(sighting => {
-                shapeFrequencies[sighting.shape] = (shapeFrequencies[sighting.shape] || 0) + 1;
-            });
-        
-            // Not needed as we switched to Dimitrios's chart
-            // createLineChart();
-            createPieChart();
-            updatePieChart(sightingsData);
-            updateHovercrafts(currentPopularity);
+document.addEventListener('DOMContentLoaded', function () {
+    const shapes = document.querySelectorAll('.ufo-shape');
+    shapes.forEach(shape => {
+        const x = shape.getAttribute('data-x');
+        const y = shape.getAttribute('data-y');
+        if (x && y) {
+            shape.style.position = "absolute"; // Ensure absolute positioning
+            shape.style.left = x + 'px';
+            shape.style.top = y + 'px';
         }
     });
 
-    document.getElementById("decade-dropdown-shape").addEventListener("change", filterByDecade);
+    const title = document.getElementById('shape-title');
+    const details = document.getElementById('shape-details');
+    const decadeSelect = document.getElementById("decade-select");
 
-    function createPieChart() {
-        const width = 250;
-        const height = 250; 
-        const radius = Math.min(width, height) / 2;
-
-        color = d3.scaleOrdinal(d3.schemeCategory10);
-        
-        svg = d3.select("#pie-chart")
-            .append("g")
-            .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-        pie = d3.pie().sort(null).value(d => d.value);
-        arc = d3.arc().innerRadius(0).outerRadius(radius - 20);
-
-        tooltip = d3.select("body").append("div")
-            .style("position", "absolute")
-            .style("background", "rgba(0,0,0,0.8)")
-            .style("color", "white")
-            .style("padding", "5px 10px")
-            .style("border-radius", "5px")
-            .style("visibility", "hidden")
-            .style("font-size", "14px");
-    }
-
-
-// Global functions (must be global, exactly as shown here!)
-function updatePieChart(filteredData) {
-    let shapeCounts = {};
-    filteredData.forEach(d => {
-        const shape = d.shape ? d.shape.trim().toLowerCase() : "unknown";
-        shapeCounts[shape] = (shapeCounts[shape] || 0) + 1;
-    });
-
-    const data = shapeOrder.map(shape => ({
-        name: shape,
-        value: shapeCounts[shape] || 0
-    }));
-
-    const slices = svg.selectAll("path")
-        .data(pie(data));
-
-    slices.enter()
-        .append("path")
-        .attr("fill", d => color(d.data.name))
-        .attr("d", arc)
-        .each(function(d) { this._current = d; })
-        .on("mouseover", function(event, d) {
-            tooltip.style("visibility", "visible")
-                .text(`${d.data.name}: ${d.data.value} sightings`);
-        })
-        .on("mousemove", function(event) {
-            tooltip.style("top", (event.pageY - 10) + "px")
-                   .style("left", (event.pageX + 10) + "px");
-        })
-        .on("mouseout", function() {
-            tooltip.style("visibility", "hidden");
-        });
-
-    slices.transition().duration(500)
-        .attrTween("d", function(d) {
-            const i = d3.interpolate(this._current, d);
-            this._current = i(1);
-            return t => arc(i(t));
-        });
-
-    slices.exit().remove();
-}
-
-function filterByDecade() {
-    const selectedDecade = document.getElementById("decade-dropdown-shape").value;
-    let filteredData;
-
-    if (selectedDecade === "1960") {
-        filteredData = sightingsData.filter(d => d.year < 1970);
-    } else if (selectedDecade !== "All") {
-        const decadeStart = parseInt(selectedDecade);
-        filteredData = sightingsData.filter(d => d.year >= decadeStart && d.year < decadeStart + 10);
-    } else {
-        filteredData = sightingsData;
-    }
-
-    // Recalculate shapeFrequencies here explicitly!
-    shapeFrequencies = {};
-    filteredData.forEach(sighting => {
-        shapeFrequencies[sighting.shape] = (shapeFrequencies[sighting.shape] || 0) + 1;
-    });
-
-    updateLineChart(filteredData);
-    updatePieChart(filteredData);
-    updateHovercrafts(currentPopularity);
-    updatePopCultureText(selectedDecade);
-}
-
-function updateLineChart(filteredData) {
-    const sightingsByYear = {};
-    filteredData.forEach(sighting => {
-        sightingsByYear[sighting.year] = (sightingsByYear[sighting.year] || 0) + 1;
-    });
-
-    const minYear = 1914, maxYear = 2025;
-    const allYears = Array.from({length: maxYear - minYear + 1}, (_, i) => minYear + i);
+    let ufoSightings = {}; 
+    let proportionalSizing = false;
+    let fullData = [];
+    let selectedShapeId = null;
     
-    lineChart.data.labels = allYears;
-    lineChart.data.datasets[0].data = allYears.map(year => sightingsByYear[year] || null);
-    lineChart.update();
-}
-
-document.getElementById("most-popular").addEventListener("click", function() {
-    currentPopularity = 'most';
-    updateHovercrafts(currentPopularity);
-});
-
-document.getElementById("least-popular").addEventListener("click", function() {
-    currentPopularity = 'least';
-    updateHovercrafts(currentPopularity);
-});
-
-
-function updateHovercrafts(popularity) {
-    const sortedShapes = Object.entries(shapeFrequencies)
-        .sort((a, b) => b[1] - a[1])
-        .map(entry => entry[0]);
-
-    let selectedShapes;
-    if (sortedShapes.length >= 3) {
-        selectedShapes = popularity === 'most' 
-            ? sortedShapes.slice(0, 3) 
-            : sortedShapes.slice(-3).reverse();
-    } else {
-        selectedShapes = sortedShapes;
+    function getDecade(year) {
+        if (year <= 1969) return "1960s";
+        if (year >= 1970 && year <= 1979) return "1970s";
+        if (year >= 1980 && year <= 1989) return "1980s";
+        if (year >= 1990 && year <= 1999) return "1990s";
+        if (year >= 2000 && year <= 2009) return "2000s";
+        if (year >= 2010 && year <= 2019) return "2010s";
+        if (year >= 2020) return "2020s";
+        return "unknown";
     }
 
-    selectedShapes.forEach((shape, index) => {
-        const count = shapeFrequencies[shape];
 
-        // Populate tooltip text
-        d3.select(`#shape-${index + 1} .tooltip`)
-            .html(`${shape.charAt(0).toUpperCase() + shape.slice(1)}: ${count} sightings`);
+    function updateShapeVisualization(selectedDecade) {
+        ufoSightings = {}; // Reset
 
-        // Add or remove the "shrink" class based on popularity
-        d3.select(`#shape-${index + 1}`)
-            .classed("shrink", popularity === 'least');
-    });
-}
+        fullData.forEach(row => {
+            const dateStr = row["EventDate"]?.trim();
+            const shape = row["Shape"]?.trim();
+            if (!dateStr || !shape) return; // Skip missing data
 
+            const yearMatch = dateStr.match(/\d{4}$/);
+            if (!yearMatch) return;
+            const year = parseInt(yearMatch[0], 10);
+            const shapeDecade = getDecade(year);
 
+            if (selectedDecade === "all" || shapeDecade === selectedDecade) {
+                ufoSightings[shape] = (ufoSightings[shape] || 0) + 1;
+            }
+        });
 
-function createLineChart() {
-    const ctx = document.getElementById('line-chart').getContext('2d');
+        console.log("Filtered UFO Sightings:", ufoSightings);
+        updateShapeSizes();
 
-    const minYear = 1914;
-    const maxYear = 2025;
-    const allYears = Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
+        
+    }
 
-    lineChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: allYears,
-            datasets: [{
-                label: 'Sightings',
-                data: [],
-                borderColor: '#FF5733',
-                backgroundColor: 'rgba(255,87,51,0.2)',
-                spanGaps: true,
-                pointRadius: 2,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,  // critical to avoid blurring/stretching
-            scales: {
-                y: {
-                    min: 0,
-                    max: 400,
-                    ticks: {
-                        stepSize: 50
-                    }
-                },
-                x: {
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 0,
-                        callback: function(value) {
-                            const year = this.getLabelForValue(value);
-                            return year % 10 === 0 ? year : '';
-                        }
-                    }
+    function updateShapeSizes() {
+        const maxSightings = Math.max(...Object.values(ufoSightings));
+        const minSightings = Math.min(...Object.values(ufoSightings));
+
+        const defaultSize = 70;
+        const minSize = 20;
+        const maxSize = 150;
+
+        function getSize(sightingCount) {
+            if (sightingCount === 0) return 0;
+            
+            // Apply a step multiplier so sizes increase more aggressively
+            const stepMultiplier = 1.5;
+            const normalized = (sightingCount - minSightings) / (maxSightings - minSightings);
+            
+            return minSize + (normalized * (maxSize - minSize) * stepMultiplier);
+        }
+
+        shapes.forEach(shape => {
+            const id = shape.id.replace("shape-", ""); 
+            const formattedId = id.charAt(0).toUpperCase() + id.slice(1).toLowerCase();
+            const sightingCount = ufoSightings[formattedId] || 0;
+            
+            if (sightingCount === 0) {
+                shape.style.display = "none"; // Hide shape if it has 0 reports
+            } else {
+                shape.style.display = "block"; // Show shape if it has reports
+    
+                if (proportionalSizing) {
+                    const newSize = getSize(sightingCount);
+                    const scaleFactor = newSize / defaultSize;
+                    shape.style.transform = `scale(${scaleFactor})`;
+                } else {
+                    shape.style.width = `${defaultSize}px`; // ✅ Ensures all shapes start at 70px
+                    shape.style.height = `${defaultSize}px`;
+                    shape.style.transform = `scale(1)`;
                 }
             }
+        });
+
+        function updateSidebar(shapeId) {
+            const formattedId = shapeId.charAt(0).toUpperCase() + shapeId.slice(1).toLowerCase();
+            const sightingsCount = ufoSightings[formattedId] || 0;
+        
+            if (ufoData[formattedId]) {
+                title.textContent = ufoData[formattedId].title;
+                details.innerHTML = `
+                    <p>${ufoData[formattedId].desc}</p>
+                    <p><strong>Number of Reports:</strong> ${sightingsCount}</p>
+                `;
+            } else {
+                title.textContent = "Unknown Shape";
+                details.innerHTML = `
+                    <p>No information available for this shape.</p>
+                    <p><strong>Number of Reports:</strong> ${sightingsCount}</p>
+                `;
+            }
+        
+            console.log(`Updated sidebar for shape: ${formattedId}, Reports: ${sightingsCount}`);
         }
+        
+
+        shapes.forEach(shape => {
+            shape.addEventListener("click", function () {
+                selectedShapeId = shape.id.replace("shape-", ""); // ✅ Save clicked shape persistently
+                updateSidebar(selectedShapeId);
+            });
+        });
+        
+        
+    }
+
+    const tooltip = document.getElementById("tooltip");
+
+    shapes.forEach(shape => {
+        shape.addEventListener("mouseenter", function (event) {
+            const shapeId = shape.id.replace("shape-", ""); 
+            const formattedId = shapeId.charAt(0).toUpperCase() + shapeId.slice(1).toLowerCase();
+
+            tooltip.textContent = formattedId;
+            tooltip.style.display = "block";
+        });
+
+        shape.addEventListener("mousemove", function (event) {
+            tooltip.style.left = `${event.pageX + 10}px`; // Slight offset from cursor
+            tooltip.style.top = `${event.pageY + 10}px`;
+        });
+
+        shape.addEventListener("mouseleave", function () {
+            tooltip.style.display = "none";
+        });
     });
 
-    updateLineChart(sightingsData);
-}
+    fetch("data/NUFORCdata.csv")
+        .then(response => response.text())
+        .then(csvData => {
+            const parsedData = Papa.parse(csvData, { header: true }).data;
+            fullData = parsedData; // Store full dataset
+            updateShapeVisualization("all"); // Default to all decades
+        })
+        .catch(error => console.error("Error loading CSV:", error));
 
+    decadeSelect.addEventListener("change", function () {
+        updateShapeVisualization(decadeSelect.value);
+    
+        // Reset sidebar content to default
+        selectedShapeId = null;
+        title.textContent = "Select a shape";
+        details.innerHTML = `<p>Click on a shape to see details.</p>`;
+    });
 
-function updatePopCultureText(decade) {
-    const popCultureReferences = {
-        "All": "General references spanning all decades.",
-        "1960": "The 1960s: Pop Culture",
-        "1970": "The 1970s: Pop Culture",
-        "1980": "The 1980s: Pop Culture",
-        "1990": "The 1990s: Pop Culture",
-        "2000": "The 2000s: Pop Culture",
-        "2010": "The 2010s: Pop Culture",
-        "2020": "The 2020s: Pop Culture"
+    const toggleSwitch = document.querySelector("#toggle-proportional input");
+    toggleSwitch.addEventListener("change", function () {
+        proportionalSizing = this.checked; // Use the checkbox state
+        updateShapeSizes();
+    });
+
+    // UFO Shape Descriptions (Updated to Match Data)
+    const ufoData = {
+        "Disk": { title: "Disk UFO", desc: "A classic flying saucer, smooth and disk-shaped, often with a domed top." },
+        "Triangle": { title: "Triangle UFO", desc: "A mysterious black triangular craft, often seen silently hovering or moving slowly." },
+        "Circle": { title: "Circle UFO", desc: "A perfectly round craft, often glowing or appearing as a floating orb." },
+        "Oval": { title: "Oval UFO", desc: "A smooth, elongated craft, often described as glowing or metallic." },
+        "Cylinder": { title: "Cylinder UFO", desc: "A tall, cylindrical craft often seen floating or rotating." },
+        "Cigar": { title: "Cigar UFO", desc: "A long, cylindrical craft, often metallic and glowing." },
+        "Rectangle": { title: "Rectangle UFO", desc: "A large, rectangular craft, sometimes with a glowing underside." },
+        "Cube": { title: "Cube UFO", desc: "A geometric cube-shaped craft, sometimes rotating or glowing in mid-air." },
+        "Sphere": { title: "Sphere UFO", desc: "A perfectly spherical craft, sometimes glowing or moving erratically." },
+        "Teardrop": { title: "Teardrop UFO", desc: "A smooth, teardrop-shaped craft, often seen glowing or trailing light." },
+        "Diamond": { title: "Diamond UFO", desc: "A symmetrical, diamond-shaped craft, often seen rotating or glowing." },
+        "Light": { title: "Light UFO", desc: "A pure energy UFO, radiating intense white light against the night sky." },
+        "Flash": { title: "Flash UFO", desc: "A jagged, lightning-shaped UFO, often appearing as a quick flash in the sky." },
+        "Cross": { title: "Cross UFO", desc: "A UFO with extended arms, sometimes appearing as a glowing cross in the sky." },
+        "Formation": { title: "Formation UFO", desc: "A group of UFOs flying in a coordinated formation, often seen moving in unison." },
+        "Egg": { title: "Egg UFO", desc: "A smooth, egg-shaped craft, often metallic or glowing." },
+        "Star": { title: "Star UFO", desc: "A radiant, star-shaped UFO, often seen as a pulsing light in the night sky." },
+        "Other": { title: "Other UFO", desc: "A strange, unidentifiable flying object." },
+        "Unknown": { title: "Unknown UFO", desc: "A mysterious, unidentified flying object with an unknown shape." },
+        "Chevron": { title: "Chevron UFO", desc: "A V-shaped craft often reported in triangular formations." },
+        "Cone": { title: "Cone UFO", desc: "A sharply pointed, cone-shaped craft, sometimes appearing with a glowing base." },
+        "Orb": { title: "Orb UFO", desc: "A pulsating, glowing orb often reported as a plasma-like energy sphere." },
+        "Fireball": { title: "Fireball UFO", desc: "A flaming, fast-moving object that burns brightly in the sky." },
+        "Changing": { title: "Changing UFO", desc: "A morphing UFO that changes between different shapes and colors." }
     };
-    const popCultureContainer = document.getElementById("pop-culture-text");
-    popCultureContainer.innerHTML = `
-      <h3>Pop Culture References</h3>
-      <p>${popCultureReferences[decade] || popCultureReferences["All"]}</p>
-    `;
-}
-
 });

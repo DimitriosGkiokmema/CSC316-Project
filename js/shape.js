@@ -166,11 +166,10 @@ document.addEventListener('DOMContentLoaded', function () {
         details.innerHTML = `<p>Click on a shape to see details.</p>`;
     });
 
-    const toggleButton = document.getElementById('toggle-proportional');
-    toggleButton.addEventListener('click', function () {
-        proportionalSizing = !proportionalSizing;
+    const toggleSwitch = document.querySelector("#toggle-proportional input");
+    toggleSwitch.addEventListener("change", function () {
+        proportionalSizing = this.checked; // Use the checkbox state
         updateShapeSizes();
-        this.classList.toggle("active"); // Toggle active class on button
     });
 
     // UFO Shape Descriptions (Updated to Match Data)

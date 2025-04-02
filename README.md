@@ -25,7 +25,7 @@ Airports & Military Bases Dataset (Custom):
 We created our own dataset listing major airports and military bases across Canada, along with their coordinates, to enable proximity analysis in the map visualization.
 
 Sci-Fi Movie Dataset (Custom):
-A list of popular science fiction films released 'til today, used to highlight cultural moments in the timeline visualization and explore their correlation with sighting spikes.
+A list of popular science fiction films released 'til today, used to highlight cultural moments in the timeline visualization and explore their correlation with sighting spikes. This dataset came from ChatGPT.
 
 Project Links
 Live Website: https://csc316project.netlify.app/
